@@ -1,0 +1,33 @@
+{
+  "name": "foody",
+  "version": "1.0.0",
+  "description": "\"Foody is a MEAN stack social recipe app\"",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app"
+  },
+  "dependencies": {
+    "bcryptjs": "*",
+    "body-parser": "*",
+    "cors": "*",
+    "express": "*",
+    "jsonwebtoken": "*",
+    "mongoose": "*",
+    "nodemon": "*",
+    "passport": "*",
+    "passport-jwt": "*",
+    "socket.io": "^2.0.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mosseridan/ATD-final-project.git"
+  },
+  "author": "Idan Mosseri",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mosseridan/ATD-final-project.git"
+  },
+  "homepage": "https://github.com/Mosseridan/ATD-final-project.git",
+  "devDependencies": {}
+}

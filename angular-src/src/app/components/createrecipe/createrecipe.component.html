@@ -1,0 +1,67 @@
+<h2 class="page-header">Create Recipe</h2>
+
+<form (submit)="onPostSubmit()">
+  <div class="form-group">
+    <label>Title</label>
+    <input type="text" class="form-control" [(ngModel)]="post.title" name="title" placeholder="add title">
+  </div>
+  <div class="form-group">
+    <label>Description</label>
+    <input type="text" class="form-control" [(ngModel)]="post.description" name="description" placeholder="add description">
+  </div>
+  <input type="submit" class="btn btn-primary" value="Submit">
+</form><br><br>
+
+
+<div class="jumbotron">
+  <div class="container-fluid">
+    <div *ngIf="post.images.length > 0; else noImg">
+      <div class="row content">  
+        
+        <div class="col-sm-5 clearfix">
+          <img class="img-responsive img-rounded" src="{{post.images[0]}}" alt="Image Here">
+        </div>
+        
+        <div class="col-sm-7">
+          <h2>{{post.title}}</h2>
+          <p>{{post.description}}</p>
+        </div> 
+     
+      </div>
+    </div>
+    
+    <ng-template #noImg>
+      <div class="row content">
+        <div class="col-sm-12">
+        <h2>{{post.title}}</h2>
+        <p>{{post.description}}</p>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+  
+  <div>
+    <br>
+    <ul class="list-group">
+      <li class="list-group-item active">Ingredients</li>
+      <li *ngFor="let ingredient of post.ingredients" class="list-group-item">{{ingredient}}</li>
+    </ul>
+    <br>
+
+    <div *ngFor="let instruction of post.instructions, let i = index">
+      <app-textandimage 
+        [text]="i+1 +'. '+ instruction.text" 
+        [images]="instruction.images" 
+        [relation]="7">
+      </app-textandimage>
+      <br>
+    </div>
+
+    <ul>
+      <li *ngFor="let comment of post.comments">{{comment}}</li>
+    </ul>
+  </div>
+</div><br><br>
+
+
+

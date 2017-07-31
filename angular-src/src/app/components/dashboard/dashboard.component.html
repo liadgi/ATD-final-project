@@ -1,0 +1,10 @@
+<h2 class="page-header">Dashboard</h2>
+<div *ngFor="let post of posts">
+    <app-post [post]="post"></app-post>
+</div>
+<footer class="container-fluid">
+    <ul class="pager">
+        <li class="previous disabled"><a href="#">&larr; Older</a></li>
+        <li class="next"><a href="#">Newer &rarr;</a></li>
+    </ul>
+</footer>
