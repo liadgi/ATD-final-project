@@ -1,11 +1,11 @@
 <div class="container-fluid">
   <div *ngIf="this.images.length > 0 && this.relation > 1 && this.relation < 11; else noImg">
     <div class="row content">
-      <div class="col-sm-{{relation}}">
-        <p>{{text}}</p>
-      </div>
-      <div class="col-sm-{{12 - relation}} clearfix">
+      <div class="col-md-{{12 - relation}} clearfix">
         <img class="img-responsive img-rounded" src="{{images[0]}}" alt="Image Here">      
+      </div>
+      <div class="col-md-{{relation}}">
+        <p>{{text}}</p>
       </div>
     </div>
   </div>
