@@ -1,41 +1,72 @@
-<a class="text-primary" data-toggle="collapse" href="#post{{post._id}}">
 <div class="jumbotron">
-  <div class="container-fluid">
-    <div *ngIf="post.images.length > 0; else noImg">
-      <div class="row content">  
-        
-        <div class="col-md-5 clearfix">
-          <img class="img-responsive img-rounded" src="{{post.images[0]}}" alt="Image Here">
+  <a class="text-primary" data-toggle="collapse" href="#post{{post._id}}">
+    <div class="container-fluid">
+      <div *ngIf="post.images.length > 0; else noImg">
+        <div class="row content">
+
+          <div class="col-md-5 clearfix">
+            <img class="img-responsive img-rounded" src="{{post.images[0]}}" alt="Image Here">
+          </div>
+
+          <div class="col-md-7">
+            <h2>{{post.title}}</h2>
+            <p>{{post.description}}</p>
+
+            <!-- change post.author in herf/id to a real id value -->
+            <ul class="nav nav-pills">
+              <li><a class="text-info" href="#">By {{post.author}}</a></li>
+              <li><a class="text-info" href="#"><span class="badge ">{{post.likes.length}}</span>   Likes</a></li>
+            </ul>
+
+
+          </div>
+
         </div>
-        
-        <div class="col-md-7">
-          <h2>{{post.title}}</h2>
-          <p>{{post.description}}</p>
-          <!-- change post.author in herf/id to a real id value -->    
-          <ul class="nav nav-pills">
-            <li><a class="text-info" href="#">By {{post.author}}</a></li>
-            <li><a class="text-info" href="#"><span class="badge ">{{post.likes.length}}</span>   Likes</a></li>
-          </ul>
-        </div> 
-     
+      </div>
+
+      <ng-template #noImg>
+        <div class="row content">
+          <div class="col-md-12">
+            <h2>{{post.title}}</h2>
+            <p>{{post.description}}</p>
+            <!-- change post.author in herf/id to a real id value -->
+            <ul class="nav nav-pills">
+              <li><a class="text-info" href="#">By {{post.author}}</a></li>
+              <li><a class="text-info" href="#"><span class="badge ">3</span>   Likes</a></li>
+            </ul>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </a>
+
+  <ul *ngIf="ofUser" class="nav nav-pills">
+    
+    <li><input (click)="onModify()" type="submit" class="text-primary" value="Modify"></li>
+    <form (submit)="onDeletePost()">
+      <li><input type="submit" class="text-primary" value="Delete"></li>
+    </form>
+
+    <div class="modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Modal title</h4>
+          </div>
+          <div class="modal-body">
+            <p>One fine body…</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
       </div>
     </div>
-    
-    <ng-template #noImg>
-      <div class="row content">
-        <div class="col-md-12">
-        <h2>{{post.title}}</h2>
-        <p>{{post.description}}</p>
-        <!-- change post.author in herf/id to a real id value -->    
-        <ul class="nav nav-pills">
-          <li><a class="text-info" href="#">By {{post.author}}</a></li>
-          <li><a class="text-info" href="#"><span class="badge ">3</span>   Likes</a></li>
-        </ul>
-        </div>
-      </div>
-    </ng-template>
-  </div>
-  
+
+  </ul>
+
   <div id="post{{post._id}}" class="collapse">
     <br>
     <ul class="list-group">
@@ -45,18 +76,31 @@
     <br>
 
     <div *ngFor="let instruction of post.instructions, let i = index">
-      <app-textandimage 
-        [text]="i+1 +'. '+ instruction.text" 
-        [images]="instruction.images" 
-        [relation]="7">
+      <app-textandimage [text]="i+1 +'. '+ instruction.text" [images]="instruction.images" [relation]="7">
       </app-textandimage>
       <br>
     </div>
 
-    <ul>
-      <li *ngFor="let comment of post.comments">{{comment}}</li>
-    </ul>
+
+    <div> Comments:
+      <div *ngFor="let comment of post.comments">
+        <app-comment [comment]="comment"></app-comment>
+      </div>
+    </div>
+
+    <form (submit)="onLikeSubmit()">
+      <input type="submit" class="text-primary" [(ngModel)]="likeText" name="likeText">
+    </form>
+
+    <form (submit)="onCommentSubmit()">
+      <div class="form-group">
+        <input type="text" class="form-control" [(ngModel)]="tempComment.text" name="text" placeholder="add your comment...">
+      </div>
+      <input type="submit" class="btn btn-primary" value="Submit">
+    </form><br><br>
+
   </div>
+
 </div>
-</a>
+
 <br>

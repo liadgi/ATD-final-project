@@ -34,10 +34,12 @@ export class User{
 }
 
 export class Comment{
+    postId: string;
     user: string;
     text: string;
 
-    constructor(user: string, text: string){
+    constructor(postId: string, user: string, text: string){
+        this.postId = postId;
         this.user = user;
         this.text = text;
     }
@@ -54,6 +56,7 @@ export class Instruction{
 }
 
 export class Post{
+    _id: string;
     author: string;
     title: string;
     description: string;
@@ -66,12 +69,15 @@ export class Post{
     updateTime: Date;
 
     constructor(
+        _id: string,
         author: string,
         title: string,
         description: string,
         ingredients: string[],
         images: string[],
-        instructions: Instruction[]){
+        instructions: Instruction[])
+        {
+            this._id = _id;
             this.author = author;
             this.title = title;
             this.description = description;

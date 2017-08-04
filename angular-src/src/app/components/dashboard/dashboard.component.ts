@@ -1,25 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { Post , Instruction  } from '../../objects';
+import { Post, Instruction } from '../../objects';
+import { FlashMessagesService } from 'angular2-flash-messages';
+import { PostsService } from '../../services/posts.service';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  posts: Post[];
+  //posts: Post[];
+  username: String;
 
   constructor(
-    private router:Router,
-    private authService:AuthService) { }
+    private router: Router,
+    private authService: AuthService,
+    private flashMessage: FlashMessagesService,
+    private postsService: PostsService) { }
 
   ngOnInit() {
-    this.authService.getDashboard().subscribe(
-      (dashboard) => { 
-        this.posts = dashboard.posts; },
-      (err) => { console.log(err);  return false; }
-    );
+    this.postsService.getDashboard();
+
+    this.username = JSON.parse(localStorage.getItem('user')).username;
+
     /*
     this.posts = [
       new Post(
@@ -93,6 +98,16 @@ export class DashboardComponent implements OnInit {
       ),
   ];
     */
+  }
+
+  // add modal and green alert
+  onPostDeleted(post) {
+    var index = this.postsService.posts.findIndex((pst) => (pst === post));
+    if (index != -1) {
+      this.postsService.posts.splice(index, 1);
+
+      this.flashMessage.show('bla bla ', { cssClass: 'alert-success', timeout: 5000 });
+    }
   }
 
 }

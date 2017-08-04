@@ -12,33 +12,41 @@
 
     <div class="collapse navbar-collapse" id="nav-bar-content">
       <div *ngIf="authService.loggedIn(); else LoggedOut">
-        <form class="navbar-form navbar-nav" role="search">
+        <form (submit)="onSearchSubmit()" class="navbar-form navbar-nav" role="search">
+
           <div class="form-group">
-            <input type="text" class="form-control" placeholder="Search">
+            <input type="text" name="query" [(ngModel)]="query" class="form-control" placeholder="Search">
+            <div class="form-group">
+
+              <input type="radio" name="searchFor" [(ngModel)]="searchFor" value="author"><label style="color: white">Author</label><br/>
+              <input type="radio" name="searchFor" [(ngModel)]="searchFor" value="recipe"><label style="color: white">Recipe</label><br/>
+
+            </div>
           </div>
           <button type="submit" class="btn btn-default">Submit</button>
         </form>
 
+        <!-- TODO: delete search query after clicking one of these  -->
         <ul class="nav navbar-nav navbar-right">
-          <li [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}"><a [routerLink]="['/createrecipe']" href="#">Create Recipe</a></li>                    
-          <li [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}"><a [routerLink]="['/dashboard']">Dashboard</a></li>
-          <li [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}"><a [routerLink]="['/profile']">Profile</a></li>
-          <li [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}"><a (click)="onLogoutClick()" href="#">Logout</a></li>
+          <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a [routerLink]="['/createrecipe']" href="#">Create Recipe</a></li>
+          <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a [routerLink]="['/dashboard']">Dashboard</a></li>
+          <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a [routerLink]="['/profile']">My Profile</a></li>
+          <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a (click)="onLogoutClick()" href="#">Logout</a></li>
         </ul>
       </div>
 
 
       <ng-template #LoggedOut>
         <ul class="nav navbar-nav">
-          <li [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}"><a [routerLink]="['/']">Home</a></li>
+          <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a [routerLink]="['/']">Home</a></li>
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
-          <li *ngIf="!authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}"><a [routerLink]="['/login']">Login</a></li>
-          <li *ngIf="!authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}"><a [routerLink]="['/register']">Register</a></li>
+          <li *ngIf="!authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a [routerLink]="['/login']">Login</a></li>
+          <li *ngIf="!authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a [routerLink]="['/register']">Register</a></li>
         </ul>
       </ng-template>
-      
+
     </div>
   </div>
 </nav>

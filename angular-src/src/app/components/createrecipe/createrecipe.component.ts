@@ -21,8 +21,10 @@ export class CreaterecipeComponent implements OnInit {
 
   ngOnInit() {
     // change this to: this.post = new Post('','','',[],[],[]);
+    // remove _id field ?
     this.post = new Post(
-        'Noreen',
+        '0',
+        'liad',
         'Oven Roasted Black Pepper Chicken',
         'These juicy and peppery chicken thighs are ideal for your weeknight dinner rotation!',
         [
@@ -55,7 +57,7 @@ export class CreaterecipeComponent implements OnInit {
       return false;
     }
 
-    // uploade post to server
+    // upload post to server
     this.authService.createPost(this.post).subscribe((data) => {
       if(data.success){
         this.flashMessage.show(data.msg, {cssClass: 'alert-success', timeout: 5000});

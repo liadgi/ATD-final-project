@@ -18,12 +18,15 @@ import { CreaterecipeComponent } from './components/createrecipe/createrecipe.co
 import { PagenotfoundComponent } from './components/pagenotfound/pagenotfound.component';
 import { PostComponent } from './components/post/post.component';
 import { TextandimageComponent } from './components/textandimage/textandimage.component';
+import { CommentComponent } from './components/comment/comment.component';
 
 // Services
 import { ValidateService } from './services/validate.service';
 import { AuthService } from './services/auth.service';
 import { SocketioService } from './services/socketio.service'
 import { AuthGuard } from './guards/auth.guard';
+//import { CommentComponent } from './components/src/app/components/comment/comment.component';
+import { PostsService } from './services/posts.service';
 
 const appRoutes = [
   {path: '', component: HomeComponent},
@@ -47,7 +50,8 @@ const appRoutes = [
     PostComponent,
     TextandimageComponent,
     CreaterecipeComponent,
-    PagenotfoundComponent,    
+    PagenotfoundComponent,
+    CommentComponent,    
   ],
   imports: [
     BrowserModule,
@@ -59,7 +63,8 @@ const appRoutes = [
   providers: [
     ValidateService,
     AuthService,
-    AuthGuard
+    AuthGuard,
+    PostsService
   ],
   bootstrap: [AppComponent]
 })
