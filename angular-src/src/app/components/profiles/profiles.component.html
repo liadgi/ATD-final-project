@@ -1,0 +1,8 @@
+<h2 class="page-header">Profiles</h2>
+<div *ngFor="let profileResult of profilesService.profiles">
+     <app-profile-result [profileResult]="profileResult" ></app-profile-result> 
+</div>
+<footer class="container-fluid">
+    <ul class="pager">
+    </ul>
+</footer>

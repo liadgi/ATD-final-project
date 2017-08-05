@@ -4,7 +4,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule , Routes} from '@angular/router';
-import {FlashMessagesModule} from 'angular2-flash-messages'
+import { FlashMessagesModule } from 'angular2-flash-messages';
+import { AutosizeModule } from 'angular2-autosize';
 
 // Components
 import { AppComponent } from './app.component';
@@ -19,21 +20,28 @@ import { PagenotfoundComponent } from './components/pagenotfound/pagenotfound.co
 import { PostComponent } from './components/post/post.component';
 import { TextandimageComponent } from './components/textandimage/textandimage.component';
 import { CommentComponent } from './components/comment/comment.component';
+import { ProfilesComponent } from './components/profiles/profiles.component';
 
 // Services
 import { ValidateService } from './services/validate.service';
 import { AuthService } from './services/auth.service';
 import { SocketioService } from './services/socketio.service'
 import { AuthGuard } from './guards/auth.guard';
-//import { CommentComponent } from './components/src/app/components/comment/comment.component';
 import { PostsService } from './services/posts.service';
+import { ProfilesService } from './services/profiles.service';
+import { ProfileResultComponent } from './components//profile-result/profile-result.component';
+
+
 
 const appRoutes = [
   {path: '', component: HomeComponent},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
+  {path: 'dashboard/:query', component: DashboardComponent, canActivate:[AuthGuard]},
   {path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard]},
-  {path: 'profile', component: ProfileComponent, canActivate:[AuthGuard]},
+  {path: 'profiles/:query', component: ProfilesComponent, canActivate:[AuthGuard]  },
+  {path: 'profiles', component: ProfilesComponent, canActivate:[AuthGuard]  },
+  {path: 'profile/:username', component: ProfileComponent, canActivate:[AuthGuard]},
   {path: 'createrecipe', component: CreaterecipeComponent, canActivate:[AuthGuard]},
   {path: '**', component: PagenotfoundComponent}
 ]
@@ -51,20 +59,24 @@ const appRoutes = [
     TextandimageComponent,
     CreaterecipeComponent,
     PagenotfoundComponent,
-    CommentComponent,    
+    ProfilesComponent,
+    ProfileResultComponent
+    CommentComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     RouterModule.forRoot(appRoutes),
-    FlashMessagesModule
+    FlashMessagesModule,
+    AutosizeModule
   ],
   providers: [
     ValidateService,
     AuthService,
     AuthGuard,
-    PostsService
+    PostsService,
+    ProfilesService
   ],
   bootstrap: [AppComponent]
 })

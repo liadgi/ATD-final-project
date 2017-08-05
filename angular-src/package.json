@@ -22,6 +22,8 @@
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
     "@types/socket.io-client": "^1.4.29",
+    "angular-elastic": "^2.5.1",
+    "angular2-autosize": "git+https://github.com/chrum/angular2-autosize.git",
     "angular2-flash-messages": "^1.0.8",
     "angular2-jwt": "^0.2.3",
     "core-js": "^2.4.1",

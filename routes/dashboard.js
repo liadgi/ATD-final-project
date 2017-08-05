@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/database');
 const Post = require('../models/post');
 const Comment = require('../models/comment');
+const Profile = require('../models/profile');
 
 // Dashboard
 router.get('/', passport.authenticate('jwt', { session: false }), (req, res, next) => {
@@ -80,28 +81,16 @@ router.post('/deletePost', passport.authenticate('jwt', { session: false }), (re
 });
 
 // search
-router.get('/search/:searchFor/:query', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    let searchFor = req.params.searchFor;
+router.get('/:query', passport.authenticate('jwt', { session: false }), (req, res, next) => {
     let query = req.params.query;
 
-    if (searchFor === "author" ) {
-        // TODO: change later from posts by user to users list
-        Post.searchByAuthor(query, (err, posts) => {
-            if (err) {
-                res.json({ success: false, msg: 'Failed to search by author' });
-            } else {
-                res.json({ success: true, resType: 'author', posts: posts});
-            }
-        });
-    } else if (searchFor === "recipe"){
-        Post.searchByText(query, (err, posts) => {
+    Post.searchByText(query, (err, posts) => {
             if (err) {
                 res.json({ success: false, msg: 'Failed to search by title or description' });
             } else {
                 res.json({ success: true, resType: 'recipe', posts: posts});
             }
-        });
-    }
+    });
 });
 
 // set like

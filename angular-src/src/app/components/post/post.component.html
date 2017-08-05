@@ -12,13 +12,10 @@
             <h2>{{post.title}}</h2>
             <p>{{post.description}}</p>
 
-            <!-- change post.author in herf/id to a real id value -->
             <ul class="nav nav-pills">
               <li><a class="text-info" href="#">By {{post.author}}</a></li>
               <li><a class="text-info" href="#"><span class="badge ">{{post.likes.length}}</span>   Likes</a></li>
             </ul>
-
-
           </div>
 
         </div>
@@ -29,7 +26,6 @@
           <div class="col-md-12">
             <h2>{{post.title}}</h2>
             <p>{{post.description}}</p>
-            <!-- change post.author in herf/id to a real id value -->
             <ul class="nav nav-pills">
               <li><a class="text-info" href="#">By {{post.author}}</a></li>
               <li><a class="text-info" href="#"><span class="badge ">3</span>   Likes</a></li>
@@ -40,8 +36,7 @@
     </div>
   </a>
 
-  <ul *ngIf="ofUser" class="nav nav-pills">
-    
+  <ul *ngIf="ofUser" class="nav nav-pills"> 
     <li><input (click)="onModify()" type="submit" class="text-primary" value="Modify"></li>
     <form (submit)="onDeletePost()">
       <li><input type="submit" class="text-primary" value="Delete"></li>
@@ -64,7 +59,6 @@
         </div>
       </div>
     </div>
-
   </ul>
 
   <div id="post{{post._id}}" class="collapse">
@@ -80,13 +74,7 @@
       </app-textandimage>
       <br>
     </div>
-
-
-    <div> Comments:
-      <div *ngFor="let comment of post.comments">
-        <app-comment [comment]="comment"></app-comment>
-      </div>
-    </div>
+    <br>
 
     <form (submit)="onLikeSubmit()">
       <input type="submit" class="text-primary" [(ngModel)]="likeText" name="likeText">
@@ -97,10 +85,17 @@
         <input type="text" class="form-control" [(ngModel)]="tempComment.text" name="text" placeholder="add your comment...">
       </div>
       <input type="submit" class="btn btn-primary" value="Submit">
-    </form><br><br>
+    </form><br>
+
+    <ul class="list-group">
+      <li class="list-group-item active">Comments</li>
+      <li *ngFor="let comment of post.comments" class="list-group-item">
+        {{comment.user}}: {{comment.text}}
+      </li>
+    </ul>
+    <br>
 
   </div>
 
 </div>
-
 <br>
