@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { AuthService } from '../../services/auth.service';
 import { PostsService } from '../../services/posts.service';
+import { ProfilesService } from '../../services/profiles.service';
 
 @Component({
   selector: 'app-navbar',
@@ -17,32 +18,37 @@ export class NavbarComponent implements OnInit {
     private router: Router,
     private flashMessage: FlashMessagesService,
     private authService: AuthService,
-    private postsService: PostsService) { }
+    private postsService: PostsService,
+    private profilesService: ProfilesService
+  ) { }
 
   ngOnInit() {
-    this.searchFor = 'author';
+    this.searchFor = 'profile';
   }
 
-  onLogoutClick(){
+  onLogoutClick() {
     this.authService.logout();
-    this.flashMessage.show('You are logged out', {cssClass: 'alert-success', timeout: 5000});
+    this.flashMessage.show('You are logged out', { cssClass: 'alert-success', timeout: 5000 });
+
     this.router.navigate(['/']);
     return false;
   }
 
   onSearchSubmit() {
-    this.authService.search(this.searchFor, this.query).subscribe((data) => {
-      if(data.success){
-        if (data.resType === "author") {
-          // change to authors list later
-          this.postsService.setPosts(data.posts);
-        } else if (data.resType === "recipe") {
-            this.postsService.setPosts(data.posts);
-        }
-      } else {
-        //this.flashMessage.show(data.msg, {cssClass: 'alert-', timeout: 5000});
-      }
-  });
+    //TODO : prettify that
+    if (this.searchFor === "profile") {
+      this.profilesService.setProfiles([]);
+      this.profilesService.loadProfiles(this.query);
+      this.router.navigate(['profiles', this.query ]);
+    } else if (this.searchFor === "recipe") {
+      this.postsService.setPosts([]);
+      this.postsService.loadPosts(this.query);
+      this.router.navigate(['dashboard', this.query]);
+    }
+
+    
+
   }
+
 
 }

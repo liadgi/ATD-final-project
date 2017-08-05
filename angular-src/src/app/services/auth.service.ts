@@ -19,7 +19,6 @@ export class AuthService {
 
     // TODO : add condition instead of try-catch 
     try {
-      
       //return this.http.post('/users/register', user, {headers: headers}).map((res) => res.json());      
       return this.http.get('http://localhost:8080/' + url, { headers: headers }).map((res) => res.json());
     } catch (err) {
@@ -54,14 +53,6 @@ export class AuthService {
     return this.sendHttpPost('users/authenticate', credentials);
   }
 
-  getProfile() {
-    return this.sendHttpGet('users/profile');
-  }
-
-  getDashboard() {
-    return this.sendHttpGet('dashboard');
-  }
-
   createPost(post) {
     return this.sendHttpPost('dashboard/createpost', post);
   }
@@ -74,8 +65,24 @@ export class AuthService {
     return this.sendHttpPost('dashboard/setLike', postId);
   }
 
-  search(searchFor: String, query: String) {
-    return this.sendHttpGet('dashboard/search/' + searchFor + '/' + query);
+  getProfiles() {
+    return this.sendHttpGet('profiles/');
+  }
+  
+  searchProfiles(query: String) {
+    return this.sendHttpGet('profiles/' + query);
+  }
+
+  getPosts() {
+    return this.sendHttpGet('dashboard');
+  }
+
+  searchPosts(query: String) {
+    return this.sendHttpGet('dashboard/' + query);
+  }
+
+  getProfile(user: String) {
+    return this.sendHttpGet('profile/' + user);
   }
 
   storeUserData(token, credentials) {
@@ -83,6 +90,10 @@ export class AuthService {
     localStorage.setItem('user', JSON.stringify(credentials));
     this.authToken = token;
     this.credentials = credentials;
+  }
+
+  getUsername(){
+    return JSON.parse(localStorage.getItem('user')).username;
   }
 
   loadToken() {

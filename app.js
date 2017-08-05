@@ -7,6 +7,8 @@ const mongoose = require('mongoose');
 const config = require('./config/database');
 const users = require('./routes/users');
 const dashboard = require('./routes/dashboard');
+const profile = require('./routes/profile');
+const profiles = require('./routes/profiles');
 
 
 // Connect to DataBase
@@ -49,7 +51,8 @@ require('./config/passport')(passport);
 
 app.use('/users', users);
 app.use('/dashboard', dashboard);
-//app.use('/search', search);
+app.use('/profiles', profiles);
+app.use('/profile', profile);
 
 // Index route
 app.get('/', (req, res) =>

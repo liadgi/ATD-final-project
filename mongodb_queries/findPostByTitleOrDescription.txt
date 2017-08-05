@@ -1,2 +1,1 @@
 db.posts.find({ $or: [{title: { '$regex' : query, '$options' : 'i' }}, {description: { '$regex' : query, '$options' : 'i' }}]})
-db.posts.find({ $or: [{title: { '$regex' : 'Oven', '$options' : 'i' }}, {description: { '$regex' : 'Oven', '$options' : 'i' }}]})

@@ -33,6 +33,21 @@ export class User{
     }
 }
 
+export class Profile{
+    username: string;
+    following: string[];
+    followers: string[];
+
+    constructor(
+        username: string,
+        following: string[],
+        followers: string[]) {
+            this.username = username;
+            this.following = following;
+            this.followers = followers;
+        }
+}
+
 export class Comment{
     postId: string;
     user: string;

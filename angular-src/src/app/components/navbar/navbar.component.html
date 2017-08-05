@@ -18,7 +18,7 @@
             <input type="text" name="query" [(ngModel)]="query" class="form-control" placeholder="Search">
             <div class="form-group">
 
-              <input type="radio" name="searchFor" [(ngModel)]="searchFor" value="author"><label style="color: white">Author</label><br/>
+              <input type="radio" name="searchFor" [(ngModel)]="searchFor" value="profile"><label style="color: white">Profile</label><br/>
               <input type="radio" name="searchFor" [(ngModel)]="searchFor" value="recipe"><label style="color: white">Recipe</label><br/>
 
             </div>
@@ -30,7 +30,10 @@
         <ul class="nav navbar-nav navbar-right">
           <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a [routerLink]="['/createrecipe']" href="#">Create Recipe</a></li>
           <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a [routerLink]="['/dashboard']">Dashboard</a></li>
-          <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a [routerLink]="['/profile']">My Profile</a></li>
+          <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a [routerLink]="['/profile', authService.getUsername()]">My Profile</a></li>     
+          <!-- other options are kept for now just in case -->
+          <!-- <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a [routerLink]="['/profile']">My Profile</a></li>    -->
+          <!-- <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a (click)="onProfileClick(authService.getUsername())" >My Profile</a></li>   -->
           <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a (click)="onLogoutClick()" href="#">Logout</a></li>
         </ul>
       </div>

@@ -1,7 +1,15 @@
-<div *ngIf="user">
-  <h2 class="page-header">{{user.fname}} {{user.lname}}</h2>
+<!-- <div *ngIf="profileService.profile"> -->
+<div>
+  <!-- <h2 class="page-header">{{user.fname}} {{user.lname}}</h2> -->
+  <h2 class="page-header">{{profile.username}}</h2>
   <ul class="list-group">
-    <li class= "list-group-item">Username: {{user.username}}</li>
-    <li class= "list-group-item">Email: {{user.email}}</li>
+    <!-- <li class= "list-group-item">Username: {{user.username}}</li> -->
+    <!-- <li class= "list-group-item">Email: {{user.email}}</li> -->
+    <li class="list-group-item">Email: </li>
   </ul>
+  <h2> Followers: {{profile.followers.length}}</h2>
+  <h2> Following: {{profile.following.length}}</h2>
+  <!-- <div *ngIf="authService.getUsername()==profile.username">
+    <button>Follow</button>
+  </div> -->
 </div>

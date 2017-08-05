@@ -20,8 +20,8 @@ export class CreaterecipeComponent implements OnInit {
     private authService: AuthService) { }
 
   ngOnInit() {
-    // change this to: this.post = new Post('','','',[],[],[]);
-    // remove _id field ?
+    // TODO: change this to: this.post = new Post('','','',[],[],[]);
+    // TODO: remove _id field ?
     this.post = new Post(
         '0',
         'liad',

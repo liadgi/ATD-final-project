@@ -4,6 +4,7 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const config = require('../config/database');
 const User = require('../models/user');
+const Profile = require('../models/profile');
 
 
 
@@ -17,15 +18,29 @@ router.post('/register', (req, res, next) => {
         password: req.body.password
     });
 
+    let newProfile = new Profile({
+        username: req.body.username,
+        following: [],
+        followers: []
+    });
+
     // TODO: add field validation.
 
     // Check whether a user with this username already exists and if not create the new user
     User.getUserByUsername(newUser.username, (err, user) =>{
         if(err) throw err;
         if(user) return res.json({success: false, msg: 'Sorry, this username is taken. try anotherone.'});
-        User.addUser(newUser, (err, user) => {
+        User.registerUser(newUser, (err, user) => {
             if(err) res.json({success: false, msg:'Failed to register user.'});
-            else res.json({success: true, msg:'Congratulations! You are now registered.'});
+            else {
+                Profile.registerProfile(newProfile, (err, profile) => {
+                    if (err) {
+                        res.json({success: false, msg:'Failed to register profile.'});
+                    } else {
+                        res.json({success: true, msg:'Congratulations! You are now registered.'});
+                    }
+                })
+            } 
         });
     });
 });
