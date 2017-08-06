@@ -60,8 +60,8 @@ const appRoutes = [
     CreaterecipeComponent,
     PagenotfoundComponent,
     ProfilesComponent,
-    ProfileResultComponent
-    CommentComponent,
+    ProfileResultComponent,
+    CommentComponent
   ],
   imports: [
     BrowserModule,

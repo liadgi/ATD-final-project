@@ -13,6 +13,7 @@ import { ProfilesService } from '../../services/profiles.service';
 export class NavbarComponent implements OnInit {
   searchFor: string;
   query: String;
+  dropdownClass = { 'dropdown': true, 'open': false };
 
   constructor(
     private router: Router,
@@ -23,7 +24,7 @@ export class NavbarComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.searchFor = 'profile';
+    this.searchFor = 'Recipes';
   }
 
   onLogoutClick() {
@@ -36,18 +37,21 @@ export class NavbarComponent implements OnInit {
 
   onSearchSubmit() {
     //TODO : prettify that
-    if (this.searchFor === "profile") {
+    if (this.searchFor === "Users") {
       this.profilesService.setProfiles([]);
       this.profilesService.loadProfiles(this.query);
       this.router.navigate(['profiles', this.query ]);
-    } else if (this.searchFor === "recipe") {
+    } else if (this.searchFor === "Recipes") {
       this.postsService.setPosts([]);
       this.postsService.loadPosts(this.query);
       this.router.navigate(['dashboard', this.query]);
     }
+    this.query = '';
+  }
 
-    
-
+  
+  toggleDropdown(){
+    this.dropdownClass.open = !this.dropdownClass.open;
   }
 
 
