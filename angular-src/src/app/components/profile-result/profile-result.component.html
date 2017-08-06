@@ -1,30 +1,36 @@
 <div class="jumbotron">
-  
-    <div class="container-fluid">
-      
-        <div class="row content">
 
-          <div class="col-md-5 clearfix">
-            <!-- <img class="img-responsive img-rounded" src="{{post.images[0]}}" alt="Image Here"> -->
-          </div>
+  <div class="container-fluid">
 
-          <div class="col-md-7">
-            <h1><a>{{profileResult.username}}</a></h1>
-            <h2>Followers: {{profileResult.followers.length}}</h2>
-            <h2>Following: {{profileResult.following.length}}</h2>
-            <button>Follow</button>
-            <!-- change post.author in herf/id to a real id value -->
-            <ul class="nav nav-pills">
-              <!-- <li><a class="text-info" href="#">By {{post.author}}</a></li>
+    <div class="row content">
+
+      <div class="col-md-5 clearfix">
+        <!-- <img class="img-responsive img-rounded" src="{{post.images[0]}}" alt="Image Here"> -->
+        <a class="text-info" href="#">Show recipes...</a>
+      </div>
+
+      <div class="col-md-7">
+        <h1><a>{{profileResult.username}}</a></h1>
+        <h2>Followers: {{profileResult.followers.length}}</h2>
+        <h2>Following: {{profileResult.following.length}}</h2>
+
+
+        <form (submit)="onFollowSubmit()">
+          <input type="submit" class="text-primary" [(ngModel)]="toFollow" name="toFollow">
+        </form>
+        
+        <!-- change post.author in herf/id to a real id value -->
+        <ul class="nav nav-pills">
+          <!-- <li><a class="text-info" href="#">By {{post.author}}</a></li>
               <li><a class="text-info" href="#"><span class="badge ">{{post.likes.length}}</span>   Likes</a></li> -->
-            </ul>
+        </ul>
 
 
-          </div>
+      </div>
 
-        </div>
-      
     </div>
+
+  </div>
 
 
 </div>

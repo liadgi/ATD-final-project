@@ -13,21 +13,12 @@ export class ProfilesService {
     this.profiles = profiles;
   }
 
-  loadProfiles(query: String) {
-    if (query == undefined) {
-      this.authService.getProfiles().subscribe(
-        (data) => {
-          this.profiles = data.profiles;
-        },
-        (err) => { console.log(err); return false; }
-      );
-    } else {
-      this.authService.searchProfiles(query).subscribe(
-        (data) => {
-          this.profiles = data.profiles;
-        },
-        (err) => { console.log(err); return false; }
-      );
-    }
+  getProfiles(query: String) {
+    this.authService.getProfiles(query).subscribe(
+      (data) => {
+        this.profiles = data.profiles;
+      },
+      (err) => { console.log(err); return false; }
+    );
   }
 }

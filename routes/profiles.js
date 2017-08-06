@@ -7,7 +7,7 @@ const Profile = require('../models/profile');
 
 // All profiles
 router.get('/', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    Profile.getProfiles((err, profiles) => {
+    Profile.getProfiles('', (err, profiles) => {
         if (err) throw err;
         res.json({ profiles: profiles });
     });
@@ -16,7 +16,7 @@ router.get('/', passport.authenticate('jwt', { session: false }), (req, res, nex
 // search profiles
 router.get('/:query', passport.authenticate('jwt', {session: false}), (req, res, next) => {
     let query = req.params.query;
-    Profile.findProfiles(query, (err, profiles) => {
+    Profile.getProfiles(query, (err, profiles) => {
         if (err) {
             res.json({ success: false, msg: 'Could not find profiles' });
         } else {

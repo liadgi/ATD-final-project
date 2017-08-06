@@ -7,8 +7,9 @@ const mongoose = require('mongoose');
 const config = require('./config/database');
 const users = require('./routes/users');
 const dashboard = require('./routes/dashboard');
-const profile = require('./routes/profile');
 const profiles = require('./routes/profiles');
+const profile = require('./routes/profile');
+
 
 
 // Connect to DataBase

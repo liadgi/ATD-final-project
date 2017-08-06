@@ -39,7 +39,6 @@ const appRoutes = [
   {path: 'dashboard/:query', component: DashboardComponent, canActivate:[AuthGuard]},
   {path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard]},
   {path: 'profiles/:query', component: ProfilesComponent, canActivate:[AuthGuard]  },
-  {path: 'profiles', component: ProfilesComponent, canActivate:[AuthGuard]  },
   {path: 'profile/:username', component: ProfileComponent, canActivate:[AuthGuard]},
   {path: 'createrecipe', component: CreaterecipeComponent, canActivate:[AuthGuard]},
   {path: '**', component: PagenotfoundComponent}

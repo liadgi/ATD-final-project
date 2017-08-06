@@ -24,6 +24,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this.searchFor = 'profile';
+    this.query = '';
   }
 
   onLogoutClick() {
@@ -36,9 +37,9 @@ export class NavbarComponent implements OnInit {
 
   onSearchSubmit() {
     //TODO : prettify that
+    // and fix the double loading problem at a later phase
     if (this.searchFor === "profile") {
-      this.profilesService.setProfiles([]);
-      this.profilesService.loadProfiles(this.query);
+      this.profilesService.getProfiles(this.query);
       this.router.navigate(['profiles', this.query ]);
     } else if (this.searchFor === "recipe") {
       this.postsService.setPosts([]);

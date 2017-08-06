@@ -53,7 +53,7 @@ export class PostComponent implements OnInit {
   }
 
   onLikeSubmit() {
-    this.authService.setLike({postId: this.post._id}).subscribe((data) => {
+    this.authService.changeLike(this.post._id).subscribe((data) => {
       if(data.success){
         this.isLiked = data.likeStatus;
         if (this.isLiked) {

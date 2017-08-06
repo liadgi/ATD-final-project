@@ -61,16 +61,16 @@ export class AuthService {
     return this.sendHttpPost('dashboard/addComment', comment);
   }
 
-  setLike(postId) {
-    return this.sendHttpPost('dashboard/setLike', postId);
-  }
-
-  getProfiles() {
-    return this.sendHttpGet('profiles/');
+  changeLike(postId: String) {
+    return this.sendHttpPost('dashboard/changeLike', {postId: postId});
   }
   
-  searchProfiles(query: String) {
+  getProfiles(query: String) {
     return this.sendHttpGet('profiles/' + query);
+  }
+
+  setFollow(username) {
+    return this.sendHttpPost('profile/setFollow', {username: username});
   }
 
   getPosts() {

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProfilesService } from '../../services/profiles.service';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-profiles',
@@ -9,13 +10,16 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./profiles.component.css']
 })
 export class ProfilesComponent implements OnInit {
+  username: String;
 
   constructor(private profilesService: ProfilesService,
     private router: Router,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private authService: AuthService) { }
 
   ngOnInit() {
-    this.profilesService.loadProfiles(undefined);
+    //this.profilesService.getProfiles(undefined);
+    this.username = this.authService.getUsername();
   }
 
 }

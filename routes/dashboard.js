@@ -93,11 +93,13 @@ router.get('/:query', passport.authenticate('jwt', { session: false }), (req, re
     });
 });
 
-// set like
-router.post('/setLike', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+
+// change like
+router.post('/changeLike', passport.authenticate('jwt', { session: false }), (req, res, next) => {
     let username = req.user.username;
     let postId = req.body.postId; 
-    // add authentication
+
+    // TODO: add authentication?
     Post.getPostById(postId, (err, post) => {
         if (err) {
             res.json({ success: false, msg: 'Failed to change like status.' });

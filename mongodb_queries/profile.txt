@@ -1,0 +1,28 @@
+insert profile
+db.profiles.insert({username: 'test2'});
+
+delete fields from all the documents in the collection
+db.profiles.update({'username' : {'$exists' : true }},{ $unset: {followers: "", following: ""}},{'multi': true});
+
+insert follower
+db.followers.insert({follower: 'liad', following: 'test1'})
+
+
+get following array
+db.followers.aggregate([
+    {  $match : {
+        follower: 'liad'
+    }
+    },
+    { "$group": {
+        "_id": "$follower",
+        "following": {
+            "$push": "$following" 
+        },
+        "count": { "$sum": 1 }
+    }}
+])
+
+
+
+
