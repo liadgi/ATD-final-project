@@ -4,7 +4,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule , Routes} from '@angular/router';
-import {FlashMessagesModule} from 'angular2-flash-messages'
+import { FlashMessagesModule } from 'angular2-flash-messages';
+import { AutosizeModule } from 'angular2-autosize';
 
 // Components
 import { AppComponent } from './app.component';
@@ -57,16 +58,17 @@ const appRoutes = [
     TextandimageComponent,
     CreaterecipeComponent,
     PagenotfoundComponent,
-    CommentComponent,
     ProfilesComponent,
-    ProfileResultComponent
+    ProfileResultComponent,
+    CommentComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     RouterModule.forRoot(appRoutes),
-    FlashMessagesModule
+    FlashMessagesModule,
+    AutosizeModule
   ],
   providers: [
     ValidateService,

@@ -12,7 +12,9 @@ import { Post , Instruction } from '../../objects';
 })
 export class CreaterecipeComponent implements OnInit {
   post: Post;
-  
+  newIngredient: string;
+  newInstruction: Instruction;
+
   constructor(
     private router: Router,
     private flashMessage: FlashMessagesService,
@@ -20,8 +22,10 @@ export class CreaterecipeComponent implements OnInit {
     private authService: AuthService) { }
 
   ngOnInit() {
-    // TODO: change this to: this.post = new Post('','','',[],[],[]);
+    this.newIngredient = '';
+    this.newInstruction = new Instruction([],'');
     // TODO: remove _id field ?
+    // TODO: change this to: this.post = new Post('','','',[],[],[]);
     this.post = new Post(
         '0',
         'liad',
@@ -47,6 +51,7 @@ export class CreaterecipeComponent implements OnInit {
           new Instruction([],'Garnish with some freshly chopped cilantro (parsley works too) and serve hot with fresh veggies, rice or mashed potatoes.')
         ]
       );
+    this.post.author = JSON.parse(localStorage.getItem('user')).username;
   }
   
   onPostSubmit(){
@@ -70,4 +75,29 @@ export class CreaterecipeComponent implements OnInit {
     
   }
 
+  addIngredient(){
+    if(this.newIngredient === '')
+      this.flashMessage.show('Please enter valid ingredient', {cssClass: 'alert-danger', timeout: 5000});      
+    else {
+      this.post.ingredients.push(this.newIngredient);
+      this.newIngredient = '';
+    }
+  }
+
+  removeIngredient(i){
+    this.post.ingredients.splice(i, 1);
+  }
+
+  addImg(){
+    console.log('Add Image');
+  }
+
+  addInstruction(i){
+    this.post.instructions.push(this.newInstruction);
+    this.newInstruction = new Instruction([],'');
+  }
+
+  removeInstruction(i){
+    this.post.instructions.splice(i,1);
+  }
 }
