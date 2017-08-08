@@ -66,7 +66,11 @@ export class AuthService {
   }
   
   getProfiles(query: String) {
-    return this.sendHttpGet('profiles/' + query);
+    return this.sendHttpGet('profiles/search/' + query);
+  }
+
+  getTopProfiles() {
+    return this.sendHttpGet('profiles/top');
   }
 
   setFollow(username) {
@@ -77,8 +81,16 @@ export class AuthService {
     return this.sendHttpGet('dashboard');
   }
 
+  getTopPosts() {
+    return this.sendHttpGet('dashboard/top');
+  }
+
+  getUserPosts(username: String) {
+    return this.sendHttpGet('dashboard/user/' + username);
+  }
+
   searchPosts(query: String) {
-    return this.sendHttpGet('dashboard/' + query);
+    return this.sendHttpGet('dashboard/search/' + query);
   }
 
   getProfile(user: String) {

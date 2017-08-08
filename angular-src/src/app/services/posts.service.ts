@@ -10,25 +10,22 @@ export class PostsService {
 
   }
 
-  setPosts(posts: Post[]) {
-    this.posts = posts;
-  }
 
-  loadPosts(query: String) {
-    if (query == undefined) {
-      this.authService.getPosts().subscribe(
-        (dashboard) => {
+  loadPosts(type, query: String = null) {
+    this.posts = [];
+    let callback = (dashboard) => {
           this.posts = dashboard.posts;
-        },
-        (err) => { console.log(err); return false; }
-      );
-    } else {
-      this.authService.searchPosts(query).subscribe(
-        (dashboard) => {
-          this.posts = dashboard.posts;
-        },
-        (err) => { console.log(err); return false; }
-      );
+        };
+    let error = (err) => { console.log(err); return false; };
+
+    if (type === 'all') {
+      this.authService.getPosts().subscribe(callback, error);
+    } else if (type === 'top') {
+      this.authService.getTopPosts().subscribe(callback, error);
+    } else if (type === 'user') {
+      this.authService.getUserPosts(query).subscribe(callback, error);
+    } else if (type === 'search') {
+      this.authService.searchPosts(query).subscribe(callback, error);
     }
   }
 }

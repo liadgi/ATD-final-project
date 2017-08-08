@@ -30,3 +30,33 @@ module.exports.follow = function(followers, callback) {
 module.exports.unfollow = function(followers, callback) {
     followers.remove(callback);
 }
+
+module.exports.getFeed = function (username, callback) {
+    Followers.aggregate([
+        { $match: { "follower": username } },
+        {
+            $lookup: {
+                "from": "posts",
+                "localField": "following",
+                "foreignField": "author",
+                "as": "posts"
+            }
+        },
+        { $unwind: "$posts" },
+        {
+            $project: {
+                "_id": "$posts._id",
+                "author": "$posts.author",
+                "title": "$posts.title",
+                "description": "$posts.description",
+                "creationTime": "$posts.creationTime",
+                "updateTime": "$posts.updateTime",
+                "likes": "$posts.likes",
+                "comments": "$posts.comments",
+                "instructions": "$posts.instructions",
+                "images": "$posts.images",
+                "ingredients": "$posts.ingredients",
+            }
+        }
+    ], callback);
+}

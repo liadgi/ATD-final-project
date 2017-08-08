@@ -13,8 +13,16 @@ router.get('/', passport.authenticate('jwt', { session: false }), (req, res, nex
     });
 });
 
+// Top profiles
+router.get('/top', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    Profile.getTopProfiles('', (err, profiles) => {
+        if (err) throw err;
+        res.json({ profiles: profiles });
+    });
+});
+
 // search profiles
-router.get('/:query', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+router.get('/search/:query', passport.authenticate('jwt', {session: false}), (req, res, next) => {
     let query = req.params.query;
     Profile.getProfiles(query, (err, profiles) => {
         if (err) {

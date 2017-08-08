@@ -9,16 +9,22 @@ export class ProfilesService {
   constructor(private authService: AuthService) { }
 
 
-  setProfiles(profiles: Profile[]) {
-    this.profiles = profiles;
-  }
-
-  getProfiles(query: String) {
-    this.authService.getProfiles(query).subscribe(
-      (data) => {
-        this.profiles = data.profiles;
-      },
-      (err) => { console.log(err); return false; }
-    );
+  getProfiles(type, query: String = null) {
+    this.profiles = [];
+    if (type === 'top') {
+      this.authService.getTopProfiles().subscribe(
+        (data) => {
+          this.profiles = data.profiles;
+        },
+        (err) => { console.log(err); return false; }
+      );
+    } else if (type === 'search') {
+      this.authService.getProfiles(query).subscribe(
+        (data) => {
+          this.profiles = data.profiles;
+        },
+        (err) => { console.log(err); return false; }
+      );
+    }
   }
 }

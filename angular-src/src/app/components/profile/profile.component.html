@@ -1,5 +1,5 @@
 <!-- <div *ngIf="profileService.profile"> -->
-<div>
+<div class="col-sm-3">
   <!-- <h2 class="page-header">{{user.fname}} {{user.lname}}</h2> -->
   <h2 class="page-header">{{profile.username}}</h2>
   <ul class="list-group">
@@ -12,4 +12,7 @@
   <!-- <div *ngIf="authService.getUsername()==profile.username">
     <button>Follow</button>
   </div> -->
+</div>
+<div  class="col-sm-9">
+    <app-profile-recipes [username]="username"></app-profile-recipes>
 </div>

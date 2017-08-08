@@ -12,6 +12,7 @@ import { FlashMessagesService } from 'angular2-flash-messages';
 })
 export class ProfileComponent implements OnInit {
   profile: Profile;
+  username: String;
 
   constructor(
     private router:Router,
@@ -22,8 +23,8 @@ export class ProfileComponent implements OnInit {
     }
 
   ngOnInit() {    
-    let username = this.route.snapshot.params['username'];
-     this.authService.getProfile(username).subscribe((data) => { 
+    this.username = this.route.snapshot.params['username'];
+     this.authService.getProfile(this.username).subscribe((data) => { 
        if (data.success) {
           this.profile = data.profile[0]; 
        } else {

@@ -1,0 +1,18 @@
+<h2 class="page-header">Feed</h2>
+<div *ngIf="postsService.posts.length != 0; else NoRecipes">
+    <div *ngFor="let post of postsService.posts">
+        <app-post [post]="post" [username]="username" (postDeleted)="onPostDeleted(post)"></app-post>
+    </div>
+
+    <footer class="container-fluid">
+        <ul class="pager">
+            <li class="previous disabled"><a href="#">&larr; Older</a></li>
+            <li class="next"><a href="#">Newer &rarr;</a></li>
+        </ul>
+    </footer>
+</div>
+<ng-template #NoRecipes>
+    <div>
+        No recipes to show.
+    </div>
+</ng-template>

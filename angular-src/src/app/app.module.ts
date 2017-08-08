@@ -29,7 +29,12 @@ import { SocketioService } from './services/socketio.service'
 import { AuthGuard } from './guards/auth.guard';
 import { PostsService } from './services/posts.service';
 import { ProfilesService } from './services/profiles.service';
-import { ProfileResultComponent } from './components//profile-result/profile-result.component';
+import { ProfileResultComponent } from './components/profile-result/profile-result.component';
+import { TopRecipesComponent } from './components/top-recipes/top-recipes.component';
+import { TopUsersComponent } from './components/top-users/top-users.component';
+import { PostsComponent } from './components/posts/posts.component';
+import { ProfileRecipesComponent } from './components//profile-recipes/profile-recipes.component';
+import { DashboardSearchComponent } from './components/dashboard-search/dashboard-search.component';
 
 
 
@@ -37,9 +42,11 @@ const appRoutes = [
   {path: '', component: HomeComponent},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
-  {path: 'dashboard/:query', component: DashboardComponent, canActivate:[AuthGuard]},
+  {path: 'dashboard/search/:query', component: DashboardSearchComponent, canActivate:[AuthGuard]},
   {path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard]},
-  {path: 'profiles/:query', component: ProfilesComponent, canActivate:[AuthGuard]  },
+  {path: 'top-recipes', component: TopRecipesComponent, canActivate:[AuthGuard]},
+  {path: 'top-users', component: TopUsersComponent, canActivate:[AuthGuard]},
+  {path: 'profiles/search/:query', component: ProfilesComponent, canActivate:[AuthGuard]  },
   {path: 'profile/:username', component: ProfileComponent, canActivate:[AuthGuard]},
   {path: 'createrecipe', component: CreaterecipeComponent, canActivate:[AuthGuard]},
   {path: '**', component: PagenotfoundComponent}
@@ -60,7 +67,12 @@ const appRoutes = [
     PagenotfoundComponent,
     ProfilesComponent,
     ProfileResultComponent,
-    CommentComponent
+    CommentComponent,
+    TopRecipesComponent,
+    TopUsersComponent,
+    PostsComponent,
+    ProfileRecipesComponent,
+    DashboardSearchComponent
   ],
   imports: [
     BrowserModule,

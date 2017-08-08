@@ -30,9 +30,19 @@
           <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
         </form>
 
+        <ul class="nav navbar-nav">
+          <li [ngClass]="topmostDropdownClass">
+            <a (click)=toggleTopmostDropdown() class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">Top {{topRes}} <span class="caret"></span></a>            
+            <ul class="dropdown-menu" role="menu">
+              <li><a (click)="topRes = 'Recipes'; toggleTopmostDropdown()" [routerLink]="['/top-recipes']">Top Recipes</a></li>
+              <li><a (click)="topRes = 'Users'; toggleTopmostDropdown()" [routerLink]="['/top-users']">Top Users</a></li>
+            </ul>
+          </li>
+        </ul>
+
         <ul class="nav navbar-nav navbar-right">
           <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a [routerLink]="['/createrecipe']" href="#">Create Recipe</a></li>
-          <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a [routerLink]="['/dashboard']">Dashboard</a></li>
+          <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a [routerLink]="['/dashboard']">Home</a></li>
           <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a [routerLink]="['/profile', authService.getUsername()]">My Profile</a></li>     
           <!-- other options are kept for now just in case -->
           <!-- <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a [routerLink]="['/profile']">My Profile</a></li>    -->

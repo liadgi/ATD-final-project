@@ -4,18 +4,15 @@
 
     <div class="row content">
 
-      <div class="col-md-5 clearfix">
-        <!-- <img class="img-responsive img-rounded" src="{{post.images[0]}}" alt="Image Here"> -->
-        <a class="text-info" href="#">Show recipes...</a>
-      </div>
+      
 
       <div class="col-md-7">
-        <h1><a>{{profileResult.username}}</a></h1>
+        <h1><a [routerLink]="['/profile', profileResult.username]">{{profileResult.username}}</a></h1>
         <h2>Followers: {{profileResult.followers.length}}</h2>
         <h2>Following: {{profileResult.following.length}}</h2>
 
 
-        <form (submit)="onFollowSubmit()">
+        <form *ngIf="profileResult.username !== username" (submit)="onFollowSubmit()">
           <input type="submit" class="text-primary" [(ngModel)]="toFollow" name="toFollow">
         </form>
         

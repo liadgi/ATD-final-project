@@ -12,8 +12,10 @@ import { ProfilesService } from '../../services/profiles.service';
 })
 export class NavbarComponent implements OnInit {
   searchFor: string;
+  topRes: string;
   query: String;
   dropdownClass = { 'dropdown': true, 'open': false };
+  topmostDropdownClass = { 'dropdown': true, 'open': false };
 
   constructor(
     private router: Router,
@@ -26,6 +28,7 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
     this.query = '';
     this.searchFor = 'Recipes';
+    this.topRes = '';
   }
 
   onLogoutClick() {
@@ -39,21 +42,25 @@ export class NavbarComponent implements OnInit {
   onSearchSubmit() {
     //TODO : prettify that
     // and fix the double loading problem at a later phase
-    if (this.searchFor === "Users") {
-      this.profilesService.getProfiles(this.query);
-      this.router.navigate(['profiles', this.query ]);
-    } else if (this.searchFor === "Recipes") {
-      this.postsService.setPosts([]);
-      this.postsService.loadPosts(this.query);
-      this.router.navigate(['dashboard', this.query]);
+    if (this.query !== '') {
+      if (this.searchFor === "Users") {
+        this.profilesService.getProfiles('search', this.query);
+        this.router.navigate(['profiles/search', this.query]);
+      } else if (this.searchFor === "Recipes") {
+        this.postsService.loadPosts('search', this.query);
+        this.router.navigate(['dashboard/search', this.query]);
+      }
+      this.query = '';
     }
-    this.query = '';
   }
 
-  
-  toggleDropdown(){
+
+  toggleDropdown() {
     this.dropdownClass.open = !this.dropdownClass.open;
   }
-
+  toggleTopmostDropdown() {
+    this.topmostDropdownClass.open = !this.topmostDropdownClass.open;
+    this.topRes = '';
+  }
 
 }

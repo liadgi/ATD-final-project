@@ -20,6 +20,66 @@ const ProfileSchema = mongoose.Schema({
     }
 });
 
+const profiles = [
+    {  $lookup: 
+     {
+       "from": "followers",
+       "localField": "username",
+       "foreignField": "follower",
+       "as": "followed"
+     }},
+
+     {
+         $unwind: 
+         {
+           "path": "$followed",
+           "preserveNullAndEmptyArrays": true
+         }
+     },
+
+    { $group: {
+        "_id": "$username",
+        "following": {
+            $push: "$followed.following" 
+        }
+    }},
+
+     {  $lookup: 
+     {
+       "from": "followers",
+       "localField": "_id",
+       "foreignField": "following",
+       "as": "followings"
+     }},
+
+     {
+         $unwind: 
+         {
+           "path": "$followings",
+           "preserveNullAndEmptyArrays": true
+         }
+     },
+
+     { $group: {
+        "_id": { "username": "$_id" , "following" : "$following" }, 
+        
+        "followers" : {
+            $push: "$followings.follower" 
+        }
+        
+    }},
+
+    {
+        $project : {
+            "_id": 0,
+            "username": "$_id.username",
+            "following": "$_id.following",
+            "followers" : 1,
+            "numFollowers": { $size: "$followers" }
+        }
+    }
+]
+
 const Profile = module.exports = mongoose.model('Profile', ProfileSchema);
 
 module.exports.registerProfile = function(newProfile, callback) {
@@ -27,135 +87,32 @@ module.exports.registerProfile = function(newProfile, callback) {
 }
 
 module.exports.getProfiles = function(username, callback) {
-    Profile.aggregate([
-    {  $match : {
+    let match = {  $match : {
         "username": {'$regex' : username, '$options' : 'i'}
-    }},
+    }};
 
-    {  $lookup: 
-     {
-       "from": "followers",
-       "localField": "username",
-       "foreignField": "follower",
-       "as": "followed"
-     }},
+    let query = [match].concat(profiles);
 
-     {
-         $unwind: 
-         {
-           "path": "$followed",
-           "preserveNullAndEmptyArrays": true
-         }
-     },
+    Profile.aggregate(query, callback);
+}
 
-    { $group: {
-        "_id": "$username",
-        "following": {
-            $push: "$followed.following" 
-        }
-    }},
+module.exports.getTopProfiles = function(username, callback) {
+    let sort = {
+        $sort : {"numFollowers": -1}
+    };
 
-     {  $lookup: 
-     {
-       "from": "followers",
-       "localField": "_id",
-       "foreignField": "following",
-       "as": "followings"
-     }},
+    let query = profiles.concat(sort);
 
-     {
-         $unwind: 
-         {
-           "path": "$followings",
-           "preserveNullAndEmptyArrays": true
-         }
-     },
-
-     { $group: {
-        "_id": { "username": "$_id" , "following" : "$following" }, 
-        
-        "followers" : {
-            $push: "$followings.follower" 
-        }
-        
-    }},
-
-    {
-        $project : {
-            "_id": 0,
-            "username": "$_id.username",
-            "following": "$_id.following",
-            "followers" : 1,
-            
-        }
-    },
-    ],
-    callback);
+    Profile.aggregate(query, callback);
 }
 
 
 module.exports.getProfile = function(username, callback) {
-    
-    Profile.aggregate([
-    {  $match : {
+    let match = {  $match : {
         "username": username
-    }},
-    {  $lookup: 
-     {
-       "from": "followers",
-       "localField": "username",
-       "foreignField": "follower",
-       "as": "followed"
-     }},
+    }};
 
-     {
-         $unwind: 
-         {
-           "path": "$followed",
-           "preserveNullAndEmptyArrays": true
-         }
-     },
+    let query = [match].concat(profiles);
 
-    { $group: {
-        "_id": "$username",
-        "following": {
-            $push: "$followed.following" 
-        }
-    }},
-
-     {  $lookup: 
-     {
-       "from": "followers",
-       "localField": "_id",
-       "foreignField": "following",
-       "as": "followings"
-     }},
-
-     {
-         $unwind: 
-         {
-           "path": "$followings",
-           "preserveNullAndEmptyArrays": true
-         }
-     },
-
-     { $group: {
-        "_id": { "username": "$_id" , "following" : "$following" }, 
-        
-        "followers" : {
-            $push: "$followings.follower" 
-        }
-        
-    }},
-
-    {
-        $project : {
-            "_id": 0,
-            "username": "$_id.username",
-            "following": "$_id.following",
-            "followers" : 1,
-        }
-    },
-    ],
-    callback);
+    Profile.aggregate(query, callback);
 }

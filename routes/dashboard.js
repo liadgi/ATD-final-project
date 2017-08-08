@@ -6,12 +6,46 @@ const config = require('../config/database');
 const Post = require('../models/post');
 const Comment = require('../models/comment');
 const Profile = require('../models/profile');
+const Followers = require('../models/followers');
 
 // Dashboard
 router.get('/', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    Post.getAllPosts((err, posts) => {
+    // Post.getAllPosts((err, posts) => {
+    //     if (err) throw err;
+    //     res.json({ posts: posts });
+    // });
+    Followers.getFeed(req.user.username, (err, posts) => {
         if (err) throw err;
         res.json({ posts: posts });
+    });
+});
+
+// Top posts
+router.get('/top', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    Post.getTopPosts((err, posts) => {
+        if (err) throw err;
+        res.json({ posts: posts });
+    });
+});
+
+// User posts
+router.get('/user/:username', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    Post.getUserPosts(req.params.username, (err, posts) => {
+        if (err) throw err;
+        res.json({ posts: posts });
+    });
+});
+
+// search
+router.get('/search/:query', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    let query = req.params.query;
+
+    Post.searchByText(query, (err, posts) => {
+            if (err) {
+                res.json({ success: false, msg: 'Failed to search by title or description' });
+            } else {
+                res.json({ success: true, posts: posts});
+            }
     });
 });
 
@@ -78,19 +112,6 @@ router.post('/deletePost', passport.authenticate('jwt', { session: false }), (re
         }
     });
 
-});
-
-// search
-router.get('/:query', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    let query = req.params.query;
-
-    Post.searchByText(query, (err, posts) => {
-            if (err) {
-                res.json({ success: false, msg: 'Failed to search by title or description' });
-            } else {
-                res.json({ success: true, resType: 'recipe', posts: posts});
-            }
-    });
 });
 
 

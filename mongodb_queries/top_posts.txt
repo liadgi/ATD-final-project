@@ -1,0 +1,2 @@
+db.posts.aggregate([ { $addFields : {numLikes: {$size: "$likes"}} },])
+ {$sort: {numLikes: -1}}])

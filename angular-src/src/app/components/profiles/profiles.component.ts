@@ -18,7 +18,6 @@ export class ProfilesComponent implements OnInit {
     private authService: AuthService) { }
 
   ngOnInit() {
-    //this.profilesService.getProfiles(undefined);
     this.username = this.authService.getUsername();
   }
 

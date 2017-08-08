@@ -1,10 +1,8 @@
 <h2 class="page-header">Profiles</h2>
 <div *ngFor="let profileResult of profilesService.profiles">
-  <div *ngIf="profileResult.username !== username">
-     <app-profile-result [profileResult]="profileResult" [username]="username"></app-profile-result> 
-  </div>
+  <app-profile-result [profileResult]="profileResult" [username]="username"></app-profile-result>
 </div>
 <footer class="container-fluid">
-    <ul class="pager">
-    </ul>
+  <ul class="pager">
+  </ul>
 </footer>
