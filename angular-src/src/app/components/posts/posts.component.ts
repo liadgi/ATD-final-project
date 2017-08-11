@@ -71,8 +71,6 @@ export class PostsComponent implements OnInit {
     var index = this.postsService.posts.findIndex((pst) => (pst === post));
     if (index != -1) {
       this.postsService.posts.splice(index, 1);
-
-      this.flashMessage.show('Successfully deleted post', { cssClass: 'alert-success', timeout: 5000 });
     }
   }
 

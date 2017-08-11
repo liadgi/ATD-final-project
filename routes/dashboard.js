@@ -160,9 +160,9 @@ router.post('/deletePost', passport.authenticate('jwt', { session: false }), (re
             if (post.author === req.user.username) {
                 Post.deletePost(postId, (errDel, delPost) => {
                     if (errDel) {
-                        res.json({ success: false, msg: 'Failed to remove document.' });
+                        res.json({ success: false, msg: 'Failed to remove post.' });
                     } else {
-                        res.json({ success: true, msg: 'Successfully removed document.' });
+                        res.json({ success: true, msg: 'Successfully removed post.' });
                     }
                 });
             } else {
