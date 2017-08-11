@@ -44,11 +44,11 @@ export class NavbarComponent implements OnInit {
     // and fix the double loading problem at a later phase
     if (this.query !== '') {
       if (this.searchFor === "Users") {
-        this.profilesService.getProfiles('search', this.query);
+        this.profilesService.loadProfiles('search', 1, this.query);
         this.router.navigate(['profiles/search', this.query]);
       } else if (this.searchFor === "Recipes") {
-        this.postsService.loadPosts('search', this.query);
-        this.router.navigate(['dashboard/search', this.query]);
+        this.postsService.loadPosts('search', 1, this.query);
+        this.router.navigate(['home/search', this.query]);
       }
       this.query = '';
     }

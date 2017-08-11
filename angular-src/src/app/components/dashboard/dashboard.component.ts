@@ -20,4 +20,9 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.postsService.loadPosts('all');
   }
+
+  pageChanged(page) {
+    this.postsService.loadPosts('all', page);
+  }
+
 }

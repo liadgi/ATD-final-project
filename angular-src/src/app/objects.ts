@@ -84,7 +84,6 @@ export class Post{
     updateTime: Date;
 
     constructor(
-        _id: string,
         author: string,
         title: string,
         description: string,
@@ -92,7 +91,6 @@ export class Post{
         images: string[],
         instructions: Instruction[])
         {
-            this._id = _id;
             this.author = author;
             this.title = title;
             this.description = description;

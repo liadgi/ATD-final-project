@@ -1,5 +1,5 @@
 db.followers.aggregate([
-    {$match: {follower: username}},
+    {$match: {follower: 'liad'}},
     {$lookup: {
         from: "posts",
         localField: "following",

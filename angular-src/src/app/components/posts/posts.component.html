@@ -6,13 +6,13 @@
 
     <footer class="container-fluid">
         <ul class="pager">
-            <li class="previous disabled"><a href="#">&larr; Older</a></li>
-            <li class="next"><a href="#">Newer &rarr;</a></li>
+            <li [ngClass]="{ 'previous': true, 'disabled': !hasPreviousPage }"><a (click)="onPreviousPage()">&larr; Older</a></li>
+            <li [ngClass]="{ 'next': true, 'disabled': !hasNextPage }" ><a (click)="onNextPage()">Newer &rarr;</a></li>
         </ul>
     </footer>
 </div>
 <ng-template #NoRecipes>
     <div>
-        No recipes to show.
+        <!-- TODO: fill in a loader icon -->
     </div>
 </ng-template>

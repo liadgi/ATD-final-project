@@ -13,7 +13,11 @@ export class ProfileRecipesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.postsService.loadPosts("user", this.username);
+    this.postsService.loadPosts("user", 1, this.username);
+  }
+  
+  pageChanged(page) {
+    this.postsService.loadPosts("user", page, this.username);
   }
 
 }

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const config = require('../config/database');
+const utils = require('./utils');
 
 // Profile schema
 
@@ -86,24 +87,24 @@ module.exports.registerProfile = function(newProfile, callback) {
     newProfile.save(callback);
 }
 
-module.exports.getProfiles = function(username, callback) {
+module.exports.getProfiles = function(page, username, callback) {
     let match = {  $match : {
         "username": {'$regex' : username, '$options' : 'i'}
     }};
 
     let query = [match].concat(profiles);
 
-    Profile.aggregate(query, callback);
+    utils.getPage(Profile.aggregate(query), page, callback);
 }
 
-module.exports.getTopProfiles = function(username, callback) {
+module.exports.getTopProfiles = function(page, username, callback) {
     let sort = {
         $sort : {"numFollowers": -1}
     };
 
     let query = profiles.concat(sort);
 
-    Profile.aggregate(query, callback);
+    utils.getPage(Profile.aggregate(query), page, callback);
 }
 
 

@@ -21,6 +21,14 @@ import { PostComponent } from './components/post/post.component';
 import { TextandimageComponent } from './components/textandimage/textandimage.component';
 import { CommentComponent } from './components/comment/comment.component';
 import { ProfilesComponent } from './components/profiles/profiles.component';
+import { ProfileResultComponent } from './components/profile-result/profile-result.component';
+import { TopRecipesComponent } from './components/top-recipes/top-recipes.component';
+import { TopUsersComponent } from './components/top-users/top-users.component';
+import { PostsComponent } from './components/posts/posts.component';
+import { ProfileRecipesComponent } from './components//profile-recipes/profile-recipes.component';
+import { DashboardSearchComponent } from './components/dashboard-search/dashboard-search.component';
+import { EditrecipeComponent } from './components/editrecipe/editrecipe.component';
+import { RecipeComponent } from './components/recipe/recipe.component'
 
 // Services
 import { ValidateService } from './services/validate.service';
@@ -29,12 +37,8 @@ import { SocketioService } from './services/socketio.service'
 import { AuthGuard } from './guards/auth.guard';
 import { PostsService } from './services/posts.service';
 import { ProfilesService } from './services/profiles.service';
-import { ProfileResultComponent } from './components/profile-result/profile-result.component';
-import { TopRecipesComponent } from './components/top-recipes/top-recipes.component';
-import { TopUsersComponent } from './components/top-users/top-users.component';
-import { PostsComponent } from './components/posts/posts.component';
-import { ProfileRecipesComponent } from './components//profile-recipes/profile-recipes.component';
-import { DashboardSearchComponent } from './components/dashboard-search/dashboard-search.component';
+import { EditpostService } from './services/editpost.service';
+import { ProfilesSearchComponent } from './components/profiles-search/profiles-search.component';
 
 
 
@@ -42,13 +46,14 @@ const appRoutes = [
   {path: '', component: HomeComponent},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
-  {path: 'dashboard/search/:query', component: DashboardSearchComponent, canActivate:[AuthGuard]},
-  {path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard]},
+  {path: 'home/search/:query', component: DashboardSearchComponent, canActivate:[AuthGuard]},
+  {path: 'home', component: DashboardComponent, canActivate:[AuthGuard]},
   {path: 'top-recipes', component: TopRecipesComponent, canActivate:[AuthGuard]},
   {path: 'top-users', component: TopUsersComponent, canActivate:[AuthGuard]},
-  {path: 'profiles/search/:query', component: ProfilesComponent, canActivate:[AuthGuard]  },
+  {path: 'profiles/search/:query', component: ProfilesSearchComponent, canActivate:[AuthGuard]  },
   {path: 'profile/:username', component: ProfileComponent, canActivate:[AuthGuard]},
   {path: 'createrecipe', component: CreaterecipeComponent, canActivate:[AuthGuard]},
+  {path: 'editRecipe', component: EditrecipeComponent, canActivate:[AuthGuard]},
   {path: '**', component: PagenotfoundComponent}
 ]
 
@@ -72,7 +77,10 @@ const appRoutes = [
     TopUsersComponent,
     PostsComponent,
     ProfileRecipesComponent,
-    DashboardSearchComponent
+    DashboardSearchComponent,
+    EditrecipeComponent,
+    RecipeComponent,
+    ProfilesSearchComponent
   ],
   imports: [
     BrowserModule,
@@ -87,7 +95,8 @@ const appRoutes = [
     AuthService,
     AuthGuard,
     PostsService,
-    ProfilesService
+    ProfilesService,
+    EditpostService
   ],
   bootstrap: [AppComponent]
 })

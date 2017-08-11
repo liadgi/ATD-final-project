@@ -11,7 +11,10 @@ export class TopUsersComponent implements OnInit {
   constructor(  private profilesService: ProfilesService) { }
 
   ngOnInit() {
-    this.profilesService.getProfiles('top');
+    this.profilesService.loadProfiles('top');
+  }
+  pageChanged(page) {
+    this.profilesService.loadProfiles('top', page);
   }
 
 }

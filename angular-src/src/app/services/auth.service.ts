@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
+import { Http, Headers, RequestOptions } from '@angular/http';
 import { tokenNotExpired } from 'angular2-jwt';
 import { Credentials } from '../objects';
 import 'rxjs/add/operator/map';
@@ -11,18 +11,21 @@ export class AuthService {
 
   constructor(private http: Http) { }
 
-  sendHttpGet(url: String) {
+  sendHttpGet(url: String, page: number = 1) {
     let headers = new Headers();
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-type', 'application/json');
-
+    
+    let params = { page : page};
+    let options = { headers: headers, params: params };
     // TODO : add condition instead of try-catch 
     try {
       //return this.http.post('/users/register', user, {headers: headers}).map((res) => res.json());      
-      return this.http.get('http://localhost:8080/' + url, { headers: headers }).map((res) => res.json());
+      
+      return this.http.get('http://localhost:8080/' + url, options).map((res) => res.json());
     } catch (err) {
-      return this.http.get('http://localhost:8080/' + url, { headers: headers }).map((res) => res.json());
+      return this.http.get('http://localhost:8080/' + url, options).map((res) => res.json());
     }
   }
 
@@ -57,6 +60,10 @@ export class AuthService {
     return this.sendHttpPost('dashboard/createpost', post);
   }
 
+  editPost(post) {
+    return this.sendHttpPost('dashboard/editPost', post);
+  }
+
   addComment(comment) {
     return this.sendHttpPost('dashboard/addComment', comment);
   }
@@ -65,32 +72,32 @@ export class AuthService {
     return this.sendHttpPost('dashboard/changeLike', {postId: postId});
   }
   
-  getProfiles(query: String) {
-    return this.sendHttpGet('profiles/search/' + query);
+  getProfiles(page: number, query: String) {
+    return this.sendHttpGet('profiles/search/' + query, page);
   }
 
-  getTopProfiles() {
-    return this.sendHttpGet('profiles/top');
+  getTopProfiles(page: number) {
+    return this.sendHttpGet('profiles/top', page);
   }
 
   setFollow(username) {
     return this.sendHttpPost('profile/setFollow', {username: username});
   }
 
-  getPosts() {
-    return this.sendHttpGet('dashboard');
+  getPosts(page: number) {
+    return this.sendHttpGet('dashboard', page);
   }
 
-  getTopPosts() {
-    return this.sendHttpGet('dashboard/top');
+  getTopPosts(page: number) {
+    return this.sendHttpGet('dashboard/top', page);
   }
 
-  getUserPosts(username: String) {
-    return this.sendHttpGet('dashboard/user/' + username);
+  getUserPosts(page: number, username: String) {
+    return this.sendHttpGet('dashboard/user/' + username, page);
   }
 
-  searchPosts(query: String) {
-    return this.sendHttpGet('dashboard/search/' + query);
+  searchPosts(page: number, query: String) {
+    return this.sendHttpGet('dashboard/search/' + query, page);
   }
 
   getProfile(user: String) {

@@ -14,4 +14,8 @@ export class TopRecipesComponent implements OnInit {
     this.postsService.loadPosts('top');
   }
 
+  pageChanged(page) {
+    this.postsService.loadPosts('top', page);
+  }
+
 }

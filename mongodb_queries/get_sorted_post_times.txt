@@ -1,0 +1,21 @@
+db.followers.aggregate([
+    
+    {$lookup: {
+        from: "posts",
+        localField: "following",
+        foreignField: "author",
+        as: "posts"
+    }},
+    
+    {$unwind : "$posts"},
+    {$project : {
+        "_id": 0,
+        "c" : "$posts.creationTime",
+        "u" : "$posts.updateTime"
+        
+    }}, ])
+    {$sort: {"u": -1,"c" : -1 }},
+])
+    {$skip: 5},
+    {$limit: 3}
+])

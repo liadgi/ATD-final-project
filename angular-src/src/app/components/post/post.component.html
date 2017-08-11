@@ -16,7 +16,20 @@
               <li><a class="text-info" href="#">By {{post.author}}</a></li>
               <li><a class="text-info" href="#"><span class="badge ">{{post.likes.length}}</span>   Likes</a></li>
             </ul>
+
+            <ul class="nav nav-pills">
+              <!-- TODO: fix the date format -->
+              <li><span class="text-info">Created at: {{post.creationTime}}</span></li>
+            </ul>
+            <div *ngIf='post.updateTime != null'>
+              <ul class="nav nav-pills">
+                <li><span class="text-info">Updated at: {{post.updateTime}}</span></li>
+              </ul>
+            </div>
+
           </div>
+
+
 
         </div>
       </div>
@@ -36,8 +49,9 @@
     </div>
   </a>
 
-  <ul *ngIf="ofUser" class="nav nav-pills"> 
-    <li><input (click)="onModify()" type="submit" class="text-primary" value="Modify"></li>
+  <ul *ngIf="ofUser" class="nav nav-pills">
+    <li><input (click)="onModifyPost()" type="submit" class="text-primary" value="Modify"></li>
+
     <form (submit)="onDeletePost()">
       <li><input type="submit" class="text-primary" value="Delete"></li>
     </form>

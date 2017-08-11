@@ -15,8 +15,11 @@ export class DashboardSearchComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   ngOnInit() {
-    let query = this.route.snapshot.params['query'];
-    this.postsService.loadPosts('search', query);
+    this.query = this.route.snapshot.params['query'];
+    this.postsService.loadPosts('search', 1, this.query);
+  }
+  pageChanged(page) {
+    this.postsService.loadPosts('search', page, this.query);
   }
 
 }

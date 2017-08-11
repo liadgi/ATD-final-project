@@ -1,11 +1,12 @@
 const mongoose = require('mongoose');
 const config = require('../config/database');
+const utils = require('./utils');
 
 // Post schema
 const PostSchema = mongoose.Schema({
     author: {
         type: String,
-        required: true
+        required: false
     },
     title: {
         type: String,
@@ -49,50 +50,68 @@ function objectIdQuery(postId) {
     return x;
 }
 
-
 module.exports.getAllPosts = function (callback) {
     Post.find({}, callback);
 }
 
-module.exports.getTopPosts = function (callback) {
-    Post.aggregate([{
-        $project:
-        {
-            "author": 1,
-            "title": 1,
-            "description": 1,
-            "creationTime": 1,
-            "updateTime": 1,
-            "comments": 1,
-            "likes": 1,
-            "instructions": 1,
-            "images": 1,
-            "ingredients": 1,
-            "numLikes": { $size: "$likes" }
-        }
-    },
-    { $sort: { "numLikes": -1 } }],
+module.exports.getTopPosts = function (page, callback) {
+
+    //{$sort: {"updateTime" : -1 }},
+    utils.getPage(
+        Post.aggregate([
+            {
+                $project:
+                {
+                    "author": 1,
+                    "title": 1,
+                    "description": 1,
+                    "creationTime": 1,
+                    "updateTime": 1,
+                    "comments": 1,
+                    "likes": 1,
+                    "instructions": 1,
+                    "images": 1,
+                    "ingredients": 1,
+                    "numLikes": { $size: "$likes" }
+                }
+            },
+            { $sort: { "numLikes": -1 } }]),
+        page,
         callback);
 }
 
-module.exports.getUserPosts = function (username, callback) {
-    Post.find({ author: username }, callback);
+module.exports.getUserPosts = function (page, username, callback) {
+
+    utils.getPage(
+        utils.sortByTime(
+            Post.find({ author: username })),
+        page,
+        callback);
 }
 
 module.exports.getPostById = function (id, callback) {
     Post.findById(id, callback);
 }
 
-module.exports.searchByText = function (query, callback) {
-    Post.find({
-        $or: [{ title: { '$regex': query, '$options': 'i' } },
-        { description: { '$regex': query, '$options': 'i' } }]
-    }
-        , callback);
+module.exports.searchByText = function (page, query, callback) {
+    utils.getPage(
+        utils.sortByTime(
+            Post.find({
+                $or: [{ title: { '$regex': query, '$options': 'i' } },
+                { description: { '$regex': query, '$options': 'i' } }]
+            })),
+        page,
+        callback);
 }
 
-module.exports.addPost = function (newPost, callback) {
-    newPost.save(callback);
+module.exports.savePost = function (post, callback) {
+    post.save(callback);
+}
+
+module.exports.editPost = function (postId, editedPost, callback) {
+    // Post.update(,callback);
+    let query = objectIdQuery(postId);
+    Post.findOneAndUpdate(query, editedPost, { returnNewDocument: true }, callback);
 }
 
 module.exports.addComment = function (postId, newComment, callback) {

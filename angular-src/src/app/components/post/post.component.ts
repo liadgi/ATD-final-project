@@ -4,6 +4,8 @@ import { CommentComponent } from '../comment/comment.component';
 import { AuthService } from '../../services/auth.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
+import { EditpostService } from '../../services/editpost.service';
 
 @Component({
   selector: 'app-post',
@@ -22,7 +24,9 @@ export class PostComponent implements OnInit {
   @Input() username: string;
 
   constructor(private authService:AuthService,
-              private flashMessage: FlashMessagesService) 
+              private router: Router,
+              private flashMessage: FlashMessagesService,
+              private editPostService: EditpostService) 
   { }
 
   setLikeButtonText() {
@@ -79,5 +83,10 @@ export class PostComponent implements OnInit {
         this.flashMessage.show(data.msg, {cssClass: 'alert-danger', timeout: 5000});
       }
     });
+  }
+
+  onModifyPost() {
+    this.editPostService.setPost(this.post);
+    this.router.navigate(['/editRecipe']);
   }
 }
