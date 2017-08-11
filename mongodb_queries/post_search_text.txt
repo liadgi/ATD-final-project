@@ -1,0 +1,9 @@
+db.posts.find(
+                {
+                    $text: {$search : query}
+                    
+                },
+                
+                { score: { $meta: "textScore" } }
+
+).sort({score: { $meta: "textScore" }})

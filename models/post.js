@@ -95,11 +95,14 @@ module.exports.getPostById = function (id, callback) {
 
 module.exports.searchByText = function (page, query, callback) {
     utils.getPage(
-        utils.sortByTime(
-            Post.find({
-                $or: [{ title: { '$regex': query, '$options': 'i' } },
-                { description: { '$regex': query, '$options': 'i' } }]
-            })),
+        Post.find(
+            {
+                $text: { $search: query }
+
+            },
+            { score: { $meta: "textScore" } }
+        ).sort({ score: { $meta: "textScore" } }
+            ),
         page,
         callback);
 }
