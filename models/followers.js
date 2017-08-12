@@ -60,6 +60,7 @@ module.exports.getFeed = function (page, username, callback) {
                         "instructions": "$posts.instructions",
                         "images": "$posts.images",
                         "ingredients": "$posts.ingredients",
+                        "coauthors": "$posts.coauthors",
                     }
                 }])),
         page,

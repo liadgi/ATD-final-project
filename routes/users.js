@@ -65,26 +65,6 @@ router.post('/authenticate', (req, res, next) => {
 
 // Get a user by Id
 router.get('/profile/:user', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    // User.getUserById(req.params.id, (err, user) => {
-    //     if (err) return res.json({ success: false, msg: err });
-    //     if (!user) return res.json({ success: false, msg: 'User not found.' });
-    //     res.json({
-    //         success: true,
-    //         user: {
-    //             '_id': user._id,
-    //             'username': user.username,
-    //             'password': '',
-    //             'fname': user.fname,
-    //             'lname': user.lname,
-    //             'email': user.email,
-    //             'birthday': user.birthday,
-    //             'profile_pic': user.profile_pic,
-    //             'followers': user.followers,
-    //             'following': user.following
-    //         }
-    //     });
-    // });
-
 
     let user = req.params.user;
     User.getUser(user, (err, user) => {

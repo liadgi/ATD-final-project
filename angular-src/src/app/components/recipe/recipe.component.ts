@@ -15,6 +15,7 @@ export class RecipeComponent implements OnInit {
   post: Post;
   newIngredient: string;
   newInstruction: Instruction;
+  newCoauthor: string;
 
   constructor(private editpostService: EditpostService,
     private flashMessage: FlashMessagesService,
@@ -25,12 +26,13 @@ export class RecipeComponent implements OnInit {
   ngOnInit() {
     this.post = this.editpostService.post;
 
+    this.newCoauthor = '';
     this.newIngredient = '';
     this.newInstruction = new Instruction([], '');
   }
 
   onPostSubmit() {
-    // Validate Fields
+    // TODO : Validate Fields
     const valid = this.validateService.validatePost(this.post);
     if (!valid.success) {
       this.flashMessage.show(valid.msg, { cssClass: 'alert-danger', timeout: 5000 });
@@ -43,6 +45,7 @@ export class RecipeComponent implements OnInit {
         this.router.navigate(['/home']);
       } else {
         this.flashMessage.show(data.msg, { cssClass: 'alert-danger', timeout: 5000 });
+        // TODO : what about this
         //this.router.navigate(['/createrecipe']);
       }
     }
@@ -80,6 +83,19 @@ export class RecipeComponent implements OnInit {
 
   removeInstruction(i) {
     this.post.instructions.splice(i, 1);
+  }
+
+  addCoauthor() {
+    if (this.newCoauthor === '')
+      this.flashMessage.show('Please enter valid coauthor', { cssClass: 'alert-danger', timeout: 5000 });
+    else {
+      this.post.coauthors.push(this.newCoauthor);
+      this.newCoauthor = '';
+    }
+  }
+
+  removeCoauthor(i) {
+    this.post.coauthors.splice(i, 1);
   }
 
 }

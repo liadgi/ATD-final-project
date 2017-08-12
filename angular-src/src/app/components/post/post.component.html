@@ -13,8 +13,13 @@
             <p>{{post.description}}</p>
 
             <ul class="nav nav-pills">
-              <li><a class="text-info" href="#">By {{post.author}}</a></li>
-              <li><a class="text-info" href="#"><span class="badge ">{{post.likes.length}}</span>   Likes</a></li>
+              <li><a class="text-info">By {{post.author}}</a></li>
+              <li><a class="text-info"><span class="badge ">{{post.likes.length}}</span>   Likes</a></li>
+            </ul>
+            <ul class="nav nav-pills">
+              <div *ngIf="post.coauthors.length > 0">
+                <li><a class="text-info">And {{post.coauthors}}</a></li>
+              </div>
             </ul>
 
             <ul class="nav nav-pills">

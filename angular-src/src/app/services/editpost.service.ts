@@ -20,6 +20,7 @@ export class EditpostService {
     [  
       'http://picturetherecipe.com/wp-content/uploads/2015/01/Roasted-Black-Pepper-Chicken-by-PictureTheRecipe-com.jpg',
     ],
+    [],
     []);
     // this.post = new Post(
     //     this.authService.getUsername(),

@@ -99,7 +99,7 @@ export class Instruction{
 }
 
 export function newPost(){
-    return new Post('','','',[],[],[]);
+    return new Post('','','',[],[],[], []);
 }
 
 
@@ -115,6 +115,7 @@ export class Post{
     comments: Comment[];
     creationTime: Date;
     updateTime: Date;
+    coauthors: string[];
 
     constructor(
         author: string,
@@ -122,7 +123,8 @@ export class Post{
         description: string,
         ingredients: string[],
         images: string[],
-        instructions: Instruction[])
+        instructions: Instruction[],
+        coauthors: string[])
         {
             this.author = author;
             this.title = title;
@@ -134,5 +136,6 @@ export class Post{
             this.comments = [];
             this.creationTime = new Date();
             this.updateTime = null;
+            this.coauthors = coauthors;
     }
 }
