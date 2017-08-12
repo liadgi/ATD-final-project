@@ -1,4 +1,4 @@
-// TODO : appearently, the entire logic should be used in pipeline instead of 
+// NOTE : appearently, the entire logic should be used in pipeline instead of 
 // mongoose, because of multiple calls to the db.
 
 exports.sortByTime = function(query) {

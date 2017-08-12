@@ -47,7 +47,7 @@ const PostSchema = mongoose.Schema({
 
 const Post = module.exports = mongoose.model('Post', PostSchema);
 
-// TODO: extract in a simpler way
+// NOTE: extract in a simpler way
 function objectIdQuery(postId) {
     var ObjectId = mongoose.Types.ObjectId;
     let y = new ObjectId(postId);

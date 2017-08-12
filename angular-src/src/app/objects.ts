@@ -50,7 +50,7 @@ export class User{
 }
 
 
-// TODO: REMOVE THIS!
+// NOTE: REMOVE THIS!
 export class Profile{
     username: string;
     following: string[];

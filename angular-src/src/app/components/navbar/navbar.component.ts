@@ -40,8 +40,7 @@ export class NavbarComponent implements OnInit {
   }
 
   onSearchSubmit() {
-    //TODO : prettify that
-    // and fix the double loading problem at a later phase
+    // NOTE : prettify that
     if (this.query !== '') {
       if (this.searchFor === "Users") {
         this.usersService.loadUsers('search', 1, this.query);
