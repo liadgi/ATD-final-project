@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-// TODO : fix the code duplication.
+
 @Component({
   selector: 'app-profiles',
   templateUrl: './profiles.component.html',
@@ -21,7 +21,6 @@ export class ProfilesComponent implements OnInit {
 
   hasNextPage: boolean;
   hasPreviousPage: boolean;
-
 
   constructor(private profilesService: ProfilesService,
     private router: Router,

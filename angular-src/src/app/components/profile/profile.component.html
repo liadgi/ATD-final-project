@@ -1,18 +1,46 @@
-<!-- <div *ngIf="profileService.profile"> -->
-<div class="col-sm-3">
-  <!-- <h2 class="page-header">{{user.fname}} {{user.lname}}</h2> -->
-  <h2 class="page-header">{{profile.username}}</h2>
-  <ul class="list-group">
-    <!-- <li class= "list-group-item">Username: {{user.username}}</li> -->
-    <!-- <li class= "list-group-item">Email: {{user.email}}</li> -->
-    <li class="list-group-item">Email: </li>
-  </ul>
-  <h2> Followers: {{profile.followers.length}}</h2>
-  <h2> Following: {{profile.following.length}}</h2>
-  <!-- <div *ngIf="authService.getUsername()==profile.username">
-    <button>Follow</button>
-  </div> -->
+<div *ngIf="user" class="container-fluid">
+  <div class="row content">
+    <div class="col-md-4 clearfix">
+      <img class="img-responsive img-rounded btn-block" src="{{this.user.profile_pic}}" alt="Image Here">
+      <h2>{{user.fname}} {{user.lname}}</h2>
+
+      <ul class="nav nav-pills">
+        <li><a class="lead">Followers <span class="badge">{{user.followers.length}}</span></a></li>
+        <!-- TODO: show followers list on click-->
+        <li><a class="lead">Following <span class="badge">{{user.following.length}}</span></a></li>
+      </ul>
+
+      <ul class="list-group">
+        <li class="list-group-item">Username: {{user.username}}</li>
+        <li class="list-group-item">Email: {{user.email}}</li>
+        <li class="list-group-item">Birthday: {{user.birthday}}</li>
+      </ul>
+
+      <a class="btn btn-primary btn-block" [routerLink]="['/edit-user']">Edit Profile</a>
+    </div>
+
+    <div class="col-md-8">
+      <app-user-posts [username]="username"></app-user-posts>
+    </div>
+  </div>
 </div>
-<div  class="col-sm-9">
-    <app-profile-recipes [username]="username"></app-profile-recipes>
+
+
+<!-- 
+<div class="list-group">
+  <a class="list-group-item active" data-toggle="collapse" href="#followers">
+    Followers<span class="badge">{{user.followers.length}}</span>
+  </a>
+  <div *ngFor="let follower of user.followers" id="followers" class="collapse">
+    <a class="list-group-item">{{follower}}</a> 
+  </div>
 </div>
+
+<div class="list-group">
+  <a class="list-group-item active" data-toggle="collapse" href="#following">
+    Following<span class="badge">{{user.following.length}}</span>
+  </a>
+  <div *ngFor="let user of user.following" id="following" class="collapse">
+    <a class="list-group-item">{{user}}</a>
+  </div>
+</div> -->

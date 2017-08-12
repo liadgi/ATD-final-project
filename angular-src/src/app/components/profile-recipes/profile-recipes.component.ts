@@ -8,9 +8,7 @@ import { PostsService } from '../../services/posts.service';
 })
 export class ProfileRecipesComponent implements OnInit {
   @Input() username: String;
-  constructor(
-    private postsService: PostsService
-  ) { }
+  constructor(private postsService: PostsService) { }
 
   ngOnInit() {
     this.postsService.loadPosts("user", 1, this.username);

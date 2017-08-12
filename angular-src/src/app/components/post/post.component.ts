@@ -47,7 +47,7 @@ export class PostComponent implements OnInit {
 
   onCommentSubmit() {
     
-    this.authService.addComment(this.tempComment).subscribe((data) => {
+    this.authService.post('dashboard/addComment', this.tempComment).subscribe((data) => {
       if(data.success){
         this.post.comments.push(data.comment);
       }else{
@@ -57,7 +57,7 @@ export class PostComponent implements OnInit {
   }
 
   onLikeSubmit() {
-    this.authService.changeLike(this.post._id).subscribe((data) => {
+    this.authService.post('dashboard/changeLike', { postId: this.post._id }).subscribe((data) => {
       if(data.success){
         this.isLiked = data.likeStatus;
         if (this.isLiked) {
@@ -73,15 +73,17 @@ export class PostComponent implements OnInit {
   }
 
   onDeletePost() {
-    this.authService.deletePost({postId: this.post._id}).subscribe((data) => {
-      if(data.success){
-        this.postDeleted.emit();
-        
-        this.flashMessage.show(data.msg, {cssClass: 'alert-success', timeout: 5000});
+    this.authService.post(
+      'dashboard/deletePost' ,
+      {postId: this.post._id}).subscribe((data) => {
+        if(data.success){
+          this.postDeleted.emit();
+          
+          this.flashMessage.show(data.msg, {cssClass: 'alert-success', timeout: 5000});
 
-      }else{
-        this.flashMessage.show(data.msg, {cssClass: 'alert-danger', timeout: 5000});
-      }
+        }else{
+          this.flashMessage.show(data.msg, {cssClass: 'alert-danger', timeout: 5000});
+        }
     });
   }
 

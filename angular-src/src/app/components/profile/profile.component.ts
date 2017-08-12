@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { Profile } from '../../objects';
+import { User } from '../../objects';
 import { ActivatedRoute } from '@angular/router';
 import { FlashMessagesService } from 'angular2-flash-messages';
 
@@ -11,27 +11,29 @@ import { FlashMessagesService } from 'angular2-flash-messages';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  profile: Profile;
+  user: User;
   username: String;
 
   constructor(
     private router:Router,
     private authService:AuthService,
     private route: ActivatedRoute,
-    private flashMessage: FlashMessagesService) { 
-      this.profile = new Profile('',[],[]);
-    }
+    private flashMessage: FlashMessagesService) { }
 
-  ngOnInit() {    
-    this.username = this.route.snapshot.params['username'];
-     this.authService.getProfile(this.username).subscribe((data) => { 
-       if (data.success) {
-          this.profile = data.profile[0]; 
-       } else {
+  ngOnInit() {
+    this.username = this.route.snapshot.params.query;
+    this.authService.get('users/profile/'+this.username).subscribe(
+      (data) => {
+        if (data.success)  {
+          this.user = data.user;
+          this.username = data.user.username;
+        }
+        else {
           this.flashMessage.show(data.msg, {cssClass: 'alert-danger', timeout: 5000});
-       } 
+          this.authService.logout();
+        }
       },
-      (err) => { console.log(err);  return false; }
+      (err) => { throw err; }
     );
   }
 

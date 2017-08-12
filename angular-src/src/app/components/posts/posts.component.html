@@ -1,4 +1,3 @@
-<h2 class="page-header">Feed</h2>
 <div *ngIf="postsService.posts.length != 0; else NoRecipes">
     <div *ngFor="let post of postsService.posts">
         <app-post [post]="post" [username]="username" (postDeleted)="onPostDeleted(post)"></app-post>

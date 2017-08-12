@@ -1,0 +1,10 @@
+<h2 class="page-header">Users</h2>
+<div *ngFor="let userResult of usersService.users">
+  <app-user-result [userResult]="userResult" [username]="username"></app-user-result>
+</div>
+<footer class="container-fluid">
+  <ul class="pager">
+    <li [ngClass]="{ 'previous': true, 'disabled': !hasPreviousPage }"><a (click)="onPreviousPage()">&larr; Older</a></li>
+    <li [ngClass]="{ 'next': true, 'disabled': !hasNextPage }"><a (click)="onNextPage()">Newer &rarr;</a></li>
+  </ul>
+</footer>

@@ -22,6 +22,8 @@ import { TextandimageComponent } from './components/textandimage/textandimage.co
 import { CommentComponent } from './components/comment/comment.component';
 import { ProfilesComponent } from './components/profiles/profiles.component';
 import { ProfileResultComponent } from './components/profile-result/profile-result.component';
+import { UsersComponent } from './components/users/users.component';
+import { UserResultComponent } from './components/user-result/user-result.component';
 import { TopRecipesComponent } from './components/top-recipes/top-recipes.component';
 import { TopUsersComponent } from './components/top-users/top-users.component';
 import { PostsComponent } from './components/posts/posts.component';
@@ -29,6 +31,11 @@ import { ProfileRecipesComponent } from './components//profile-recipes/profile-r
 import { DashboardSearchComponent } from './components/dashboard-search/dashboard-search.component';
 import { EditrecipeComponent } from './components/editrecipe/editrecipe.component';
 import { RecipeComponent } from './components/recipe/recipe.component'
+import { EditUserComponent } from './components/edit-user/edit-user.component';
+import { UploadFileComponent } from './components/upload-file/upload-file.component';
+import { FileSelectDirective } from 'ng2-file-upload';
+import { UserPostsComponent } from './components/user-posts/user-posts.component';
+import { UsersSearchComponent } from './components/users-search/users-search.component';
 
 // Services
 import { ValidateService } from './services/validate.service';
@@ -39,6 +46,7 @@ import { PostsService } from './services/posts.service';
 import { ProfilesService } from './services/profiles.service';
 import { EditpostService } from './services/editpost.service';
 import { ProfilesSearchComponent } from './components/profiles-search/profiles-search.component';
+import { UsersService} from './services/users.service';
 
 
 
@@ -50,8 +58,10 @@ const appRoutes = [
   {path: 'home', component: DashboardComponent, canActivate:[AuthGuard]},
   {path: 'top-recipes', component: TopRecipesComponent, canActivate:[AuthGuard]},
   {path: 'top-users', component: TopUsersComponent, canActivate:[AuthGuard]},
-  {path: 'profiles/search/:query', component: ProfilesSearchComponent, canActivate:[AuthGuard]  },
-  {path: 'profile/:username', component: ProfileComponent, canActivate:[AuthGuard]},
+  {path: 'users/search/:query', component: UsersComponent, canActivate:[AuthGuard]  },
+  {path: 'users/profile/:query', component: ProfileComponent, canActivate:[AuthGuard]  },
+  {path: 'users/search/:query', component: UsersSearchComponent, canActivate:[AuthGuard]  },
+  {path: 'edit-user', component: EditUserComponent, canActivate:[AuthGuard]},
   {path: 'createrecipe', component: CreaterecipeComponent, canActivate:[AuthGuard]},
   {path: 'editRecipe', component: EditrecipeComponent, canActivate:[AuthGuard]},
   {path: '**', component: PagenotfoundComponent}
@@ -80,7 +90,14 @@ const appRoutes = [
     DashboardSearchComponent,
     EditrecipeComponent,
     RecipeComponent,
-    ProfilesSearchComponent
+    ProfilesSearchComponent,
+    EditUserComponent,
+    UploadFileComponent,
+    FileSelectDirective,
+    UsersComponent,
+    UserResultComponent,
+    UserPostsComponent,
+    UsersSearchComponent
   ],
   imports: [
     BrowserModule,
@@ -96,7 +113,8 @@ const appRoutes = [
     AuthGuard,
     PostsService,
     ProfilesService,
-    EditpostService
+    EditpostService,
+    UsersService
   ],
   bootstrap: [AppComponent]
 })

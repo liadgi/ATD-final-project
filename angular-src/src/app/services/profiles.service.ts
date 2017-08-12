@@ -11,11 +11,10 @@ export class ProfilesService {
 
   constructor(private authService: AuthService) { }
 
-
   loadProfiles(type, page = 1, query: String = null) {
     this.profiles = [];
     if (type === 'top') {
-      this.authService.getTopProfiles(page).subscribe(
+      this.authService.get('profiles/top', page).subscribe(
         (data) => {
           this.profiles = data.profiles;
           this.subject.next(this.profiles);
@@ -23,7 +22,7 @@ export class ProfilesService {
         (err) => { console.log(err); return false; }
       );
     } else if (type === 'search') {
-      this.authService.getProfiles(page, query).subscribe(
+      this.authService.get('profiles/search/' + query, page).subscribe(
         (data) => {
           this.profiles = data.profiles;
         },

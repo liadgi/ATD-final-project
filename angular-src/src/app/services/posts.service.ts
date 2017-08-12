@@ -23,13 +23,15 @@ export class PostsService {
     let error = (err) => { console.log(err); return false; };
 
     if (type === 'all') {
-      this.authService.getPosts(page).subscribe(callback, error);
+
+      this.authService.get('dashboard', page).subscribe(callback, error);
     } else if (type === 'top') {
-      this.authService.getTopPosts(page).subscribe(callback, error);
+      this.authService.get('dashboard/top', page).subscribe(callback, error);
     } else if (type === 'user') {
-      this.authService.getUserPosts(page, query).subscribe(callback, error);
+      this.authService.get('dashboard/user/' + query, page).subscribe(callback, error);
     } else if (type === 'search') {
-      this.authService.searchPosts(page, query).subscribe(callback, error);
+      this.authService.get('dashboard/search/' + query, page).subscribe(callback, error);
+
     }
   }
 

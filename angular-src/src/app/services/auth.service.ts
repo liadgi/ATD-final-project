@@ -11,7 +11,7 @@ export class AuthService {
 
   constructor(private http: Http) { }
 
-  sendHttpGet(url: String, page: number = 1) {
+  get(url: String, page: number = 1) {
     let headers = new Headers();
     this.loadToken();
     headers.append('Authorization', this.authToken);
@@ -29,7 +29,7 @@ export class AuthService {
     }
   }
 
-  sendHttpPost(url: String, data) {
+  post(url: String, data) {
     let headers = new Headers();
 
     this.loadToken();
@@ -44,75 +44,75 @@ export class AuthService {
     }
   }
 
-  deletePost(postId) {
-    return this.sendHttpPost('dashboard/deletePost', postId);
-  }
-
   registerUser(user) {
-    return this.sendHttpPost('users/register', user);
+    return this.post('users/register', user);
   }
 
   authenticateUser(credentials) {
-    return this.sendHttpPost('users/authenticate', credentials);
+    return this.post('users/authenticate', credentials);
   }
 
   createPost(post) {
-    return this.sendHttpPost('dashboard/createpost', post);
+    return this.post('dashboard/createpost', post);
   }
 
   editPost(post) {
-    return this.sendHttpPost('dashboard/editPost', post);
+    return this.post('dashboard/editPost', post);
   }
 
   addComment(comment) {
-    return this.sendHttpPost('dashboard/addComment', comment);
+    return this.post('dashboard/addComment', comment);
   }
 
   changeLike(postId: String) {
-    return this.sendHttpPost('dashboard/changeLike', {postId: postId});
+    return this.post('dashboard/changeLike', {postId: postId});
   }
   
   getProfiles(page: number, query: String) {
-    return this.sendHttpGet('profiles/search/' + query, page);
+    return this.get('profiles/search/' + query, page);
   }
 
   getTopProfiles(page: number) {
-    return this.sendHttpGet('profiles/top', page);
+    return this.get('profiles/top', page);
   }
 
   setFollow(username) {
-    return this.sendHttpPost('profile/setFollow', {username: username});
+    return this.post('profile/setFollow', {username: username});
   }
 
   getPosts(page: number) {
-    return this.sendHttpGet('dashboard', page);
+    return this.get('dashboard', page);
   }
 
   getTopPosts(page: number) {
-    return this.sendHttpGet('dashboard/top', page);
+    return this.get('dashboard/top', page);
   }
 
   getUserPosts(page: number, username: String) {
-    return this.sendHttpGet('dashboard/user/' + username, page);
+    return this.get('dashboard/user/' + username, page);
   }
 
   searchPosts(page: number, query: String) {
-    return this.sendHttpGet('dashboard/search/' + query, page);
+    return this.get('dashboard/search/' + query, page);
   }
 
   getProfile(user: String) {
-    return this.sendHttpGet('profile/' + user);
+    return this.get('profile/' + user);
   }
 
   storeUserData(token, credentials) {
     localStorage.setItem('authToken', token);
-    localStorage.setItem('user', JSON.stringify(credentials));
+    localStorage.setItem('credentials', JSON.stringify(credentials));
     this.authToken = token;
     this.credentials = credentials;
   }
 
   getUsername(){
-    return JSON.parse(localStorage.getItem('user')).username;
+    return JSON.parse(localStorage.getItem('credentials')).username;
+  }
+
+  getId(){
+    return JSON.parse(localStorage.getItem('credentials'))._id;
   }
 
   loadToken() {

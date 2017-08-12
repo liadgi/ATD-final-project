@@ -7,10 +7,7 @@ const mongoose = require('mongoose');
 const config = require('./config/database');
 const users = require('./routes/users');
 const dashboard = require('./routes/dashboard');
-const profiles = require('./routes/profiles');
-const profile = require('./routes/profile');
-
-
+const upload = require('./routes/upload.js'); 
 
 // Connect to DataBase
 mongoose.connect(config.database);
@@ -38,6 +35,20 @@ const port = process.env.PORT || 8080;
 // CORS middleware
 app.use(cors());
 
+////////////////////////////////
+
+// //create a cors middleware
+// app.use(function(req, res, next) {
+// //set headers to allow cross origin request.
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     next();
+// });
+
+
+//////////////////////////////////////////
+
 // Set static foleder
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -50,10 +61,12 @@ app.use(passport.session());
 
 require('./config/passport')(passport);
 
+app.use(express.static('./uploads/images'));
+
+
 app.use('/users', users);
 app.use('/dashboard', dashboard);
-app.use('/profiles', profiles);
-app.use('/profile', profile);
+app.use('/upload', upload);
 
 // Index route
 app.get('/', (req, res) =>

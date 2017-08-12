@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProfilesService } from '../../services/profiles.service';
+import { UsersService } from '../../services/users.service';
 
 @Component({
   selector: 'app-top-users',
@@ -8,13 +8,14 @@ import { ProfilesService } from '../../services/profiles.service';
 })
 export class TopUsersComponent implements OnInit {
 
-  constructor(  private profilesService: ProfilesService) { }
+  constructor(  private usersService: UsersService) { }
 
   ngOnInit() {
-    this.profilesService.loadProfiles('top');
+    this.usersService.loadUsers('top');
   }
   pageChanged(page) {
-    this.profilesService.loadProfiles('top', page);
+    this.usersService.loadUsers('top', page);
+    
   }
 
 }

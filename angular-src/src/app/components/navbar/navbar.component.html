@@ -43,7 +43,7 @@
         <ul class="nav navbar-nav navbar-right">
           <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a [routerLink]="['/createrecipe']" href="#">Create Recipe</a></li>
           <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a [routerLink]="['/home']">Home</a></li>
-          <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a [routerLink]="['/profile', authService.getUsername()]">My Profile</a></li>     
+          <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a [routerLink]="['/users/profile', authService.getUsername()]">My Profile</a></li>     
           <!-- other options are kept for now just in case -->
           <!-- <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a [routerLink]="['/profile']">My Profile</a></li>    -->
           <!-- <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a (click)="onProfileClick(authService.getUsername())" >My Profile</a></li>   -->

@@ -48,9 +48,9 @@ export class RecipeComponent implements OnInit {
     }
 
     if (this.router.url === '/createrecipe') {
-      this.authService.createPost(this.post).subscribe(callback);
+      this.authService.post('dashboard/createpost', this.post).subscribe(callback);
     } else if (this.router.url === '/editRecipe') {
-      this.authService.editPost(this.post).subscribe(callback);
+      this.authService.post('dashboard/editPost', this.post).subscribe(callback);
     }
 
 
