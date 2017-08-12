@@ -21,6 +21,16 @@ import { PostComponent } from './components/post/post.component';
 import { TextandimageComponent } from './components/textandimage/textandimage.component';
 import { CommentComponent } from './components/comment/comment.component';
 import { ProfilesComponent } from './components/profiles/profiles.component';
+import { ProfileResultComponent } from './components/profile-result/profile-result.component';
+import { TopRecipesComponent } from './components/top-recipes/top-recipes.component';
+import { TopUsersComponent } from './components/top-users/top-users.component';
+import { PostsComponent } from './components/posts/posts.component';
+import { ProfileRecipesComponent } from './components//profile-recipes/profile-recipes.component';
+import { DashboardSearchComponent } from './components/dashboard-search/dashboard-search.component';
+import { EditUserComponent } from './components/edit-user/edit-user.component';
+import { UploadFileComponent } from './components/upload-file/upload-file.component';
+import { FileSelectDirective } from 'ng2-file-upload';
+
 
 // Services
 import { ValidateService } from './services/validate.service';
@@ -29,12 +39,7 @@ import { SocketioService } from './services/socketio.service'
 import { AuthGuard } from './guards/auth.guard';
 import { PostsService } from './services/posts.service';
 import { ProfilesService } from './services/profiles.service';
-import { ProfileResultComponent } from './components/profile-result/profile-result.component';
-import { TopRecipesComponent } from './components/top-recipes/top-recipes.component';
-import { TopUsersComponent } from './components/top-users/top-users.component';
-import { PostsComponent } from './components/posts/posts.component';
-import { ProfileRecipesComponent } from './components//profile-recipes/profile-recipes.component';
-import { DashboardSearchComponent } from './components/dashboard-search/dashboard-search.component';
+
 
 
 
@@ -48,6 +53,7 @@ const appRoutes = [
   {path: 'top-users', component: TopUsersComponent, canActivate:[AuthGuard]},
   {path: 'profiles/search/:query', component: ProfilesComponent, canActivate:[AuthGuard]  },
   {path: 'profile/:username', component: ProfileComponent, canActivate:[AuthGuard]},
+  {path: 'edit-user', component: EditUserComponent, canActivate:[AuthGuard]},
   {path: 'createrecipe', component: CreaterecipeComponent, canActivate:[AuthGuard]},
   {path: '**', component: PagenotfoundComponent}
 ]
@@ -72,7 +78,10 @@ const appRoutes = [
     TopUsersComponent,
     PostsComponent,
     ProfileRecipesComponent,
-    DashboardSearchComponent
+    DashboardSearchComponent,
+    EditUserComponent,
+    UploadFileComponent,
+    FileSelectDirective
   ],
   imports: [
     BrowserModule,

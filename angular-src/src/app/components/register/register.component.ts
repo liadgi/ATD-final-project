@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { ValidateService } from '../../services/validate.service';
 import { AuthService } from '../../services/auth.service';
-import { User } from '../../objects';
+import { User, newUser, formatName} from '../../objects';
 
 
 @Component({
@@ -21,11 +21,13 @@ export class RegisterComponent implements OnInit {
     private authService: AuthService) { }
 
   ngOnInit() {
-    this.user = new User('','','','','');
+     this.user = newUser();
   }
 
   onRegisterSubmit(){
-
+    
+    this.user.fname = formatName(this.user.fname);
+    this.user.lname = formatName(this.user.lname);
     // Validate Fields
     const valid = this.validateService.validateRegister(this.user);
     if(!valid.success){

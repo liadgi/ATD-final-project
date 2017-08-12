@@ -1,0 +1,7 @@
+<div class="thumbnail clearfix">
+  <img class="img-responsive img-rounded img-fluid" src="{{this.image}}">
+  <div class="caption">
+    <input type="file"  class="btn btn-primary btn-block" name="image" ng2FileSelect [uploader]="uploader" />
+    <button type="button" class="btn btn-info btn-block" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">Upload</button>
+  </div>
+</div>

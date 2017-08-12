@@ -51,7 +51,7 @@ export class CreaterecipeComponent implements OnInit {
           new Instruction([],'Garnish with some freshly chopped cilantro (parsley works too) and serve hot with fresh veggies, rice or mashed potatoes.')
         ]
       );
-    this.post.author = JSON.parse(localStorage.getItem('user')).username;
+    this.post.author = this.authService.getUsername();
   }
   
   onPostSubmit(){
@@ -63,7 +63,7 @@ export class CreaterecipeComponent implements OnInit {
     }
 
     // upload post to server
-    this.authService.createPost(this.post).subscribe((data) => {
+    this.authService.post('dashboard/createpost', this.post).subscribe((data) => {
       if(data.success){
         this.flashMessage.show(data.msg, {cssClass: 'alert-success', timeout: 5000});
         this.router.navigate(['/dashboard']);

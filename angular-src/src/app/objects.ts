@@ -1,7 +1,8 @@
 
-function formatName(name){
+export function formatName(name){
     return name.substr(0,1).toUpperCase()+name.substr(1).toLowerCase();
 }
+
 export class Credentials{
     username: string;
     password: string;
@@ -12,27 +13,44 @@ export class Credentials{
     }
 }
 
+export function newUser(){
+    return new User('','','','','',new Date);
+}
+
 export class User{
+    _id: string;
+    username: string;
+    password: string;
     fname: string;
     lname: string;
     email: string;
-    username: string;
-    password: string;
+    birthday: Date;
+    profile_pic: string;
+    followers: string[];
+    following: string[];
     
     constructor(
+        username: string,
+        password: string,
         fname: string,
         lname: string,
         email: string,
-        username: string,
-        password: string){
+        birthday: Date,
+        ){
+            this.username = username;
+            this.password = password; 
             this.fname = formatName(fname);
             this.lname = formatName(lname);
             this.email = email;
-            this.username = username;
-            this.password = password; 
+            this.birthday = birthday;
+            this.profile_pic = '';
+            this.followers = [];
+            this.following = [];
     }
 }
 
+
+// TODO: REMOVE THIS!
 export class Profile{
     username: string;
     following: string[];
@@ -48,6 +66,11 @@ export class Profile{
         }
 }
 
+
+export function newComment(){
+    return new Comment('','','');
+}
+
 export class Comment{
     postId: string;
     user: string;
@@ -60,6 +83,11 @@ export class Comment{
     }
 }
 
+
+export function newInstruction(){
+    return new Instruction([],'');
+}
+
 export class Instruction{
     images: string[];
     text: string;
@@ -69,6 +97,11 @@ export class Instruction{
         this.text = text;
     }
 }
+
+export function newPost(){
+    return new Post('','','','',[],[],[]);
+}
+
 
 export class Post{
     _id: string;

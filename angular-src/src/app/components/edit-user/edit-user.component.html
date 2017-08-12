@@ -1,0 +1,91 @@
+<div *ngIf="user" class="container-fluid">
+  <div class="row content">
+    <div class="col-md-5 clearfix">
+      <app-upload-file [url]="'http://localhost:8080/upload/profile-pic/'+this.authService.getId()"></app-upload-file> 
+    </div>
+
+    <div class="col-md-7 clearfix ">
+      <label for="username">Username</label>
+      <div class="input-group">
+        <input type="text" class="form-control" [(ngModel)]="user.username" name="username" placeholder="username">          
+        <span class="input-group-btn">
+          <button class="btn btn-info" type="button" (click)="updateUsername()">Update</button>
+        </span>
+      </div>
+      <br>
+      <label for="password">Password</label>
+      <div class="input-group">
+        <input type="password" class="form-control" [(ngModel)]="user.password" name="password" placeholder="password">          
+        <span class="input-group-btn">
+          <button class="btn btn-info" type="button" (click)="updatePassword()">Update</button>
+        </span>
+      </div>
+      <br>
+      <label for="fname">First Name</label>
+      <div class="input-group">
+        <input type="text" class="form-control" [(ngModel)]="user.fname" name="fname" placeholder="first name">          
+        <span class="input-group-btn">
+          <button class="btn btn-info" type="button" (click)="updateFirstName()">Update</button>
+        </span>
+      </div>
+      <br>
+      <label for="lname">Last Name</label>
+      <div class="input-group">
+        <input type="text" class="form-control" [(ngModel)]="user.lname" name="lname" placeholder="last name">          
+        <span class="input-group-btn">
+          <button class="btn btn-info" type="button" (click)="updateLastName()">Update</button>
+        </span>
+      </div>
+      <br>
+      <label for="email">Email</label>
+      <div class="input-group">
+        <input type="email" class="form-control" [(ngModel)]="user.email" name="email" placeholder="email">          
+        <span class="input-group-btn">
+          <button class="btn btn-info" type="button" (click)="updateEmail()">Update</button>
+        </span>
+      </div>
+      <br>
+      <label for="birthday">Birthday</label>
+      <div class="input-group">
+        <input type="date" class="form-control" [(ngModel)]="user.birthday" name="birthday" placeholder="birthday">          
+        <span class="input-group-btn">
+          <button class="btn btn-info" type="button" (click)="updateBirthday()">Update</button>
+        </span>
+      </div>
+
+      
+      <!-- <form (submit)="onSubmit()">
+        <div class="form-group">
+          <label>Username</label>            
+          <textarea autosize type="text" class="form-control" [(ngModel)]="user.username" name="username" placeholder="username"></textarea>                      
+        </div>
+        <div class="form-group">
+          <label>Password</label>            
+          <textarea autosize type="password" class="form-control" [(ngModel)]="user.password" name="password" placeholder="password"></textarea>                      
+        </div>
+        <div class="form-group">
+          <label>First Name</label>            
+          <textarea autosize type="text" class="form-control" [(ngModel)]="user.fname" name="fname" placeholder="first name"></textarea>                      
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>            
+          <textarea autosize type="text" class="form-control" [(ngModel)]="user.lname" name="lname" placeholder="last name"></textarea>                      
+        </div>
+        <div class="form-group">
+          <label>Email</label>            
+          <textarea autosize type="email" class="form-control" [(ngModel)]="user.email" name="email" placeholder="email"></textarea>                      
+        </div>
+        <div class="form-group">
+          <label>Email</label>            
+          <textarea autosize type="date" class="form-control" [(ngModel)]="user.email" name="email" placeholder="email"></textarea>                      
+        </div>
+      
+        <input type="submit" class="btn btn-primary btn-block" value="Submit">
+      </form> -->
+    </div>
+  </div>
+</div>
+
+
+
+

@@ -11,7 +11,7 @@ export class AuthService {
 
   constructor(private http: Http) { }
 
-  sendHttpGet(url: String) {
+  get(url: String) {
     let headers = new Headers();
     this.loadToken();
     headers.append('Authorization', this.authToken);
@@ -26,7 +26,7 @@ export class AuthService {
     }
   }
 
-  sendHttpPost(url: String, data) {
+  post(url: String, data) {
     let headers = new Headers();
 
     this.loadToken();
@@ -41,71 +41,27 @@ export class AuthService {
     }
   }
 
-  deletePost(postId) {
-    return this.sendHttpPost('dashboard/deletePost', postId);
-  }
-
   registerUser(user) {
-    return this.sendHttpPost('users/register', user);
+    return this.post('users/register', user);
   }
 
   authenticateUser(credentials) {
-    return this.sendHttpPost('users/authenticate', credentials);
-  }
-
-  createPost(post) {
-    return this.sendHttpPost('dashboard/createpost', post);
-  }
-
-  addComment(comment) {
-    return this.sendHttpPost('dashboard/addComment', comment);
-  }
-
-  changeLike(postId: String) {
-    return this.sendHttpPost('dashboard/changeLike', {postId: postId});
-  }
-  
-  getProfiles(query: String) {
-    return this.sendHttpGet('profiles/search/' + query);
-  }
-
-  getTopProfiles() {
-    return this.sendHttpGet('profiles/top');
-  }
-
-  setFollow(username) {
-    return this.sendHttpPost('profile/setFollow', {username: username});
-  }
-
-  getPosts() {
-    return this.sendHttpGet('dashboard');
-  }
-
-  getTopPosts() {
-    return this.sendHttpGet('dashboard/top');
-  }
-
-  getUserPosts(username: String) {
-    return this.sendHttpGet('dashboard/user/' + username);
-  }
-
-  searchPosts(query: String) {
-    return this.sendHttpGet('dashboard/search/' + query);
-  }
-
-  getProfile(user: String) {
-    return this.sendHttpGet('profile/' + user);
+    return this.post('users/authenticate', credentials);
   }
 
   storeUserData(token, credentials) {
     localStorage.setItem('authToken', token);
-    localStorage.setItem('user', JSON.stringify(credentials));
+    localStorage.setItem('credentials', JSON.stringify(credentials));
     this.authToken = token;
     this.credentials = credentials;
   }
 
   getUsername(){
-    return JSON.parse(localStorage.getItem('user')).username;
+    return JSON.parse(localStorage.getItem('credentials')).username;
+  }
+
+  getId(){
+    return JSON.parse(localStorage.getItem('credentials'))._id;
   }
 
   loadToken() {

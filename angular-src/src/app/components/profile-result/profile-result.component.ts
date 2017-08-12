@@ -26,7 +26,7 @@ export class ProfileResultComponent implements OnInit {
   }
 
   onFollowSubmit( ) {
-    this.authService.setFollow(this.profileResult.username).subscribe((data) => {
+    this.authService.post('profile/setFollow', {username: this.profileResult.username }).subscribe((data) => {
       if (data.success) {
         this.setFollowText(data.isFollowing);
         var index = this.profileResult.followers.findIndex((follower) => (follower === this.username));

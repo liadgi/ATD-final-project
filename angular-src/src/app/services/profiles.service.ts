@@ -12,14 +12,14 @@ export class ProfilesService {
   getProfiles(type, query: String = null) {
     this.profiles = [];
     if (type === 'top') {
-      this.authService.getTopProfiles().subscribe(
+      this.authService.get('profiles/top').subscribe(
         (data) => {
           this.profiles = data.profiles;
         },
         (err) => { console.log(err); return false; }
       );
     } else if (type === 'search') {
-      this.authService.getProfiles(query).subscribe(
+      this.authService.get('profiles/search/' + query).subscribe(
         (data) => {
           this.profiles = data.profiles;
         },
