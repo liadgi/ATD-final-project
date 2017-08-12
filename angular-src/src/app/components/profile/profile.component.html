@@ -15,8 +15,9 @@
         <li class="list-group-item">Email: {{user.email}}</li>
         <li class="list-group-item">Birthday: {{user.birthday}}</li>
       </ul>
-
-      <a class="btn btn-primary btn-block" [routerLink]="['/edit-user']">Edit Profile</a>
+      <div *ngIf="authService.getUsername() === user.username">
+        <a class="btn btn-primary btn-block" [routerLink]="['/edit-user']">Edit Profile</a>
+      </div>
     </div>
 
     <div class="col-md-8">
