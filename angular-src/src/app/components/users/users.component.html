@@ -1,0 +1,8 @@
+<h2 class="page-header">Users</h2>
+<div *ngFor="let userResult of usersService.users">
+  <app-user-result [userResult]="userResult" [username]="username"></app-user-result>
+</div>
+<footer class="container-fluid">
+  <ul class="pager">
+  </ul>
+</footer>

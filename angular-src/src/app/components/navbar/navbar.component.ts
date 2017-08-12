@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { AuthService } from '../../services/auth.service';
 import { PostsService } from '../../services/posts.service';
-import { ProfilesService } from '../../services/profiles.service';
+import { UsersService } from '../../services/users.service';
 
 @Component({
   selector: 'app-navbar',
@@ -22,7 +22,7 @@ export class NavbarComponent implements OnInit {
     private flashMessage: FlashMessagesService,
     private authService: AuthService,
     private postsService: PostsService,
-    private profilesService: ProfilesService
+    private usersService: UsersService
   ) { }
 
   ngOnInit() {
@@ -44,8 +44,8 @@ export class NavbarComponent implements OnInit {
     // and fix the double loading problem at a later phase
     if (this.query !== '') {
       if (this.searchFor === "Users") {
-        this.profilesService.getProfiles('search', this.query);
-        this.router.navigate(['profiles/search', this.query]);
+        this.usersService.getUsers('search', this.query);
+        this.router.navigate(['users/search', this.query]);
       } else if (this.searchFor === "Recipes") {
         this.postsService.loadPosts('search', this.query);
         this.router.navigate(['dashboard/search', this.query]);

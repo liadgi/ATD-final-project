@@ -103,8 +103,98 @@ module.exports.updateBirthday = function(userId, newBirthday, callback) {
 }
 
 
+///////////////////////////////////
 
-// module.exports.updateUser = function(user, callback) {
-//     if(user.password)
-//     User.update({ _id: userId }, { $set: {'profile_pic': newPic }}, callback); 
-// }
+
+const users = [
+    {  $lookup: 
+     {
+       "from": "followers",
+       "localField": "username",
+       "foreignField": "follower",
+       "as": "followed"
+     }},
+
+     {
+         $unwind: 
+         {
+           "path": "$followed",
+           "preserveNullAndEmptyArrays": true
+         }
+     },
+
+    { $group: {
+        "_id": "$username",
+        "following": {
+            $push: "$followed.following" 
+        }
+    }},
+
+     {  $lookup: 
+     {
+       "from": "followers",
+       "localField": "_id",
+       "foreignField": "following",
+       "as": "followings"
+     }},
+
+     {
+         $unwind: 
+         {
+           "path": "$followings",
+           "preserveNullAndEmptyArrays": true
+         }
+     },
+
+     { $group: {
+        "_id": { "username": "$_id" , "following" : "$following" }, 
+        
+        "followers" : {
+            $push: "$followings.follower" 
+        }
+        
+    }},
+
+    {
+        $project : {
+            "_id": 0,
+            "username": "$_id.username",
+            "following": "$_id.following",
+            "followers" : 1,
+            "numFollowers": { $size: "$followers" }
+        }
+    }
+]
+
+
+
+module.exports.getUsers = function(username, callback) {
+    let match = {  $match : {
+        "username": {'$regex' : username, '$options' : 'i'}
+    }};
+
+    let query = [match].concat(users);
+
+    User.aggregate(query, callback);
+}
+
+module.exports.getTopUsers = function(username, callback) {
+    let sort = {
+        $sort : {"numFollowers": -1}
+    };
+
+    let query = User.concat(sort);
+
+    User.aggregate(query, callback);
+}
+
+
+module.exports.getUser = function(username, callback) {
+    let match = {  $match : {
+        "username": username
+    }};
+
+    let query = [match].concat(users);
+
+    Profile.aggregate(query, callback);
+}

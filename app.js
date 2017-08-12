@@ -7,8 +7,6 @@ const mongoose = require('mongoose');
 const config = require('./config/database');
 const users = require('./routes/users');
 const dashboard = require('./routes/dashboard');
-const profiles = require('./routes/profiles');
-const profile = require('./routes/profile');
 const upload = require('./routes/upload.js'); 
 
 // Connect to DataBase
@@ -68,8 +66,6 @@ app.use(express.static('./uploads/images'));
 
 app.use('/users', users);
 app.use('/dashboard', dashboard);
-app.use('/profiles', profiles);
-app.use('/profile', profile);
 app.use('/upload', upload);
 
 // Index route
