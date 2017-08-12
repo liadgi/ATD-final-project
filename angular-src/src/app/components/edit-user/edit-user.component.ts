@@ -23,7 +23,7 @@ export class EditUserComponent implements OnInit {
     private flashMessage: FlashMessagesService) { }
 
   ngOnInit() {
-    this.authService.get('users/profile' + this.authService.getUsername()).subscribe(
+    this.authService.get('users/profile/' + this.authService.getUsername()).subscribe(
       (data) => {
         if (data.success) this.user = data.user;
         else this.flashMessage.show(data.msg, {cssClass: 'alert-danger', timeout: 5000});
