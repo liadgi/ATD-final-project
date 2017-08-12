@@ -24,11 +24,11 @@
 
             <ul class="nav nav-pills">
               <!-- TODO: fix the date format -->
-              <li><span class="text-info">Created at: {{post.creationTime}}</span></li>
+              <li><span class="text-info">Created at: {{post.creationTime | date: 'yMMMdjms'}}</span></li>
             </ul>
             <div *ngIf='post.updateTime != null'>
               <ul class="nav nav-pills">
-                <li><span class="text-info">Updated at: {{post.updateTime}}</span></li>
+                <li><span class="text-info">Updated at: {{post.updateTime | date: 'yMMMdjms'}}</span></li>
               </ul>
             </div>
 

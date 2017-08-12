@@ -61,7 +61,6 @@ module.exports.getAllPosts = function (callback) {
 
 module.exports.getTopPosts = function (page, callback) {
 
-    //{$sort: {"updateTime" : -1 }},
     utils.getPage(
         Post.aggregate([
             {
