@@ -132,3 +132,11 @@ module.exports.setDislike = function (postId, username, callback) {
 module.exports.deletePost = function (postId, callback) {
     Post.remove(objectIdQuery(postId), callback);
 }
+
+module.exports.addPostPics = function (postId, images, callback) {
+    Post.update({ _id: postId }, {$push: {'images': images}}, callback);
+}
+
+module.exports.removePostPic = function (postId, image, callback) {
+    Post.update({ _id: postId }, {$pull: {'image': image}}, callback);
+}

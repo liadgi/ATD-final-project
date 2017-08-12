@@ -1,82 +1,56 @@
-<div class="jumbotron">
-  <a class="text-primary" data-toggle="collapse" href="#post{{post._id}}">
-    <div class="container-fluid">
-      <div *ngIf="post.images.length > 0; else noImg">
-        <div class="row content">
+<div class="jumbotron clearfix">
+   <div class="container-fluid"> 
+    <div *ngIf="post.images.length > 0; else noImg">
+      <div class="row content">
 
-          <div class="col-md-5 clearfix">
-            <img class="img-responsive img-rounded img-fluid" src="{{post.images[0]}}" alt="Image Here">
-          </div>
+        <div class="col-md-5 clearfix">
+          <img class="img-responsive img-rounded img-fluid" src="{{post.images[0]}}" alt="Image Here">
+        </div>
 
-          <div class="col-md-7">
-            <h2>{{post.title}}</h2>
-            <p>{{post.description}}</p>
+        <div class="col-md-7">
+          <h2>{{post.title}}</h2>
+          <p>{{post.description}}</p>
 
+          <ul class="nav nav-pills">
+            <li><a class="text-info" href="#">By {{post.author}}</a></li>
+            <li><a class="text-info" href="#"><span class="badge ">{{post.likes.length}}</span>   Likes</a></li>
+          </ul>
+
+          <ul class="nav nav-pills">
+            <!-- TODO: fix the date format -->
+            <li><span class="text-info">Created at: {{post.creationTime}}</span></li>
+          </ul>
+          <div *ngIf='post.updateTime != null'>
             <ul class="nav nav-pills">
-              <li><a class="text-info" href="#">By {{post.author}}</a></li>
-              <li><a class="text-info" href="#"><span class="badge ">{{post.likes.length}}</span>   Likes</a></li>
+              <li><span class="text-info">Updated at: {{post.updateTime}}</span></li>
             </ul>
-
-            <ul class="nav nav-pills">
-              <!-- TODO: fix the date format -->
-              <li><span class="text-info">Created at: {{post.creationTime}}</span></li>
-            </ul>
-            <div *ngIf='post.updateTime != null'>
-              <ul class="nav nav-pills">
-                <li><span class="text-info">Updated at: {{post.updateTime}}</span></li>
-              </ul>
-            </div>
-
           </div>
-
-
 
         </div>
       </div>
-
-      <ng-template #noImg>
-        <div class="row content">
-          <div class="col-md-12">
-            <h2>{{post.title}}</h2>
-            <p>{{post.description}}</p>
-            <ul class="nav nav-pills">
-              <li><a class="text-info" href="#">By {{post.author}}</a></li>
-              <li><a class="text-info" href="#"><span class="badge ">3</span>   Likes</a></li>
-            </ul>
-          </div>
-        </div>
-      </ng-template>
     </div>
-  </a>
 
-  <ul *ngIf="ofUser" class="nav nav-pills">
-    <li><input (click)="onModifyPost()" type="submit" class="text-primary" value="Modify"></li>
-
-    <form (submit)="onDeletePost()">
-      <li><input type="submit" class="text-primary" value="Delete"></li>
-    </form>
-
-    <!-- might use that bootstrap modal -->
-
-    <!-- <div class="modal">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">Modal title</h4>
-          </div>
-          <div class="modal-body">
-            <p>One fine body…</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-          </div>
+    <ng-template #noImg>
+      <div class="row content">
+        <div class="col-md-12">
+          <h2>{{post.title}}</h2>
+          <p>{{post.description}}</p>
+          <ul class="nav nav-pills">
+            <li><a class="text-info" href="#">By {{post.author}}</a></li>
+            <li><a class="text-info" href="#"><span class="badge ">3</span>   Likes</a></li>
+          </ul>
         </div>
       </div>
-    </div> -->
+    </ng-template>
+    <div *ngIf="ofUser" class="btn-toolbar">
+      <button type="button" class="btn btn-info" (click)="uploader.uploadAll()">Modify</button>
+      <button type="button" class="btn btn-danger" (click)="onDeletePost()">Delete</button>
+    </div>
+  </div>
 
-  </ul>
+
+
+
 
   <div id="post{{post._id}}" class="collapse">
     <br>
@@ -113,6 +87,11 @@
     <br>
 
   </div>
-
+  <a data-toggle="collapse" href="#post{{post._id}}">
+      <h3 class="text-primary text-center">
+        <span *ngIf="!expanded" class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+        <span *ngIf="expanded" class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+      </h3>
+  </a>
 </div>
 <br>

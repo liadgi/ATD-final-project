@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
 import {  FileUploader } from 'ng2-file-upload/ng2-file-upload';
+import { EventEmitter } from '@angular/core';
 import 'rxjs/add/operator/map';
 
 
@@ -12,20 +13,24 @@ import 'rxjs/add/operator/map';
 })
 export class UploadFileComponent implements OnInit {
   @Input() url: string;
-  @Input() image: string;
-  uploader: FileUploader;// = new FileUploader({url: this.url, itemAlias: 'image', authToken: localStorage.getItem('authToken')});
-  //public uploader:FileUploader = new FileUploader({url: URL, itemAlias: 'photo'});
+  // @Input() images: string[];
+  @Output() notifyImageAdded: EventEmitter<string> = new EventEmitter<string>();
+  uploader: FileUploader;
   
   constructor() { }
 
   ngOnInit() {
     
-    if(!this.image) this.image = 'http://localhost:8080/profile_pics/defult_profile_pic.jpg';
+    // if(!this.images) this.images = ['http://localhost:8080/profile_pics/defult_profile_pic.jpg'];
     this.uploader = new FileUploader({url: this.url, itemAlias: 'image', authToken: localStorage.getItem('authToken')});
     this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
     this.uploader.onCompleteItem = (item:any, res:any, status:any, headers:any) => {
           console.log("ImageUpload:uploaded:", item, status, res);
-          this.image = JSON.parse(res).path; 
+          let image = JSON.parse(res).path
+          // this.images = JSON.parse(res).paths;
+          this.notifyImageAdded.emit(image);
     };
   }
+
+
 }

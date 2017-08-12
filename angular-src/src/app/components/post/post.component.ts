@@ -20,6 +20,7 @@ export class PostComponent implements OnInit {
   isLiked: boolean;
   likeText: String;
   ofUser: boolean;
+  expanded: boolean;
 
   @Input() username: string;
 
@@ -38,6 +39,7 @@ export class PostComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.expanded = false;
     this.tempComment = new Comment(this.post._id,'','');
     
     this.isLiked = this.post.likes.includes(this.username);

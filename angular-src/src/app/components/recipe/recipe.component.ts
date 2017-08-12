@@ -82,4 +82,7 @@ export class RecipeComponent implements OnInit {
     this.post.instructions.splice(i, 1);
   }
 
+  onNotifyImageAdded(image: string, images:string[]){
+    images.push(image);
+  }
 }

@@ -1,18 +1,19 @@
 <div class="jumbotron">
-  <div *ngIf="post.images.length > 0; else noImg">
-    <div class="row content">          
-      <div class="col-md-5 clearfix">
-        <img class="img-responsive img-rounded img-fluid" src="{{post.images[0]}}" alt="Image Here">
+  <div class="row content">          
+    <div class="col-md-5 clearfix">
+      <div class="container-fuild">
+        <img class="img-responsive img-rounded img-fluid btn-block" src="{{post.images[post.images.length-1] || 'http://localhost:8080/placeholder.JPG' }}" alt="Image Here"><br>
+        <app-upload-file [url]="'http://localhost:8080/upload/post-pic/'+this.authService.getId()" (notifyImageAdded)="onNotifyImageAdded($event,post.images)"></app-upload-file> 
       </div>
-      <div class="col-md-7">
-        <div class="form-group">
-          <label>Title</label>            
-          <textarea autosize type="text" class="form-control input-lg" [(ngModel)]="post.title" name="title" placeholder="add title here"></textarea>                      
-        </div>    
-        <div class="form-group">
-          <label>Description</label>
-          <textarea autosize type="text" class="form-control" [(ngModel)]="post.description" name="description" placeholder="add description here"></textarea>            
-        </div>
+    </div>
+    <div class="col-md-7">
+      <div class="form-group">
+        <label>Title</label>            
+        <textarea autosize type="text" class="form-control input-lg" [(ngModel)]="post.title" name="title" placeholder="add title here"></textarea>                      
+      </div>    
+      <div class="form-group">
+        <label>Description</label>
+        <textarea autosize type="text" class="form-control" [(ngModel)]="post.description" name="description" placeholder="add description here"></textarea>            
       </div>
     </div>
   </div><br><br>
@@ -49,7 +50,10 @@
       <!-- <div class="panel-body"> -->
         <div class="row content">
           <div class="col-md-5 clearfix">
-            <img class="img-responsive img-rounded img-fluid" src="{{instruction.images[0]}}" alt="Image Here">      
+            <div class="container-fuild">
+              <img class="img-responsive img-rounded img-fluid btn-block" src="{{instruction.images[instruction.images.length-1] || 'http://localhost:8080/placeholder.JPG' }}" alt="Image Here"><br>
+              <app-upload-file [url]="'http://localhost:8080/upload/post-pic/'+this.authService.getId()" (notifyImageAdded)="onNotifyImageAdded($event,instruction.images)"></app-upload-file> 
+            </div>          
           </div>
           <br>
           <div class="col-md-6 form-group">
@@ -78,7 +82,10 @@
     <div class="panel-body container-fluid">
       <div class="row content">
         <div class="col-md-5 clearfix">
-          <img class="img-responsive img-rounded" src="{{newInstruction.images[0]}}" alt="Image Here">      
+          <div class="container-fuild">
+            <img class="img-responsive img-rounded img-fluid btn-block" src="{{newInstruction.images[newInstruction.images.length-1] || 'http://localhost:8080/placeholder.JPG' }}" alt="Image Here"><br>
+            <app-upload-file [url]="'http://localhost:8080/upload/post-pic/'+this.authService.getId()" (notifyImageAdded)="onNotifyImageAdded($event,newInstruction.images)"></app-upload-file> 
+          </div>  
         </div>
         <br>
         <div class="col-md-7 form-group">

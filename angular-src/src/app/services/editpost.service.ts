@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Post, Instruction } from '../objects';
+import { Post, newPost, Instruction } from '../objects';
 import { AuthService } from './auth.service';
 
 @Injectable()
@@ -12,15 +12,9 @@ export class EditpostService {
   }
 
   resetPost() {
-    
-    this.post = new Post(this.authService.getUsername(),
-    '',
-    '',
-    [],
-    [  
-      'http://picturetherecipe.com/wp-content/uploads/2015/01/Roasted-Black-Pepper-Chicken-by-PictureTheRecipe-com.jpg',
-    ],
-    []);
+
+    this.post = new Post(this.authService.getUsername(),'','',[],[],[]);
+
     // this.post = new Post(
     //     this.authService.getUsername(),
     //     'Oven Roasted Black Pepper Chicken',
