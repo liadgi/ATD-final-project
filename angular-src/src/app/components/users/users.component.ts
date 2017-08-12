@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-// TODO : fix the code duplication.
+// NOTE : fix the code duplication.
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',

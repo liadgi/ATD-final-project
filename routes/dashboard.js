@@ -10,12 +10,8 @@ const Followers = require('../models/followers');
 const utils = require('../models/utils');
 
 
-// Dashboard
+// Home - get feed
 router.get('/', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    // Post.getAllPosts((err, posts) => {
-    //     if (err) throw err;
-    //     res.json({ posts: posts });
-    // });
 
     Followers.getFeed(utils.getPageFromReq(req), req.user.username, (err, posts) => {
         if (err) {
@@ -76,7 +72,8 @@ router.post('/createpost', passport.authenticate('jwt', { session: false }), (re
             likes: req.body.likes,
             comments: req.body.comments,
             creationTime: req.body.creationTime,
-            updateTime: req.body.updateTime
+            updateTime: req.body.updateTime,
+            coauthors: req.body.coauthors
         });
 
         Post.savePost(newPost, (err, post) => {
@@ -111,6 +108,7 @@ router.post('/editPost', passport.authenticate('jwt', { session: false }), (req,
                 post.images = req.body.images;
                 post.instructions = req.body.instructions;
                 post.updateTime = Date.now();
+                post.coauthors = req.body.coauthors;
 
                 Post.savePost(post, (err, post) => {
                     if (err) {

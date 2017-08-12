@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule , Routes} from '@angular/router';
-import { FlashMessagesModule } from 'angular2-flash-messages'; // TODO : flash messages to show near the submit button
+import { FlashMessagesModule } from 'angular2-flash-messages'; // NOTE : flash messages to show near the submit button
 import { AutosizeModule } from 'angular2-autosize';
 
 // Components

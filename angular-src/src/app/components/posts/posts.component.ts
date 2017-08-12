@@ -66,7 +66,7 @@ export class PostsComponent implements OnInit {
     this.subscriptionUrlChange.unsubscribe();
   }
 
-  // TODO : add modal and green alert
+  // NOTE : add modal and green alert
   onPostDeleted(post) {
     var index = this.postsService.posts.findIndex((pst) => (pst === post));
     if (index != -1) {

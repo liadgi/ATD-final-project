@@ -8,7 +8,6 @@ import { Comment } from '../../objects';
 })
 export class CommentComponent implements OnInit {
   @Input() comment:Comment;
- // TODO : delete text from comment box after submitting
   constructor() { }
 
   ngOnInit() {

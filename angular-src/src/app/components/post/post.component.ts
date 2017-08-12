@@ -51,6 +51,7 @@ export class PostComponent implements OnInit {
     
     this.authService.post('dashboard/addComment', this.tempComment).subscribe((data) => {
       if(data.success){
+        this.tempComment = new Comment(this.post._id,'','');
         this.post.comments.push(data.comment);
       }else{
         this.flashMessage.show(data.msg, {cssClass: 'alert-danger', timeout: 5000});

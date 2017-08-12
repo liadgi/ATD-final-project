@@ -96,6 +96,35 @@
   </div>
   <br>
 
+
+    <div class="form-group">
+    <ul class="list-group">
+      <li class="list-group-item active">Co Authors</li>
+       
+      <li *ngFor="let coauthor of post.coauthors, let i = index" class="list-group-item">
+        <div class="input-group">
+          <input type="text" class="form-control" value="{{coauthor}}" placeholder="some coauthor">          
+          <span class="input-group-btn">
+            <button class="btn btn-danger" type="button" (click)="removeCoauthor($event, i)">x</button>
+          </span>
+        </div>
+      </li>
+
+      <li class="list-group-item">
+        <form (submit)="addCoauthor()"> 
+          <label>Add Co-Author</label>          
+          <div class="input-group">
+            <input type="text" class="form-control" [(ngModel)]="newCoauthor" name="newIngredient" placeholder="add Co-Author">
+            <span class="input-group-btn">
+              <button class="btn btn-info" type="button" (click)="addCoauthor()">+</button>
+            </span>
+          </div>
+        </form>
+      </li>
+    </ul>    
+  </div><br>
+
+
   <button class="btn btn-primary" type="button" (click)="onPostSubmit()">Submit</button>
   <!-- <input type="submit" class="btn btn-primary" value="Submit">   -->
 </div><br><br>

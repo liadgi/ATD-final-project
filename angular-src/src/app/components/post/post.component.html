@@ -11,10 +11,15 @@
           <h2>{{post.title}}</h2>
           <p>{{post.description}}</p>
 
-          <ul class="nav nav-pills">
-            <li><a class="text-info" href="#">By {{post.author}}</a></li>
-            <li><a class="text-info" href="#"><span class="badge ">{{post.likes.length}}</span>   Likes</a></li>
-          </ul>
+            <ul class="nav nav-pills">
+              <li><a >By {{post.author}}</a></li>
+              <li><a ><span class="badge ">{{post.likes.length}}</span>   Likes</a></li>
+            </ul>
+            <ul class="nav nav-pills">
+              <div *ngIf="post.coauthors.length > 0">
+                <li><a class="text-info">And {{post.coauthors}}</a></li>
+              </div>
+            </ul>
 
           <ul class="nav nav-pills">
             <!-- TODO: fix the date format -->
@@ -22,8 +27,14 @@
           </ul>
           <div *ngIf='post.updateTime != null'>
             <ul class="nav nav-pills">
-              <li><span class="text-info">Updated at: {{post.updateTime}}</span></li>
+              <li><span class="text-info">Created at: {{post.creationTime | date: 'yMMMdjms'}}</span></li>
             </ul>
+            <div *ngIf='post.updateTime != null'>
+              <ul class="nav nav-pills">
+                <li><span class="text-info">Updated at: {{post.updateTime | date: 'yMMMdjms'}}</span></li>
+              </ul>
+            </div>
+
           </div>
 
         </div>

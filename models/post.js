@@ -37,12 +37,17 @@ const PostSchema = mongoose.Schema({
     updateTime: {
         type: Date,
         required: false
-    }
+    },
+    coauthors: {
+        type: [String],
+        required: false
+    },
+
 });
 
 const Post = module.exports = mongoose.model('Post', PostSchema);
 
-// TODO: extract in a simpler way
+// NOTE: extract in a simpler way
 function objectIdQuery(postId) {
     var ObjectId = mongoose.Types.ObjectId;
     let y = new ObjectId(postId);
@@ -56,7 +61,6 @@ module.exports.getAllPosts = function (callback) {
 
 module.exports.getTopPosts = function (page, callback) {
 
-    //{$sort: {"updateTime" : -1 }},
     utils.getPage(
         Post.aggregate([
             {
@@ -72,6 +76,7 @@ module.exports.getTopPosts = function (page, callback) {
                     "instructions": 1,
                     "images": 1,
                     "ingredients": 1,
+                    "coauthors": 1,
                     "numLikes": { $size: "$likes" }
                 }
             },
@@ -81,10 +86,15 @@ module.exports.getTopPosts = function (page, callback) {
 }
 
 module.exports.getUserPosts = function (page, username, callback) {
-
     utils.getPage(
         utils.sortByTime(
-            Post.find({ author: username })),
+            Post.find({
+                $or:
+                [
+                    { author: username },
+                    { coauthors: username }
+                ]
+            })),
         page,
         callback);
 }
@@ -98,7 +108,6 @@ module.exports.searchByText = function (page, query, callback) {
         Post.find(
             {
                 $text: { $search: query }
-
             },
             { score: { $meta: "textScore" } }
         ).sort({ score: { $meta: "textScore" } }
@@ -112,7 +121,6 @@ module.exports.savePost = function (post, callback) {
 }
 
 module.exports.editPost = function (postId, editedPost, callback) {
-    // Post.update(,callback);
     let query = objectIdQuery(postId);
     Post.findOneAndUpdate(query, editedPost, { returnNewDocument: true }, callback);
 }

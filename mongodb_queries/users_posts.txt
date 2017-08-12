@@ -1,0 +1,7 @@
+db.posts.find({
+                $or:
+                [
+                    { author: 'test' },
+                    { coauthors: 'test' }
+                ]
+            }).sort({ "updateTime": -1, "creationTime": -1 }).skip(0).limit(10).pretty()
