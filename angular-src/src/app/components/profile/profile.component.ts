@@ -24,11 +24,9 @@ export class ProfileComponent implements OnInit {
     this.username = this.route.snapshot.params.query;
     this.authService.get('users/profile/'+this.username).subscribe(
       (data) => {
-        if (data.success)  {
+        if (data.success) {
           this.user = data.user;
           this.username = data.user.username;
-
-          console.log(this.user);
         }
         else {
           this.flashMessage.show(data.msg, {cssClass: 'alert-danger', timeout: 5000});

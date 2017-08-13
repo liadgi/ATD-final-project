@@ -217,7 +217,7 @@ const users = [
             "lname": "$lname",
             "email": "$email",
             "birthday": "$birthday",
-            "profile_pic": "$_id.profile_pic"
+            "profile_pic": "$profile_pic"
         }
     }
 ]
