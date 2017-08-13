@@ -13,7 +13,7 @@ import { FlashMessagesService } from 'angular2-flash-messages';
 export class ProfileComponent implements OnInit {
   user: User;
   username: String;
-
+  
   constructor(
     private router:Router,
     private authService:AuthService,
@@ -27,6 +27,8 @@ export class ProfileComponent implements OnInit {
         if (data.success)  {
           this.user = data.user;
           this.username = data.user.username;
+
+          console.log(this.user);
         }
         else {
           this.flashMessage.show(data.msg, {cssClass: 'alert-danger', timeout: 5000});

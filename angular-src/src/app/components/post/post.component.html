@@ -2,9 +2,8 @@
    <div class="container-fluid"> 
     <div *ngIf="post.images.length > 0; else noImg">
       <div class="row content">
-
         <div class="col-md-5 clearfix">
-          <img class="img-responsive img-rounded img-fluid" src="{{post.images[0]}}" alt="Image Here">
+          <img class="img-responsive img-rounded img-fluid" src="{{post.images[post.images.length-1]}}" alt="Image Here">
         </div>
 
         <div class="col-md-7">
@@ -53,10 +52,6 @@
         </div>
       </div>
     </ng-template>
-    <div *ngIf="ofUser" class="btn-toolbar">
-      <button type="button" class="btn btn-info" (click)="uploader.uploadAll()">Modify</button>
-      <button type="button" class="btn btn-danger" (click)="onDeletePost()">Delete</button>
-    </div>
   </div>
 
 
@@ -98,11 +93,44 @@
     <br>
 
   </div>
-  <a data-toggle="collapse" href="#post{{post._id}}">
-      <h3 class="text-primary text-center">
-        <span *ngIf="!expanded" class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
-        <span *ngIf="expanded" class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
-      </h3>
-  </a>
+
+
+
+  <!-- <div class="row content container-fluid">
+    <div *ngIf="ofUser" class="btn-toolbar">
+        <button type="button" class="btn btn-info" (click)="onModifyPost()">Modify</button>
+        <button type="button" class="btn btn-danger" (click)="onDeletePost()">Delete</button>
+    </div>
+    <a data-toggle="collapse" href="#post{{post._id}}">
+        <h3 class="text-primary text-center">
+          <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+        </h3>
+    </a>
+  </div> -->
+
+  <!-- <ul class="nav nav-pills">  
+    <li><a *ngIf="ofUser" (click)="onModifyPost()">Modify</a></li>
+    <li><a *ngIf="ofUser" (click)="onModifyPost()">Delete</a></li>
+    <li>
+      <a data-toggle="collapse" href="#post{{post._id}}">
+         <h3 class="text-primary text-center"> 
+          <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+         </h3> 
+      </a>
+    </li>
+  </ul> -->
+  <h4>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a *ngIf="ofUser" (click)="onModifyPost()">Modify</a></li>
+      <li><a *ngIf="ofUser" (click)="onModifyPost()">Delete</a></li>
+      <li>
+        <a data-toggle="collapse" href="#post{{post._id}}">
+          <!-- <h3 class="text-primary text-center"> -->
+            <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+          <!-- </h3> -->
+        </a>
+    </ul>
+  </h4>
+  
 </div>
 <br>

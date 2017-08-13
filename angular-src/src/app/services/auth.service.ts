@@ -6,15 +6,12 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class AuthService {
-  authToken: any;
-  credentials: Credentials;
 
   constructor(private http: Http) { }
 
   get(url: String, page: number = 1) {
     let headers = new Headers();
-    this.loadToken();
-    headers.append('Authorization', this.authToken);
+    headers.append('Authorization', this.getToken());
     headers.append('Content-type', 'application/json');
     
     let params = { page : page};
@@ -31,9 +28,7 @@ export class AuthService {
 
   post(url: String, data) {
     let headers = new Headers();
-
-    this.loadToken();
-    headers.append('Authorization', this.authToken);
+    headers.append('Authorization', this.getToken());
     headers.append('Content-type', 'application/json');
 
     try {
@@ -51,6 +46,47 @@ export class AuthService {
   authenticateUser(credentials) {
     return this.post('users/authenticate', credentials);
   }
+
+  getUsername(){
+    return localStorage.getItem('username');
+  }
+ 
+  setUsername(username){
+    localStorage.setItem('username', username);
+  }
+
+  getId(){
+    return localStorage.getItem('user_id');
+  }
+
+  setId(id){
+    localStorage.setItem('user_id', id);
+  }
+
+  getToken(){
+    return localStorage.getItem('authToken');
+  }
+
+  setToken(token) {
+    localStorage.setItem('authToken', token);
+  }
+
+  storeUserData(token, credentials) {
+    this.setToken(token);
+    this.setId(credentials._id);
+    this.setUsername(credentials.username);
+  }
+
+  loggedIn() {
+    return tokenNotExpired('authToken');
+  }
+
+  logout() {
+    localStorage.clear();
+  }
+
+
+
 
   createPost(post) {
     return this.post('dashboard/createpost', post);
@@ -98,35 +134,6 @@ export class AuthService {
 
   getProfile(user: String) {
     return this.get('profile/' + user);
-  }
-
-  storeUserData(token, credentials) {
-    localStorage.setItem('authToken', token);
-    localStorage.setItem('credentials', JSON.stringify(credentials));
-    this.authToken = token;
-    this.credentials = credentials;
-  }
-
-  getUsername(){
-    return JSON.parse(localStorage.getItem('credentials')).username;
-  }
-
-  getId(){
-    return JSON.parse(localStorage.getItem('credentials'))._id;
-  }
-
-  loadToken() {
-    this.authToken = localStorage.getItem('authToken');
-  }
-
-  loggedIn() {
-    return tokenNotExpired('authToken');
-  }
-
-  logout() {
-    this.authToken = null;
-    this.credentials = null;
-    localStorage.clear();
   }
 
 }

@@ -13,7 +13,7 @@
       <ul class="list-group">
         <li class="list-group-item">Username: {{user.username}}</li>
         <li class="list-group-item">Email: {{user.email}}</li>
-        <li class="list-group-item">Birthday: {{user.birthday}}</li>
+        <li class="list-group-item">Birthday: {{user.birthday | date: 'yMMMd'}}</li>
       </ul>
       <div *ngIf="authService.getUsername() === user.username">
         <a class="btn btn-primary btn-block" [routerLink]="['/edit-user']">Edit Profile</a>

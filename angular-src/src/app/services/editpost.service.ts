@@ -13,7 +13,7 @@ export class EditpostService {
 
   resetPost() {
 
-    this.post = new Post(this.authService.getUsername(),'','',[],[],[]);
+    this.post = new Post(this.authService.getUsername(),'','',[],[],[],[]);
 
     // this.post = new Post(
     //     this.authService.getUsername(),

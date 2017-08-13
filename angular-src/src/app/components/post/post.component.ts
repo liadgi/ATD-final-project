@@ -14,16 +14,15 @@ import { EditpostService } from '../../services/editpost.service';
 })
 export class PostComponent implements OnInit {
   @Input() post: Post;
+  @Input() username: string;
   @Output() postDeleted: EventEmitter<Post> = new EventEmitter();
 
   tempComment: Comment;
   isLiked: boolean;
   likeText: String;
   ofUser: boolean;
-  expanded: boolean;
 
-  @Input() username: string;
-
+  
   constructor(private authService:AuthService,
               private router: Router,
               private flashMessage: FlashMessagesService,
@@ -39,7 +38,6 @@ export class PostComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.expanded = false;
     this.tempComment = new Comment(this.post._id,'','');
     
     this.isLiked = this.post.likes.includes(this.username);

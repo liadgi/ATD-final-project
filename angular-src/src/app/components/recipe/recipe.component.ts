@@ -72,10 +72,6 @@ export class RecipeComponent implements OnInit {
     this.post.ingredients.splice(i, 1);
   }
 
-  addImg() {
-    console.log('Add Image');
-  }
-
   addInstruction(i) {
     this.post.instructions.push(this.newInstruction);
     this.newInstruction = new Instruction([], '');
@@ -88,6 +84,7 @@ export class RecipeComponent implements OnInit {
   onNotifyImageAdded(image: string, images:string[]){
     images.push(image);
   }
+
   addCoauthor() {
     if (this.newCoauthor === '')
       this.flashMessage.show('Please enter valid coauthor', { cssClass: 'alert-danger', timeout: 5000 });

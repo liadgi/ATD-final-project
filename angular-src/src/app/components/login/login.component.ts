@@ -33,7 +33,8 @@ export class LoginComponent implements OnInit {
       return false;
     }
 
-    this.authService.authenticateUser(this.credentials).subscribe(data => {
+    this.authService.authenticateUser(this.credentials)
+    .subscribe(data => {
       if(data.success){
         this.authService.storeUserData(data.token, data.credentials);
         this.flashMessage.show('You are now logged in.', {cssClass: 'alert-success', timeout: 5000});

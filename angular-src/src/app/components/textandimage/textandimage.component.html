@@ -2,7 +2,7 @@
   <div *ngIf="this.images.length > 0 && this.relation > 1 && this.relation < 11; else noImg">
     <div class="row content">
       <div class="col-md-{{12 - relation}} clearfix">
-        <img class="img-responsive img-roundedimg-fluid" src="{{images[0]}}" alt="Image Here">      
+        <img class="img-responsive img-roundedimg-fluid" src="{{images[images.length-1]}}" alt="Image Here">      
       </div>
       <div class="col-md-{{relation}}">
         <p>{{text}}</p>

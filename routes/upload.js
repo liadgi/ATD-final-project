@@ -18,7 +18,7 @@ router.post('/profile-pic/:id', (req, res, next) => {
         if (err) res.status(422).json({ 'success': false, 'err': err });
         else {
             const path = 'http:\\\\localhost:8080'+req.file.path.split("images")[1];
-            User.updateProfilePic(req.params.id, path, (err) => {
+            User.updateProfilePic(req.params.id, path, req.headers.authorization, (err) => {
                 if (err) {
                     console.log(err);
                     res.status(422).json({ 'success': false, 'err': err });

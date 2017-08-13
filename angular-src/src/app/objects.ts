@@ -99,7 +99,7 @@ export class Instruction{
 }
 
 export function newPost(){
-    return new Post('','','',[],[],[], []);
+    return new Post('','','',[],[],[],[]);
 }
 
 
