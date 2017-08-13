@@ -22,12 +22,20 @@ export class PostComponent implements OnInit {
   likeText: String;
   ofUser: boolean;
 
-  
-  constructor(private authService:AuthService,
-              private router: Router,
-              private flashMessage: FlashMessagesService,
-              private editPostService: EditpostService) 
+
+  constructor(private authService: AuthService,
+    private router: Router,
+    private flashMessage: FlashMessagesService,
+    private editPostService: EditpostService)
   { }
+
+  config: Object = {
+    pagination: '.swiper-pagination',
+    paginationClickable: true,
+    nextButton: '.swiper-button-next',
+    prevButton: '.swiper-button-prev',
+    spaceBetween: 30
+  };
 
   setLikeButtonText() {
     if (this.isLiked) {
@@ -38,28 +46,28 @@ export class PostComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.tempComment = new Comment(this.post._id,'','');
-    
+    this.tempComment = new Comment(this.post._id, '', '');
+
     this.isLiked = this.post.likes.includes(this.username);
     this.ofUser = this.post.author === this.username;
     this.setLikeButtonText();
   }
 
   onCommentSubmit() {
-    
+
     this.authService.post('dashboard/addComment', this.tempComment).subscribe((data) => {
-      if(data.success){
-        this.tempComment = new Comment(this.post._id,'','');
+      if (data.success) {
+        this.tempComment = new Comment(this.post._id, '', '');
         this.post.comments.push(data.comment);
-      }else{
-        this.flashMessage.show(data.msg, {cssClass: 'alert-danger', timeout: 5000});
+      } else {
+        this.flashMessage.show(data.msg, { cssClass: 'alert-danger', timeout: 5000 });
       }
     });
   }
 
   onLikeSubmit() {
     this.authService.post('dashboard/changeLike', { postId: this.post._id }).subscribe((data) => {
-      if(data.success){
+      if (data.success) {
         this.isLiked = data.likeStatus;
         if (this.isLiked) {
           this.post.likes.push(data.likedUser);
@@ -67,25 +75,25 @@ export class PostComponent implements OnInit {
           this.post.likes = this.post.likes.filter(username => username != data.likedUser);
         }
         this.setLikeButtonText();
-      }else{
-        this.flashMessage.show(data.msg, {cssClass: 'alert-danger', timeout: 5000});
+      } else {
+        this.flashMessage.show(data.msg, { cssClass: 'alert-danger', timeout: 5000 });
       }
     });
   }
 
   onDeletePost() {
     this.authService.post(
-      'dashboard/deletePost' ,
-      {postId: this.post._id}).subscribe((data) => {
-        if(data.success){
+      'dashboard/deletePost',
+      { postId: this.post._id }).subscribe((data) => {
+        if (data.success) {
           this.postDeleted.emit();
-          
-          this.flashMessage.show(data.msg, {cssClass: 'alert-success', timeout: 5000});
 
-        }else{
-          this.flashMessage.show(data.msg, {cssClass: 'alert-danger', timeout: 5000});
+          this.flashMessage.show(data.msg, { cssClass: 'alert-success', timeout: 5000 });
+
+        } else {
+          this.flashMessage.show(data.msg, { cssClass: 'alert-danger', timeout: 5000 });
         }
-    });
+      });
   }
 
   onModifyPost() {

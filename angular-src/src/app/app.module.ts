@@ -6,6 +6,7 @@ import { HttpModule } from '@angular/http';
 import { RouterModule , Routes} from '@angular/router';
 import { FlashMessagesModule } from 'angular2-flash-messages'; // NOTE : flash messages to show near the submit button
 import { AutosizeModule } from 'angular2-autosize';
+import { SwiperModule } from 'angular2-useful-swiper';
 
 // Components
 import { AppComponent } from './app.component';
@@ -105,7 +106,8 @@ const appRoutes = [
     HttpModule,
     RouterModule.forRoot(appRoutes),
     FlashMessagesModule,
-    AutosizeModule
+    AutosizeModule,
+    SwiperModule
   ],
   providers: [
     ValidateService,

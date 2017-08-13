@@ -1,24 +1,35 @@
+<link href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.3.1/css/swiper.min.css" rel="stylesheet">
 <div class="jumbotron clearfix">
-   <div class="container-fluid"> 
+  <div class="container-fluid">
     <div *ngIf="post.images.length > 0; else noImg">
       <div class="row content">
         <div class="col-md-5 clearfix">
-          <img class="img-responsive img-rounded img-fluid" src="{{post.images[post.images.length-1]}}" alt="Image Here">
+          <!-- <img class="img-responsive img-rounded img-fluid" src="{{post.images[post.images.length-1]}}" alt="Image Here"> -->
+
+          <swiper [config]="config">
+            <div class="swiper-wrapper">
+              <img class="swiper-slide" *ngFor="let image of post.images" [src]="image">
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+          </swiper>
+
         </div>
 
         <div class="col-md-7">
           <h2>{{post.title}}</h2>
           <p>{{post.description}}</p>
 
-            <ul class="nav nav-pills">
-              <li><a >By {{post.author}}</a></li>
-              <li><a ><span class="badge ">{{post.likes.length}}</span>   Likes</a></li>
-            </ul>
-            <ul class="nav nav-pills">
-              <div *ngIf="post.coauthors.length > 0">
-                <li><a class="text-info">And {{post.coauthors}}</a></li>
-              </div>
-            </ul>
+          <ul class="nav nav-pills">
+            <li><a>By {{post.author}}</a></li>
+            <li><a><span class="badge ">{{post.likes.length}}</span>   Likes</a></li>
+          </ul>
+          <ul class="nav nav-pills">
+            <div *ngIf="post.coauthors.length > 0">
+              <li><a class="text-info">And {{post.coauthors}}</a></li>
+            </div>
+          </ul>
 
           <ul class="nav nav-pills">
             <!-- TODO: fix the date format -->
@@ -126,11 +137,11 @@
       <li>
         <a data-toggle="collapse" href="#post{{post._id}}">
           <!-- <h3 class="text-primary text-center"> -->
-            <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+          <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
           <!-- </h3> -->
         </a>
     </ul>
   </h4>
-  
+
 </div>
 <br>
