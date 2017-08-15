@@ -9,6 +9,14 @@ const utils = require('../models/utils');
 
 const defult_profile_pic = 'http://localhost:8080/defult_profile_pic.jpg'
 
+function createMsgCallbackForDelete(res, msg) {
+    return (err, raw) => {
+        if (err) return res.json({ 'success': false, 'msg': err });
+        
+        return res.json({ 'success': true, 'msg': msg });
+    }
+}
+
 // Register
 router.post('/register', (req, res, next) => {
     const newUser = new User({
@@ -146,12 +154,12 @@ router.post('/update/birthday', passport.authenticate('jwt', { session: false })
 
 // Follow User
 router.post('/follow', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    User.followUser(req.body.username, req.user._id, req.user.password, createMsgCallbackForDelete(res, 'Could not follow requested user.'));
+    User.followUser(req.body.username, req.user.username, req.user.password, createMsgCallbackForDelete(res, 'Could not follow requested user.'));
 });
 
 // Unfollow User
 router.post('/unfollow', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    User.unfollowUser(req.body.username, req.user._id, req.user.password, createMsgCallbackForDelete(res, 'Could not follow requested user.'));
+    User.unfollowUser(req.body.username, req.user.username, req.user.password, createMsgCallbackForDelete(res, 'Could not follow requested user.'));
 });
 
 

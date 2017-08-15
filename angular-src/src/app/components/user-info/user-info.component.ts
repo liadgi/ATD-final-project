@@ -15,47 +15,53 @@ export class UserInfoComponent implements OnInit {
   isFollowing: boolean;
 
   constructor(
-    private router:Router,
-    private authService:AuthService,
+    private router: Router,
+    private authService: AuthService,
     private route: ActivatedRoute,
     private flashMessage: FlashMessagesService) { }
 
-  ngOnInit() {    
-    if(!this.user) {
-      this.flashMessage.show('Invalid User', {cssClass: 'alert-danger', timeout: 5000});
+  ngOnInit() {
+    if (!this.user) {
+      this.flashMessage.show('Invalid User', { cssClass: 'alert-danger', timeout: 5000 });
       this.router.navigate(['/']);
     }
     else this.isFollowing = this.user.followers.includes(this.authService.getUsername());
   }
 
 
-  onFollow( ) {
-    this.authService.post('users/follow', {username: this.user.username }).subscribe((data) => {
+  onFollow() {
+    this.authService.post('users/follow', { username: this.user.username }).subscribe((data) => {
       if (data.success) {
         this.isFollowing = true;
-        //TODO: make shit change
+        this.user.followers.push(this.authService.getUsername());
       }
-      else this.flashMessage.show(data.msg, {cssClass: 'alert-danger', timeout: 5000});
+      else this.flashMessage.show(data.msg, { cssClass: 'alert-danger', timeout: 5000 });
     });
   }
 
-    onUnfollow( ) {
-      this.authService.post('users/unfollow', {username: this.user.username }).subscribe((data) => {
-        if (data.success) {
-          this.isFollowing = false;        
-          //TODO: make shit change
+  onUnfollow() {
+    this.authService.post('users/unfollow', { username: this.user.username }).subscribe((data) => {
+      if (data.success) {
+        this.isFollowing = false;
+
+        let index = this.user.followers.indexOf(this.authService.getUsername());
+        if (index != -1) {
+          this.user.followers.splice(index, 1);
         }
-        else this.flashMessage.show(data.msg, {cssClass: 'alert-danger', timeout: 5000});
-      });
-    }
+      }
+      else {
+        this.flashMessage.show(data.msg, { cssClass: 'alert-danger', timeout: 5000 });
+      }
+    });
+  }
 
-    onShowFollowing() { 
-      console.log('!Show following: implement this');
-    }
+  onShowFollowing() {
+    console.log('!Show following: implement this');
+  }
 
 
-    onShowFollowers() { 
-      console.log('!Show followers: implement this');
-    }
+  onShowFollowers() {
+    console.log('!Show followers: implement this');
+  }
 
 }

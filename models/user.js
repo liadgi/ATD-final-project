@@ -91,14 +91,14 @@ module.exports.validatePassword = function(userId, userPassword, callback) {
     });
 }
 
-module.exports.updateUser = function(change, userId, userPassword, callback){
-    User.update({ '_id': userId, 'password': userPassword }, change, callback);
+module.exports.updateUser = function(change, username, userPassword, callback){
+    User.update({ 'username': username, 'password': userPassword }, change, callback);
 }
 
 
 // Update Username
-module.exports.updateUsername = function(newUsername, userId, userPassword, callback) {
-    this.updateUser({$set: {'username': newUsername }}, userId, userPassword, callback);
+module.exports.updateUsername = function(newUsername, username, userPassword, callback) {
+    this.updateUser({$set: {'username': newUsername }}, username, userPassword, callback);
 }
 
 
@@ -158,15 +158,15 @@ module.exports.followUser = function(username, follower, followerPassword, callb
 
 // Unfollow user
 module.exports.unfollowUser = function(username, follower, followerPassword, callback){
-    if(username === followerId) callback('Cant follow yourself.');
+    if(username === follower) callback('Cant follow yourself.');
     else this.updateUser({$pull: {'following': username}, $inc: { 'following_count': -1 }},
-        followerId,
+        follower,
         followerPassword,
         (err, raw) => {
             if (err) callback(err);
             else if (!raw.ok || ! raw.n || !raw.nModified) callback('Error updating follower.');
             else User.update(
-                { '_id': username},
+                { 'username': username},
                 { $pull: {'followers': follower}, $inc: { 'followers_count': -1 }},
                 callback);
         });
