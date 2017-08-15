@@ -16,14 +16,9 @@ export class AuthService {
     
     let params = { page : page};
     let options = { headers: headers, params: params };
-    // TODO : add condition instead of try-catch 
-    try {
-      //return this.http.post('/users/register', user, {headers: headers}).map((res) => res.json());      
       
-      return this.http.get('http://localhost:8080/' + url, options).map((res) => res.json());
-    } catch (err) {
-      return this.http.get('http://localhost:8080/' + url, options).map((res) => res.json());
-    }
+      return this.http.get('' + url, options).map((res) => res.json());
+    
   }
 
   post(url: String, data) {
