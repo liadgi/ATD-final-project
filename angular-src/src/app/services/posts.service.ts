@@ -28,7 +28,6 @@ export class PostsService {
     } else if (type === 'top') {
       this.authService.get('posts/top', page).subscribe(callback, error);
     } else if (type === 'user') {
-      console.log('@@',query);
       this.authService.get('posts/user/' + query, page).subscribe(callback, error);
     } else if (type === 'search') {
       this.authService.get('posts/search/' + query, page).subscribe(callback, error);

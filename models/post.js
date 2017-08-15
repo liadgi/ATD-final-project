@@ -160,8 +160,8 @@ module.exports.removePostPic = function (postId, image, callback) {
     Post.update({ _id: postId }, {$pull: {'images': image}}, callback);
 }
 
-module.exports.deletePost = function(postId ,userId, callback){
-    Post.deletOne({_id: postId, author: userId}, callback);
+module.exports.deletePost = function(postId ,username, callback){
+    Post.remove({_id: postId, author: username}, callback);
 }
 
 module.exports.updatePost = function (newPost, username, callback) {

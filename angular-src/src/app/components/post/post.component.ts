@@ -96,7 +96,7 @@ export class PostComponent implements OnInit {
 
   onDeletePost() {
     this.authService.post(
-      'dashboard/deletePost',
+      'posts/deletePost',
       { 'postId': this.post._id }).subscribe((data) => {
         if (data.success) {
           this.postDeleted.emit();

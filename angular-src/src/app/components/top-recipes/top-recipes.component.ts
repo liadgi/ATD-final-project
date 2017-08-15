@@ -21,9 +21,9 @@ export class TopRecipesComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.connection = this.socketioService.getMessages('top-posts').subscribe((post) => {
-      console.log('1!!!!got: ',post);
-    });
+    // this.connection = this.socketioService.getMessages('top-posts').subscribe((post) => {
+    //   console.log('1!!!!got: ',post);
+    // });
 
     // this.connection = this.socketioService.getMessages('message').subscribe((message) => {
     //   console.log('2!!!!got: '+message);

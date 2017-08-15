@@ -98,8 +98,8 @@ router.post('/addComment', passport.authenticate('jwt', { session: false }), (re
 
 
 // delete post
-router.post('/posts/deletePost', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    Post.deletePost(req.body.postId,req.user._id, this.createMsgCallback(req, 'Post Deleted!'));
+router.post('/deletePost', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    Post.deletePost(req.body.postId,req.user.username, createMsgCallback(res, 'Post Deleted!'));
     // Post.getPostById(req.body.postId, (err, post) => {
     //     if (err) {
     //         res.json({ success: false, msg: 'Could not find post to remove.' });
