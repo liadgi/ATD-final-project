@@ -33,7 +33,7 @@ export class PostComponent implements OnInit {
 
   
   ngOnInit() {
-    this.tempComment = new Comment(this.post._id, '', '');
+    this.tempComment = new Comment(this.post._id, this.authService.getUsername(), '');
     this.isLiked = this.post.likes.includes(this.authService.getUsername());
     this.ofUser = this.post.author === this.authService.getUsername();
     
@@ -55,11 +55,14 @@ export class PostComponent implements OnInit {
   };
 
   
-  onComment() {
+  onCommentSubmit() {
+    console.log(this.tempComment);
+    
     this.authService.post('posts/addComment', { 'comment': this.tempComment, 'postId': this.post._id}).subscribe((data) => {
       if (data.success) {
-        this.tempComment = new Comment(this.post._id, '', '');
-        this.post.comments.push(data.comment);
+        console.log(data);
+        this.post.comments.push(data.comment);        
+        this.tempComment = new Comment(this.post._id, this.authService.getUsername(), '');
       } 
       else this.flashMessage.show(data.msg, { cssClass: 'alert-danger', timeout: 5000 });
     });

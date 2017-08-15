@@ -1,22 +1,3 @@
 <app-user-info *ngIf="user" [user]="user"></app-user-info> 
 <hr>
 <app-user-posts *ngIf="user" [username]="user.username"></app-user-posts> 
-
-<!-- 
-<div class="list-group">
-  <a class="list-group-item active" data-toggle="collapse" href="#followers">
-    Followers<span class="badge">{{user.followers.length}}</span>
-  </a>
-  <div *ngFor="let follower of user.followers" id="followers" class="collapse">
-    <a class="list-group-item">{{follower}}</a> 
-  </div>
-</div>
-
-<div class="list-group">
-  <a class="list-group-item active" data-toggle="collapse" href="#following">
-    Following<span class="badge">{{user.following.length}}</span>
-  </a>
-  <div *ngFor="let user of user.following" id="following" class="collapse">
-    <a class="list-group-item">{{user}}</a>
-  </div>
-</div> -->

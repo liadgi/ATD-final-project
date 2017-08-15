@@ -84,12 +84,12 @@ router.post('/editPost', passport.authenticate('jwt', { session: false }), (req,
 
 // add comment
 router.post('/addComment', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    console.log('addComment:',)
     let newComment = new Comment({
-        user: req.user._id,
-        text: req.body.text,
+        user: req.user.username,
+        text: req.body.comment.text,
         creationTime: Date.now(),
     });
-
     Post.addComment(req.body.postId, newComment, (err, post) => {
         if (err) res.json({ success: false, msg: 'Failed to upload comment.' });
         else res.json({ success: true, comment: newComment });
