@@ -57,6 +57,9 @@ export class RecipeComponent implements OnInit {
 
 
   }
+  customTrackBy(index: number, obj: any): any {
+  return index;
+}
 
   addIngredient() {
     if (this.newIngredient === '')

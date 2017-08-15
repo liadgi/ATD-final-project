@@ -22,9 +22,9 @@
     <ul class="list-group">
       <li class="list-group-item active">Ingredients</li>
        
-      <li *ngFor="let ingredient of post.ingredients, let i = index" class="list-group-item">
+      <li *ngFor="let ingredient of post.ingredients, let i = index; trackBy:customTrackBy" class="list-group-item">
         <div class="input-group">
-          <input type="text" class="form-control" [(ngModel)]="post.ingredients[i]" value="{{post.ingredients[i]}}" placeholder="some Ingredient">          
+          <input type="text" class="form-control" [(ngModel)]="post.ingredients[i]" name="ingredient_{{i}}" value="{{ingredient}}" placeholder="some Ingredient">          
           <span class="input-group-btn">
             <button class="btn btn-danger" type="button" (click)="removeIngredient($event, i)">x</button>
           </span>
