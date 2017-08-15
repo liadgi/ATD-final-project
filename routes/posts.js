@@ -78,7 +78,7 @@ router.post('/createpost', passport.authenticate('jwt', { session: false }), (re
 
 // edit post
 router.post('/editPost', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    Post.updatePost(req.body.post, req.user._id, createMsgCallback(res, 'Post Updated!'));
+    Post.updatePost(req.body.post, req.user.username, createMsgCallback(res, 'Post Updated!'));
 });
 
 

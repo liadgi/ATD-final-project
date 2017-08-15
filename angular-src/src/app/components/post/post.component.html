@@ -21,14 +21,14 @@
           <h2>{{post.title}}</h2>
           <p>{{post.description}}</p>
  
-          <form (submit)="onLikeSubmit()">
+          <!-- <form (submit)="onLikeSubmit()">
       <input type="submit" class="text-primary" [(ngModel)]="likeText" name="likeText">
-    </form>
+    </form> -->
 
           <ul *ngIf="author" class="nav nav-pills">
             <li><a><h4>By {{author.username}}</h4></a></li>
             <li><a><h4><span class="badge ">{{post.likes.length}}</span>   Likes</h4></a></li>
-            <li><a *ngIf="!isLiked"(submit)="onLike()"><h4><span class="text-primary glyphicon glyphicon-thumbs-up"></span><p class="text-sucees">Like</p></h4></a></li>
+            <li><a *ngIf="!isLiked"(submit)="onLike()"><span class="text-primary glyphicon glyphicon-thumbs-up"></span><h4>Like</h4></a></li>
           </ul>
           <a *ngIf=coauthors.length>Coauthors:
           <ul *ngFor="let coauthor of coauthors" class="nav nav-pills">
@@ -91,6 +91,20 @@
       </li>
     </ul>
     <br>
+
+
+    <!-- <div class="form-group">
+    <ul class="list-group">
+      <li class="list-group-item active">Comments</li>
+       
+      <li *ngFor="let comment of post.comments, let i = index" class="list-group-item">
+        <div class="input-group">
+          <input type="text" class="form-control" value="{{comment.user}}; {{comment.user}}" placeholder="some comment">          
+          <span class="input-group-btn">
+            <button class="btn btn-danger" type="button" (click)="deleteComment($event, i)">x</button>
+          </span>
+        </div>
+      </li> -->
 
   </div>
 
