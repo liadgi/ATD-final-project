@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.3.1/css/swiper.min.css"> 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.3.1/css/swiper.min.css">
 <div class="jumbotron clearfix">
   <div class="container-fluid">
     <div *ngIf="post.images.length > 0; else noImg">
@@ -20,39 +20,46 @@
         <div class="col-md-7">
           <h2>{{post.title}}</h2>
           <p>{{post.description}}</p>
- 
-          <!-- <form (submit)="onLikeSubmit()">
-      <input type="submit" class="text-primary" [(ngModel)]="likeText" name="likeText">
-    </form> -->
-        <h3>
-          <ul *ngIf="author" class="nav nav-pills">
-            <li><a class="text-success">By {{author.username}}</a></li>
-            <li><a class="text-success"><span class="badge ">{{post.likes.length}}</span>   Likes</a></li>
-            <li *ngIf="!isLiked"><a class="text-success" (click)="onLike()"><span class="text-primary glyphicon glyphicon-thumbs-up"></span>    Like</a></li>
-             <li *ngIf="isLiked"><a class="text-success" (click)="onDislike()"><span class="text-primary glyphicon glyphicon-thumbs-down"></span>    Dislike</a></li>
-          </ul>
-        </h3>
+
+          <h3>
+            <ul *ngIf="author" class="nav nav-pills">
+              <li><a class="text-success">By {{author.username}}</a></li>
+              <li><a class="text-success"><span class="badge ">{{post.likes.length}}</span>   Likes</a></li>
+              <li *ngIf="!isLiked"><a class="text-success" (click)="onLike()"><span class="text-primary glyphicon glyphicon-thumbs-up"></span>    Like</a></li>
+              <li *ngIf="isLiked"><a class="text-success" (click)="onDislike()"><span class="text-primary glyphicon glyphicon-thumbs-down"></span>    Dislike</a></li>
+            </ul>
+          </h3>
           <a *ngIf=coauthors.length>Coauthors:
           <ul *ngFor="let coauthor of coauthors" class="nav nav-pills">
             <li><a class="text-info"> {{post.coauthors}}</a></li>
           </ul>
           </a>
           <h5 *ngIf="post.creationTime != null"><span class="text-info">Created at: {{post.creationTime | date: 'yMMMdjms'}}</span></h5>
-          <h5 *ngIf="post.updateTime != null"><span class="text-info">Updated at: {{post.updateTime | date: 'yMMMdjms'}}</span></h5> 
+          <h5 *ngIf="post.updateTime != null"><span class="text-info">Updated at: {{post.updateTime | date: 'yMMMdjms'}}</span></h5>
         </div>
       </div>
     </div>
 
     <ng-template #noImg>
-      <div class="row content">
-        <div class="col-md-12">
-          <h2>{{post.title}}</h2>
-          <p>{{post.description}}</p>
-          <ul class="nav nav-pills">
-            <li><a class="text-info" href="#">By {{post.author}}</a></li>
-            <li><a class="text-info" href="#"><span class="badge ">3</span>   Likes</a></li>
+      <div class="row content clearfix container-fluid">
+        <h2>{{post.title}}</h2>
+        <p>{{post.description}}</p>
+
+        <h3>
+          <ul *ngIf="author" class="nav nav-pills">
+            <li><a class="text-success">By {{author.username}}</a></li>
+            <li><a class="text-success"><span class="badge ">{{post.likes.length}}</span>   Likes</a></li>
+            <li *ngIf="!isLiked"><a class="text-success" (click)="onLike()"><span class="text-primary glyphicon glyphicon-thumbs-up"></span>    Like</a></li>
+            <li *ngIf="isLiked"><a class="text-success" (click)="onDislike()"><span class="text-primary glyphicon glyphicon-thumbs-down"></span>    Dislike</a></li>
           </ul>
-        </div>
+        </h3>
+        <a *ngIf=coauthors.length>Coauthors:
+          <ul *ngFor="let coauthor of coauthors" class="nav nav-pills">
+            <li><a class="text-info"> {{post.coauthors}}</a></li>
+        </ul>
+        </a>
+        <h5 *ngIf="post.creationTime != null"><span class="text-info">Created at: {{post.creationTime | date: 'yMMMdjms'}}</span></h5>
+        <h5 *ngIf="post.updateTime != null"><span class="text-info">Updated at: {{post.updateTime | date: 'yMMMdjms'}}</span></h5>
       </div>
     </ng-template>
   </div>
@@ -77,24 +84,26 @@
     </div>
     <br>
 
-   
 
-    <form (submit)="onCommentSubmit()">
-      <div class="form-group">
-        <input type="text" class="form-control" [(ngModel)]="tempComment.text" name="text" placeholder="add your comment...">
-      </div>
-      <input type="submit" class="btn btn-primary" value="Submit">
-    </form><br>
+
+
 
     <ul class="list-group">
       <li class="list-group-item active">Comments</li>
       <li *ngFor="let comment of post.comments" class="list-group-item">
         {{comment.user}}: {{comment.text}}
       </li>
+
+      <br>
+
+      <form (submit)="onCommentSubmit()">
+        <div class="form-group">
+          <input type="text" class="form-control" [(ngModel)]="tempComment.text" name="text" placeholder="add your comment...">
+        </div>
+        <input type="submit" class="btn btn-primary" value="Submit">
+      </form><br>
+      
     </ul>
-    <br>
-
-
     <!-- <div class="form-group">
     <ul class="list-group">
       <li class="list-group-item active">Comments</li>
