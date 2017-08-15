@@ -24,12 +24,14 @@
           <!-- <form (submit)="onLikeSubmit()">
       <input type="submit" class="text-primary" [(ngModel)]="likeText" name="likeText">
     </form> -->
-
+        <h3>
           <ul *ngIf="author" class="nav nav-pills">
-            <li><a><h4>By {{author.username}}</h4></a></li>
-            <li><a><h4><span class="badge ">{{post.likes.length}}</span>   Likes</h4></a></li>
-            <li><a (submit)="onLike()"><span class="text-primary glyphicon glyphicon-thumbs-up"></span><h4>Like</h4></a></li>
+            <li><a class="text-success">By {{author.username}}</a></li>
+            <li><a class="text-success"><span class="badge ">{{post.likes.length}}</span>   Likes</a></li>
+            <li *ngIf="!isLiked"><a class="text-success" (click)="onLike()"><span class="text-primary glyphicon glyphicon-thumbs-up"></span>    Like</a></li>
+             <li *ngIf="isLiked"><a class="text-success" (click)="onDislike()"><span class="text-primary glyphicon glyphicon-thumbs-down"></span>    Dislike</a></li>
           </ul>
+        </h3>
           <a *ngIf=coauthors.length>Coauthors:
           <ul *ngFor="let coauthor of coauthors" class="nav nav-pills">
             <li><a class="text-info"> {{post.coauthors}}</a></li>

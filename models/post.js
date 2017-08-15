@@ -137,16 +137,10 @@ module.exports.editPost = function (postId, editedPost, callback) {
 }
 
 module.exports.addComment = function (postId, newComment, callback) {
-    Post.findOneAndUpdate(objectIdQuery(postId), { $push: { comments: newComment } }, callback);
+    Post.findOneAndUpdate({ _id, postId }, { $push: { comments: newComment } }, callback);
 }
 
-module.exports.setLike = function (postId, userUd, callback) {
-    Post.update(objectIdQuery(postId), { $addToSet: { likes: username } }, callback);
-}
 
-module.exports.setDislike = function (postId, username, callback) {
-    Post.update(objectIdQuery(postId), { $pull: { likes: username } }, callback);
-}
 
 module.exports.deletePost = function (postId, callback) {
     Post.remove({ _id, postId }, callback);
@@ -186,3 +180,50 @@ module.exports.updatePost = function (newPost, username, callback) {
         else callback( 'Cannot edit recipe you do not own.' );        
     });
 }
+
+
+module.exports.like = function(postId, username, callback){
+    console.log('like:',username,postId);
+    Post.update({_id: postId}, { $addToSet: { likes: username }, $inc: {'likes_count': 1}}, callback);
+}
+
+module.exports.dislike = function (postId, username, callback) {
+    console.log('dislike:',username);
+    Post.update({_id: postId}, { $pull: { likes: username }, $inc: {likes_count: -1} }, callback);
+    // this.updateUser({ '_id': postId }, {$pull: {'likes': username}, $inc: { 'likes_count': -1 }},
+    //     (err, raw) => {
+    //         if (err) callback(err);
+    //         else if (!raw.ok || ! raw.n || !raw.nModified) callback('Error updating follower.');
+    //         else Post.update(
+    //             { '_id': postId},
+    //             { $pull: {'likes': username}, $inc: { 'followers_count': -1 }},
+    //             callback);
+    //     });
+}
+
+// let postId = req.body.postId;
+    // // TODO: add authentication?
+    // Post.getPostById(postId, (err, post) => {
+    //     if (err) {
+    //         res.json({ success: false, msg: 'Failed to change like status.' });
+    //     }
+    //     else {
+    //         if (post.likes.includes(req.user._id)) { // do dislike
+    //             Post.setDislike(postId, req.user._id, () => {
+    //                 if (err) {
+    //                     res.json({ success: false, msg: 'Could not dislike.' });
+    //                 } else {
+    //                     res.json({ success: true, likeStatus: false, likedUser: req.user._id });
+    //                 }
+    //             });
+    //         } else { // do like
+    //             Post.setLike(postId, req.user._id, () => {
+    //                 if (err) {
+    //                     res.json({ success: false, msg: 'Could not like.' });
+    //                 } else {
+    //                     res.json({ success: true, likeStatus: true, likedUser: req.user._id });
+    //                 }
+    //             });
+    //         }
+    //     }
+    // });

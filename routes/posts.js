@@ -22,7 +22,7 @@ function createPostsCallback(res) {
 function createMsgCallback(res, msg) {
     return (err, raw) => {
         if (err) return res.json({ 'success': false, 'msg': err });
-        //if (!raw.ok || !raw.n) return res.json({ 'success': false, 'msg': 'post not found.' });
+        if (!raw.ok || !raw.n) return res.json({ 'success': false, 'msg': 'post not found.' });
         return res.json({ 'success': true, 'msg': msg });
     }
 }
@@ -122,34 +122,15 @@ router.post('/deletePost', passport.authenticate('jwt', { session: false }), (re
 
 
 // change like
-router.post('/changeLike', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    let postId = req.body.postId;
+router.post('/like', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    console.log('posts like:',req.body, req.user.username);
+    Post.like(req.body.postId, req.user.username, createMsgCallback(res, 'Liked!'));
+});
 
-    // TODO: add authentication?
-    Post.getPostById(postId, (err, post) => {
-        if (err) {
-            res.json({ success: false, msg: 'Failed to change like status.' });
-        }
-        else {
-            if (post.likes.includes(req.user._id)) { // do dislike
-                Post.setDislike(postId, req.user._id, () => {
-                    if (err) {
-                        res.json({ success: false, msg: 'Could not dislike.' });
-                    } else {
-                        res.json({ success: true, likeStatus: false, likedUser: req.user._id });
-                    }
-                });
-            } else { // do like
-                Post.setLike(postId, req.user._id, () => {
-                    if (err) {
-                        res.json({ success: false, msg: 'Could not like.' });
-                    } else {
-                        res.json({ success: true, likeStatus: true, likedUser: req.user._id });
-                    }
-                });
-            }
-        }
-    });
+// change dislike
+router.post('/dislike', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    console.log('posts dislike:',req.body, req.user.username);    
+    Post.dislike(req.body.postId, req.user.username, createMsgCallback(res, 'Disliked!'));
 });
 
 module.exports = router;

@@ -70,6 +70,7 @@ export class PostComponent implements OnInit {
 
 
   onLike() {
+     console.log('onLike', { 'postId': this.post._id });
     this.authService.post('posts/like', { 'postId': this.post._id }).subscribe((data) => {
       if (data.success) {
         this.isLiked = true;
@@ -79,9 +80,12 @@ export class PostComponent implements OnInit {
     });
   }
 
-  onDilike() {
+  onDislike() {
+    console.log("!!!!!!!!!!!!!")
+    console.log('ondisLike', { 'postId': this.post._id });
     this.authService.post('posts/dislike', { 'postId': this.post._id }).subscribe((data) => {
       if (data.success) {
+        console.log(data);
         this.isLiked = false;
         let index = this.post.likes.indexOf(data.likedUser);
         if(index != -1)
