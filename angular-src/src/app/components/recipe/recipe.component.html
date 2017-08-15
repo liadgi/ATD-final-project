@@ -26,7 +26,7 @@
         <div class="input-group">
           <input type="text" class="form-control" [(ngModel)]="post.ingredients[i]" name="ingredient_{{i}}" value="{{ingredient}}" placeholder="some Ingredient">          
           <span class="input-group-btn">
-            <button class="btn btn-danger" type="button" (click)="removeIngredient($event, i)">x</button>
+            <button class="btn btn-danger" type="button" (click)="removeIngredient(i)">x</button>
           </span>
         </div>
       </li>
