@@ -18,7 +18,9 @@ router.post('/register', (req, res, next) => {
         'lname': req.body.lname,
         'email': req.body.email,
         'birthday': req.body.birthday,
-        'profile_pic': defult_profile_pic
+        'profile_pic': defult_profile_pic,
+        'followers_count': 0,
+        'following_count': 0
     });
 
     // TODO: add field validation.
@@ -33,6 +35,7 @@ router.post('/register', (req, res, next) => {
         });
     });
 });
+
 
 // Authenticate
 router.post('/authenticate', (req, res, next) => {
@@ -49,16 +52,13 @@ router.post('/authenticate', (req, res, next) => {
             if (err) return res.json({ success: false, msg: err });
             if (isMatch) {
                 const token = jwt.sign(user, config.secret, { expiresIn: 604800 /* 1 week */ });
-                User.updateToken(user._id, 'JWT ' + token, (err) => {
-                    if(err) return res.json({ success: false, msg: err });
-                    res.json({
-                        success: true,
-                        token: 'JWT ' + token,
-                        credentials: {
-                            _id: user._id,
-                            username: user.username,
-                        }
-                    });
+                res.json({
+                    success: true,
+                    token: 'JWT ' + token,
+                    credentials: {
+                        _id: user._id,
+                        username: user.username,
+                    }
                 }); 
             }
             else res.json({ success: false, msg: 'Wrong password.' });
@@ -66,57 +66,43 @@ router.post('/authenticate', (req, res, next) => {
     });
 });
 
+
 // Get a user
-router.get('/profile/:user', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    User.getUser(req.params.user, (err, user) => {
-        if (err) return res.json({ success: false, msg: 'Could not get user profile' });
+router.get('/profile/:username', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    User.getUserByUsername(req.params.username, (err, user) => {
+        if (err) return res.json({ success: false, msg: 'Could not get user profile: '+err });
         else if (!user) return res.json({ success: false, msg: 'User not found.' });
-        else res.json({ success: true, user: user[0] });
+        else {
+            // console.log('@@@', user);
+            res.json({ 
+            success: true,
+            user: {
+                '_id': user._id,
+                'username': user.username,
+                'password': '',
+                'fname': user.fname,
+                'lname': user.lname,
+                'email': user.lname,
+                'birthday': user.birthday,
+                'profile_pic': user.profile_pic,
+                'followers': user.followers,
+                'followers_count': user.followers_count,
+                'following': user.following,
+                'followeing_count': user.following_count,
+            }});
+        }
     });
 });
 
+
 function createMsgCallback(res, msg) {
-    return (err, user) => {
+    return (err, raw) => {
         if (err) return res.json({ 'success': false, 'msg': err });
-        if (!user) return res.json({ 'success': false, 'msg': 'User not found.' });
+        if (!raw.ok || !raw.n) return res.json({ 'success': false, 'msg': 'User not found.' });
         return res.json({ 'success': true, 'msg': msg });
     }
 }
 
-// TODO : verify requesting user, so that no one could spoof requests
-// Update Username
-router.post('/update/username/:id', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    User.updateUsername(req.params.id, req.body.username, req.headers.authorization ,createMsgCallback(res, 'Username Updated!'));
-});
-
-// Update Password
-router.post('/update/password/:id', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    User.updatePassword(req.params.id, req.body.password, req.headers.authorization, createMsgCallback(res, 'Password Updated!'));
-});
-
-// Update First Name
-router.post('/update/fname/:id', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    User.updateFirstName(req.params.id, req.body.fname, req.headers.authorization, createMsgCallback(res, 'First Name Updated!'));
-});
-
-// Update First Name
-router.post('/update/lname/:id', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    User.updateLastName(req.params.id, req.body.lname,req.headers.authorization, createMsgCallback(res, 'Last Name Updated!'));
-});
-
-// Update Email
-router.post('/update/email/:id', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    User.updateEmail(req.params.id, req.body.email, req.headers.authorization, createMsgCallback(res, 'Email Updated!'));
-});
-
-// Update Birthday
-router.post('/update/birthday/:id', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    User.updateBirthday(req.params.id, req.body.birthday, req.headers.authorization, createMsgCallback(res, 'Birthday Updated!'));
-});
-
-
-
-////////////////////////////////////////////////
 
 function createUsersCallback(res) {
     return (err, users) => {
@@ -126,55 +112,65 @@ function createUsersCallback(res) {
     }
 }
 
-// All Users
+
+// Update Username
+router.post('/update/username', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    User.updateUsername(req.body.newUsername, req.user._id, req.user.password ,createMsgCallback(res, 'Username Updated!'));
+});
+
+// Update Password
+router.post('/update/password', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    User.updatePassword(req.body.newPasword, req.user._id, req.user.password, createMsgCallback(res, 'Password Updated!'));
+});
+
+// Update First Name
+router.post('/update/fname', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    User.updateFirstName(req.body.newFname, req.user._id, req.user.password, createMsgCallback(res, 'First Name Updated!'));
+});
+
+// Update First Name
+router.post('/update/lname', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    User.updateLastName(req.body.newLname, req.user._id, req.user.password, createMsgCallback(res, 'Last Name Updated!'));
+});
+
+// Update Email
+router.post('/update/email', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    User.updateEmail(req.body.newEmail, req.user._id, req.user.password, createMsgCallback(res, 'Email Updated!'));
+});
+
+// Update Birthday
+router.post('/update/birthday', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    User.updateBirthday(req.body.newBirthday, req.user._id, req.user.password, createMsgCallback(res, 'Birthday Updated!'));
+});
+
+
+// Follow User
+router.post('/follow', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    User.followUser(req.body.username, req.user._id, req.user.password, createMsgCallback(res, 'Could not follow requested user.'));
+});
+
+// Unfollow User
+router.post('/unfollow', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    User.unfollowUser(req.body.username, req.user._id, req.user.password, createMsgCallback(res, 'Could not follow requested user.'));
+});
+
+
+
+
+
+// Get All Users
 router.get('/all', passport.authenticate('jwt', { session: false }), (req, res, next) => {
     User.getUsers('', createUsersCallback(res));
 });
 
-// Top Users
+// Get Top Users
 router.get('/top', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    User.getTopUsers(utils.getPageFromReq(req), '', createUsersCallback(res));
+    User.getTopUsers(utils.getPageFromReq(req), createUsersCallback(res));
 });
 
-// search Users
+// Search Users
 router.get('/search/:query', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    let query = req.params.query;
-    User.getUsers(utils.getPageFromReq(req), query, createUsersCallback(res));
-});
-
-//////////////////////////
-
-
-// User
-// router.get('/profile/:user', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-//     let user = req.params.user;
-//     User.getUser(user, (err, user) => {
-//         if (err) res.json({ success: false, msg: 'Could not get user' });
-//         else res.json({ success: true, user: user });
-//     });
-// });
-
-router.post('/setFollow', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-
-    let follower = req.user.username;
-    let following = req.body.username;
-
-    if (follower === following) return res.json({ success: false, msg: 'Cannot follow yourself.' });
-    else Followers.get(follower, following, (err, pair) => {
-        if (err) return res.json({ success: false, msg: 'Failed to retrieve follower/following pair'+err });
-        else if (!pair) { // check if row exists
-                let tuple = new Followers({ follower: follower, following: following });
-                Followers.follow(tuple, (err, pair) => {
-                    if (err) return res.json({ success: false, msg: 'Failed to follow.' });
-                    else return res.json({ success: true, isFollowing: true });
-                });
-        } else {
-            Followers.unfollow(pair, (err, pair) => {
-                if (err) return res.json({ success: false, msg: 'Failed to unfollow.' });
-                else return res.json({ success: true, isFollowing: false });
-            });
-        }
-    });
+    User.getUsers(utils.getPageFromReq(req), req.params.query, createUsersCallback(res));
 });
 
 

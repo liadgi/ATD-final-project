@@ -21,14 +21,11 @@ import { PagenotfoundComponent } from './components/pagenotfound/pagenotfound.co
 import { PostComponent } from './components/post/post.component';
 import { TextandimageComponent } from './components/textandimage/textandimage.component';
 import { CommentComponent } from './components/comment/comment.component';
-import { ProfilesComponent } from './components/profiles/profiles.component';
-import { ProfileResultComponent } from './components/profile-result/profile-result.component';
 import { UsersComponent } from './components/users/users.component';
 import { UserResultComponent } from './components/user-result/user-result.component';
 import { TopRecipesComponent } from './components/top-recipes/top-recipes.component';
 import { TopUsersComponent } from './components/top-users/top-users.component';
 import { PostsComponent } from './components/posts/posts.component';
-import { ProfileRecipesComponent } from './components//profile-recipes/profile-recipes.component';
 import { DashboardSearchComponent } from './components/dashboard-search/dashboard-search.component';
 import { EditrecipeComponent } from './components/editrecipe/editrecipe.component';
 import { RecipeComponent } from './components/recipe/recipe.component'
@@ -37,6 +34,8 @@ import { UploadFileComponent } from './components/upload-file/upload-file.compon
 import { FileSelectDirective } from 'ng2-file-upload';
 import { UserPostsComponent } from './components/user-posts/user-posts.component';
 import { UsersSearchComponent } from './components/users-search/users-search.component';
+import { UserInfoComponent } from './components/user-info/user-info.component';
+
 
 // Services
 import { ValidateService } from './services/validate.service';
@@ -44,9 +43,7 @@ import { AuthService } from './services/auth.service';
 import { SocketioService } from './services/socketio.service'
 import { AuthGuard } from './guards/auth.guard';
 import { PostsService } from './services/posts.service';
-import { ProfilesService } from './services/profiles.service';
 import { EditpostService } from './services/editpost.service';
-import { ProfilesSearchComponent } from './components/profiles-search/profiles-search.component';
 import { UsersService} from './services/users.service';
 
 
@@ -81,24 +78,21 @@ const appRoutes = [
     TextandimageComponent,
     CreaterecipeComponent,
     PagenotfoundComponent,
-    ProfilesComponent,
-    ProfileResultComponent,
     CommentComponent,
     TopRecipesComponent,
     TopUsersComponent,
     PostsComponent,
-    ProfileRecipesComponent,
     DashboardSearchComponent,
     EditrecipeComponent,
     RecipeComponent,
-    ProfilesSearchComponent,
     EditUserComponent,
     UploadFileComponent,
     FileSelectDirective,
     UsersComponent,
     UserResultComponent,
     UserPostsComponent,
-    UsersSearchComponent
+    UsersSearchComponent,
+    UserInfoComponent
   ],
   imports: [
     BrowserModule,
@@ -114,9 +108,9 @@ const appRoutes = [
     AuthService,
     AuthGuard,
     PostsService,
-    ProfilesService,
     EditpostService,
-    UsersService
+    UsersService,
+    SocketioService
   ],
   bootstrap: [AppComponent]
 })

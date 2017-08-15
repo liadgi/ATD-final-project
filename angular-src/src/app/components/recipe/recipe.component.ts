@@ -25,7 +25,6 @@ export class RecipeComponent implements OnInit {
 
   ngOnInit() {
     this.post = this.editpostService.post;
-
     this.newCoauthor = '';
     this.newIngredient = '';
     this.newInstruction = new Instruction([], '');
@@ -51,9 +50,9 @@ export class RecipeComponent implements OnInit {
     }
 
     if (this.router.url === '/createrecipe') {
-      this.authService.post('dashboard/createpost', this.post).subscribe(callback);
+      this.authService.post('posts/createpost',{'post': this.post }).subscribe(callback);
     } else if (this.router.url === '/editRecipe') {
-      this.authService.post('dashboard/editPost', this.post).subscribe(callback);
+      this.authService.post('posts/editPost', {'post': this.post }).subscribe(callback);
     }
 
 
@@ -89,13 +88,28 @@ export class RecipeComponent implements OnInit {
     if (this.newCoauthor === '')
       this.flashMessage.show('Please enter valid coauthor', { cssClass: 'alert-danger', timeout: 5000 });
     else {
-      this.post.coauthors.push(this.newCoauthor);
-      this.newCoauthor = '';
+      this.getUser(this.newCoauthor, (user) => {
+        if(user && user.username && !this.post.coauthors.includes(user.username))
+          this.post.coauthors.push(user.username);
+        else this.flashMessage.show('Please enter valid coauthor', { cssClass: 'alert-danger', timeout: 5000 });
+        this.newCoauthor = '';
+      });
     }
   }
 
   removeCoauthor(i) {
     this.post.coauthors.splice(i, 1);
   }
+
+  getUser(username, callback){
+    this.authService.get('users/profile/'+username).subscribe(
+      (data) => {
+        if (data.success) callback(data.user); 
+        else callback(null);
+      },
+      (err) => { throw err; }
+      );
+  }
+  
 
 }

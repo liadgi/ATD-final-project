@@ -10,37 +10,37 @@ import { FlashMessagesService } from 'angular2-flash-messages';
 })
 export class UserResultComponent implements OnInit {
   @Input() userResult: User;  
-  @Input() username: string;
-  toFollow: String;
+  isFollowing: boolean;
 
   constructor(
   private authService: AuthService,
   private flashMessage: FlashMessagesService) { }
 
   ngOnInit() {
-    this.setFollowText(this.userResult.followers.includes(this.username));
-    
+    this.isFollowing = this.userResult.followers.includes(this.authService.getUsername());
   }
 
-  setFollowText(isFollowing: boolean) {
-    this.toFollow = isFollowing ? 'unfollow' : 'follow';
-  }
-
-  onFollowSubmit( ) {
-    this.authService.post('users/setFollow', {username: this.userResult.username }).subscribe((data) => {
+  onFollow( ) {
+    this.authService.post('users/follow', {username: this.userResult.username }).subscribe((data) => {
       if (data.success) {
-        this.setFollowText(data.isFollowing);
-        var index = this.userResult.followers.findIndex((follower) => (follower === this.username));
-          if (index != -1) {
-            this.userResult.followers.splice(index, 1);
-          } else {
-            this.userResult.followers.push(this.username);
-          }
-      } else {
-        this.flashMessage.show(data.msg, {cssClass: 'alert-danger', timeout: 5000});
+        this.isFollowing = true;
+        //TODO: make shit change
       }
-    }
-    );
+      else this.flashMessage.show(data.msg, {cssClass: 'alert-danger', timeout: 5000});
+    });
   }
+
+    onUnfollow( ) {
+    this.authService.post('users/unfollow', {username: this.userResult.username }).subscribe((data) => {
+      if (data.success) {
+        this.isFollowing = false;        
+        //TODO: make shit change
+      }
+      else this.flashMessage.show(data.msg, {cssClass: 'alert-danger', timeout: 5000});
+    });
+  }
+
+
+
 }
 

@@ -1,6 +1,6 @@
-<div *ngIf="postsService.posts.length != 0; else NoRecipes">
+<div *ngIf="postsService.posts && postsService.posts.length != 0; else NoRecipes">
     <div *ngFor="let post of postsService.posts">
-        <app-post [post]="post" [username]="username" (postDeleted)="onPostDeleted(post)"></app-post>
+        <app-post [post]="post" (postDeleted)="onPostDeleted(post)"></app-post>
     </div>
 
     <footer class="container-fluid">

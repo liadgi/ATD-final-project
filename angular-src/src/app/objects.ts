@@ -27,7 +27,9 @@ export class User{
     birthday: Date;
     profile_pic: string;
     followers: string[];
+    followers_count: number;
     following: string[];
+    following_count: number;
     
     constructor(
         username: string,
@@ -45,27 +47,11 @@ export class User{
             this.birthday = birthday;
             this.profile_pic = '';
             this.followers = [];
+            this.followers_count = 0;
             this.following = [];
+            this.following_count = 0;
     }
 }
-
-
-// NOTE: REMOVE THIS!
-export class Profile{
-    username: string;
-    following: string[];
-    followers: string[];
-
-    constructor(
-        username: string,
-        following: string[],
-        followers: string[]) {
-            this.username = username;
-            this.following = following;
-            this.followers = followers;
-        }
-}
-
 
 export function newComment(){
     return new Comment('','','');

@@ -3,7 +3,7 @@
     <div class="col-md-5 clearfix">
       <div class="container-fuild">
         <img class="img-responsive img-rounded img-fluid btn-block" src="{{user.profile_pic || 'http://localhost:8080/defult_profile_pic.jpg' }}" alt="Image Here"><br>
-        <app-upload-file [url]="'http://localhost:8080/upload/profile-pic/'+this.authService.getId()" (notifyImageAdded)="onNotifyImageAdded($event)"></app-upload-file> 
+        <app-upload-file [url]="'http://localhost:8080/upload/profile-pic'" (notifyImageAdded)="onNotifyImageAdded($event)"></app-upload-file> 
       </div>
     </div>
 

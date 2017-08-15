@@ -2,34 +2,18 @@
 
   <div class="container-fluid">
 
-    <div class="row content">
 
-      
-
-      <div class="col-md-7">
-        <h1><a [routerLink]="['/users/profile', userResult.username]">{{userResult.username}}</a></h1>
-        <h2>Followers: {{userResult.followers.length}}</h2>
-        <h2>Following: {{userResult.following.length}}</h2>
-
-
-        <form *ngIf="userResult.username !== username" (submit)="onFollowSubmit()">
-          <input type="submit" class="text-primary" [(ngModel)]="toFollow" name="toFollow">
-        </form>
-        
-        <!-- change post.author in herf/id to a real id value -->
-        <ul class="nav nav-pills">
-          <!-- <li><a class="text-info" href="#">By {{post.author}}</a></li>
-              <li><a class="text-info" href="#"><span class="badge ">{{post.likes.length}}</span>   Likes</a></li> -->
-        </ul>
-
-
-      </div>
-
-    </div>
+        <h1><a [routerLink]="['/users/profile', userResult._id]">{{userResult.username}}</a></h1>
+        <h2>Followers: {{userResult.followers_count}}</h2>
+        <h2>Following: {{userResult.following_count}}</h2>
+    
+        <div *ngIf="userResult._id !== this.authService.getId()">
+          <button class="btn btn-info pull-right" *ngIf="!this.isFollowing" (click)="onFollow()">Follow</button>
+          <button class="btn btn-info pull-right" *ngIf="isFollowing" (click)="onUnfollow()">Unfollow</button>
+        </div>
 
   </div>
 
 
 </div>
-
 <br>

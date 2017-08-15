@@ -1,9 +1,9 @@
-<div class="jumbotron">
+<div *ngIf="post" class="jumbotron">
   <div class="row content">          
     <div class="col-md-5 clearfix">
       <div class="container-fuild">
         <img class="img-responsive img-rounded img-fluid btn-block" src="{{post.images[post.images.length-1] || 'http://localhost:8080/placeholder.JPG' }}" alt="Image Here"><br>
-        <app-upload-file [url]="'http://localhost:8080/upload/post-pic/'+this.authService.getId()" (notifyImageAdded)="onNotifyImageAdded($event,post.images)"></app-upload-file> 
+        <app-upload-file [url]="'http://localhost:8080/upload/post-pic'" (notifyImageAdded)="onNotifyImageAdded($event,post.images)"></app-upload-file> 
       </div>
     </div>
     <div class="col-md-7">
@@ -52,7 +52,7 @@
           <div class="col-md-5 clearfix">
             <div class="container-fuild">
               <img class="img-responsive img-rounded img-fluid btn-block" src="{{instruction.images[instruction.images.length-1] || 'http://localhost:8080/placeholder.JPG' }}" alt="Image Here"><br>
-              <app-upload-file [url]="'http://localhost:8080/upload/post-pic/'+this.authService.getId()" (notifyImageAdded)="onNotifyImageAdded($event,instruction.images)"></app-upload-file> 
+              <app-upload-file [url]="'http://localhost:8080/upload/post-pic'" (notifyImageAdded)="onNotifyImageAdded($event,instruction.images)"></app-upload-file> 
             </div>          
           </div>
           <br>
@@ -84,7 +84,7 @@
         <div class="col-md-5 clearfix">
           <div class="container-fuild">
             <img class="img-responsive img-rounded img-fluid btn-block" src="{{newInstruction.images[newInstruction.images.length-1] || 'http://localhost:8080/placeholder.JPG' }}" alt="Image Here"><br>
-            <app-upload-file [url]="'http://localhost:8080/upload/post-pic/'+this.authService.getId()" (notifyImageAdded)="onNotifyImageAdded($event,newInstruction.images)"></app-upload-file> 
+            <app-upload-file [url]="'http://localhost:8080/upload/post-pic'" (notifyImageAdded)="onNotifyImageAdded($event,newInstruction.images)"></app-upload-file> 
           </div>  
         </div>
         <br>
@@ -103,9 +103,9 @@
        
       <li *ngFor="let coauthor of post.coauthors, let i = index" class="list-group-item">
         <div class="input-group">
-          <input type="text" class="form-control" value="{{coauthor}}" placeholder="some coauthor">          
+          {{coauthor}}          
           <span class="input-group-btn">
-            <button class="btn btn-danger" type="button" (click)="removeCoauthor($event, i)">x</button>
+            <button class="btn btn-danger" type="button" (click)="removeCoauthor(i)">x</button>
           </span>
         </div>
       </li>

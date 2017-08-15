@@ -34,7 +34,7 @@ module.exports.unfollow = function (followers, callback) {
 
 module.exports.getFeed = function (page, username, callback) {
     
-    utils.getPage(
+    utils.getPage(page,
         utils.sortByTime(
             Followers.aggregate([
                 { $match: { "follower": username } },
@@ -62,7 +62,5 @@ module.exports.getFeed = function (page, username, callback) {
                         "ingredients": "$posts.ingredients",
                         "coauthors": "$posts.coauthors",
                     }
-                }])),
-        page,
-        callback);
+                }]))).exec(callback);
 }

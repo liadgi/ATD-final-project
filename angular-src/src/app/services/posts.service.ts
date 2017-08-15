@@ -16,22 +16,21 @@ export class PostsService {
 
   loadPosts(type, page = 1, query: String = null) {
     this.posts = [];
-    let callback = (dashboard) => {
-          this.posts = dashboard.posts;
+    const callback = (data) => {
+          // console.log('GOT DATA: ',data);
+          this.posts = data.posts;
           this.subject.next(this.posts);
         };
-    let error = (err) => { console.log(err); return false; };
+    const error = (err) => { console.log(err); return false; };
 
     if (type === 'all') {
-
-      this.authService.get('dashboard', page).subscribe(callback, error);
+      this.authService.get('posts', page).subscribe(callback, error);
     } else if (type === 'top') {
-      this.authService.get('dashboard/top', page).subscribe(callback, error);
+      this.authService.get('posts/top', page).subscribe(callback, error);
     } else if (type === 'user') {
-      this.authService.get('dashboard/user/' + query, page).subscribe(callback, error);
+      this.authService.get('posts/user/' + query, page).subscribe(callback, error);
     } else if (type === 'search') {
-      this.authService.get('dashboard/search/' + query, page).subscribe(callback, error);
-
+      this.authService.get('posts/search/' + query, page).subscribe(callback, error);
     }
   }
 

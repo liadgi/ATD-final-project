@@ -39,12 +39,14 @@ export class EditUserComponent implements OnInit {
     } 
   }
 
+
+  // Upadte Username
   updateUsername(){
     if(!this.validateService.validateUsername(this.user.username))
       this.flashMessage.show('Please enter a valid first name.', {cssClass: 'alert-danger', timeout: 5000}); 
     else this.authService.post(
-        'users/update/username/'+this.authService.getId(),
-        {'username': this.user.username}
+        'users/update/username',
+        {'newUsername': this.user.username}
       ).subscribe(
         (data) => {
           if(data.success) {
@@ -60,8 +62,8 @@ export class EditUserComponent implements OnInit {
     if(!this.validateService.validatePassword(this.user.password))
       this.flashMessage.show('Please enter a valid password.', {cssClass: 'alert-danger', timeout: 5000}); 
     else this.authService.post(
-        'users/update/password/'+this.authService.getId(),
-        {'password': this.user.password}
+        'users/update/password',
+        {'newPassword': this.user.password}
       ).subscribe(
         (data) => {
           if(data.success) {
@@ -82,8 +84,8 @@ export class EditUserComponent implements OnInit {
     if(!this.validateService.validateName(this.user.fname))
       this.flashMessage.show('Please enter a valid first name.', {cssClass: 'alert-danger', timeout: 5000}); 
     else this.authService.post(
-        'users/update/fname/'+this.authService.getId(),
-        {'fname': this.user.fname}
+        'users/update/fname',
+        {'newFname': this.user.fname}
       ).subscribe(this.createCallback());
   }
 
@@ -92,8 +94,8 @@ export class EditUserComponent implements OnInit {
     if(!this.validateService.validateName(this.user.lname))
       this.flashMessage.show('Please enter a valid last name.', {cssClass: 'alert-danger', timeout: 5000}); 
     else this.authService.post(
-        'users/update/lname/'+this.authService.getId(),
-        {'lname': this.user.lname}
+        'users/update/lname',
+        {'newLname': this.user.lname}
       ).subscribe(this.createCallback());
   }
 
@@ -101,15 +103,15 @@ export class EditUserComponent implements OnInit {
     if(!this.validateService.validateEmail(this.user.email))
       this.flashMessage.show('Please enter a valid email.', {cssClass: 'alert-danger', timeout: 5000}); 
     else this.authService.post(
-        'users/update/email/'+this.authService.getId(),
-        {'email': this.user.email}
+        'users/update/emai',
+        {'newEmail': this.user.email}
       ).subscribe(this.createCallback());
   }
 
   updateBirthday(){ 
     this.authService.post(
-      'users/update/birthday/'+this.authService.getId(),
-      {'birthday': this.user.birthday}
+      'users/update/birthday',
+      {'newBirthday': this.user.birthday}
     ).subscribe(this.createCallback());
   }
 

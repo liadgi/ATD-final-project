@@ -14,7 +14,6 @@ import { Subscription } from 'rxjs/Subscription';
   styleUrls: ['./posts.component.css']
 })
 export class PostsComponent implements OnInit {
-  username: String;
   page: number;
 
   @Output() notifyPageChanged: EventEmitter<number> = new EventEmitter<number>();
@@ -34,7 +33,6 @@ export class PostsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.username = this.authService.getUsername();
     this.page = 1;
     this.hasPreviousPage = false;
     this.hasNextPage = false;
@@ -46,16 +44,11 @@ export class PostsComponent implements OnInit {
     });
 
     this.subscription = this.postsService.getPostsObservable().subscribe(posts => {
-      if (this.page == 1) { // disable previous
-        this.hasPreviousPage = false;
-      } else {
-        this.hasPreviousPage = true;
-      }
-      if (this.postsService.posts.length < 10) { // disable next
-        this.hasNextPage = false;
-      } else {
-        this.hasNextPage = true;
-      }
+      if (this.page == 1) this.hasPreviousPage = false; // disable previous
+      else this.hasPreviousPage = true;
+      if (!this.postsService.posts || this.postsService.posts.length < 10)
+        this.hasNextPage = false;  // disable next
+      else this.hasNextPage = true;
     });
   }
 

@@ -10,9 +10,9 @@ import { FlashMessagesService } from 'angular2-flash-messages';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
+
 export class ProfileComponent implements OnInit {
   user: User;
-  username: String;
   
   constructor(
     private router:Router,
@@ -21,16 +21,12 @@ export class ProfileComponent implements OnInit {
     private flashMessage: FlashMessagesService) { }
 
   ngOnInit() {
-    this.username = this.route.snapshot.params.query;
-    this.authService.get('users/profile/'+this.username).subscribe(
+    this.authService.get('users/profile/'+this.route.snapshot.params.query).subscribe(
       (data) => {
-        if (data.success) {
-          this.user = data.user;
-          this.username = data.user.username;
-        }
+        if (data.success) this.user = data.user;
         else {
           this.flashMessage.show(data.msg, {cssClass: 'alert-danger', timeout: 5000});
-          this.authService.logout();
+          this.router.navigate(['/']);
         }
       },
       (err) => { throw err; }

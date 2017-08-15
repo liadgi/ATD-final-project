@@ -1,4 +1,4 @@
-<link href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.3.1/css/swiper.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.3.1/css/swiper.min.css"> 
 <div class="jumbotron clearfix">
   <div class="container-fluid">
     <div *ngIf="post.images.length > 0; else noImg">
@@ -20,33 +20,23 @@
         <div class="col-md-7">
           <h2>{{post.title}}</h2>
           <p>{{post.description}}</p>
+ 
+          <form (submit)="onLikeSubmit()">
+      <input type="submit" class="text-primary" [(ngModel)]="likeText" name="likeText">
+    </form>
 
-          <ul class="nav nav-pills">
-            <li><a>By {{post.author}}</a></li>
-            <li><a><span class="badge ">{{post.likes.length}}</span>   Likes</a></li>
+          <ul *ngIf="author" class="nav nav-pills">
+            <li><a><h4>By {{author.username}}</h4></a></li>
+            <li><a><h4><span class="badge ">{{post.likes.length}}</span>   Likes</h4></a></li>
+            <li><a *ngIf="!isLiked"(submit)="onLike()"><h4><span class="text-primary glyphicon glyphicon-thumbs-up"></span><p class="text-sucees">Like</p></h4></a></li>
           </ul>
-          <ul class="nav nav-pills">
-            <div *ngIf="post.coauthors.length > 0">
-              <li><a class="text-info">And {{post.coauthors}}</a></li>
-            </div>
+          <a *ngIf=coauthors.length>Coauthors:
+          <ul *ngFor="let coauthor of coauthors" class="nav nav-pills">
+            <li><a class="text-info"> {{post.coauthors}}</a></li>
           </ul>
-
-          <ul class="nav nav-pills">
-            <!-- TODO: fix the date format -->
-            <li><span class="text-info">Created at: {{post.creationTime}}</span></li>
-          </ul>
-          <div *ngIf='post.updateTime != null'>
-            <ul class="nav nav-pills">
-              <li><span class="text-info">Created at: {{post.creationTime | date: 'yMMMdjms'}}</span></li>
-            </ul>
-            <div *ngIf='post.updateTime != null'>
-              <ul class="nav nav-pills">
-                <li><span class="text-info">Updated at: {{post.updateTime | date: 'yMMMdjms'}}</span></li>
-              </ul>
-            </div>
-
-          </div>
-
+          </a>
+          <h5 *ngIf="post.creationTime != null"><span class="text-info">Created at: {{post.creationTime | date: 'yMMMdjms'}}</span></h5>
+          <h5 *ngIf="post.updateTime != null"><span class="text-info">Updated at: {{post.updateTime | date: 'yMMMdjms'}}</span></h5> 
         </div>
       </div>
     </div>
@@ -78,15 +68,14 @@
     <br>
 
     <div *ngFor="let instruction of post.instructions, let i = index">
-      <app-textandimage [text]="i+1 +'. '+ instruction.text" [images]="instruction.images" [relation]="7">
+      <!-- <app-textandimage [text]="i+1 +'. '+ instruction.text" [images]="instruction.images" [relation]="7"> -->
+      <app-textandimage [text]="instruction.text" [images]="instruction.images" [relation]="7">
       </app-textandimage>
       <br>
     </div>
     <br>
 
-    <form (submit)="onLikeSubmit()">
-      <input type="submit" class="text-primary" [(ngModel)]="likeText" name="likeText">
-    </form>
+   
 
     <form (submit)="onCommentSubmit()">
       <div class="form-group">
@@ -132,12 +121,12 @@
   </ul> -->
   <h4>
     <ul class="nav navbar-nav navbar-right">
-      <li><a *ngIf="ofUser" (click)="onModifyPost()">Modify</a></li>
-      <li><a *ngIf="ofUser" (click)="onModifyPost()">Delete</a></li>
+      <li><a *ngIf="ofUser" class="text-info" (click)="onModifyPost()">Modify</a></li>
+      <li><a *ngIf="ofUser" class="text-danger" (click)="onDeletePost()">Delete</a></li>
       <li>
         <a data-toggle="collapse" href="#post{{post._id}}">
           <!-- <h3 class="text-primary text-center"> -->
-          <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+          <span class="text-primary glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
           <!-- </h3> -->
         </a>
     </ul>

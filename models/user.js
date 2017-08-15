@@ -37,13 +37,17 @@ const UserSchema = mongoose.Schema({
         type: [String],
         required: false
     },
-     following: {
+    followers_count:{
+        type: Number,
+        required: true
+    },   
+    following: {
         type: [String],
         required: false
     },
-    token: {
-        type: { token: String},
-        required: false
+    following_count:{
+        type: Number,
+        required: true
     }
 });
 
@@ -66,7 +70,7 @@ module.exports.hashPassword = function(password, callback) {
  
 
 module.exports.registerUser = function(newUser, callback) {
-   this.ashPassword(newUser.password, (err, hsah) => {
+   this.hashPassword(newUser.password, (err, hash) => {
        if(err) throw err;
        newUser.password = hash;
        newUser.save(callback);
@@ -77,174 +81,104 @@ module.exports.comparePassword = function(candidatePassword, hash, callback) {
     bcrypt.compare(candidatePassword, hash, callback);
 }
 
-module.exports.validateToken = function(userId, token, callback) {
+module.exports.validatePassword = function(userId, userPassword, callback) {
     this.getUserById(userId, (err, user) => {
         if(err) callback(err);
         if(!user) callback(null, false);
         else {
-            callback(null, user.token == token);
+            callback(null, user.password == userPassword);
         }
     });
 }
 
-module.exports.updateToken = function(userId, token, callback){
-    User.update({ _id: userId }, { $set: {'token': token }}, callback);
+module.exports.updateUser = function(change, userId, userPassword, callback){
+    User.update({ '_id': userId, 'password': userPassword }, change, callback);
 }
 
 
-
-module.exports.updateUser = function(userId, authToken, change, callback){
-
-    this.validateToken(userId, authToken, (err, isValid) => {
-        if(err) callback(err);
-        else if (!isValid) callback('Cant Change Someone alses info!'); 
-        else User.update({ _id: userId }, change, callback);      
-    });
+// Update Username
+module.exports.updateUsername = function(newUsername, userId, userPassword, callback) {
+    this.updateUser({$set: {'username': newUsername }}, userId, userPassword, callback);
 }
 
 
 // Update Password
-module.exports.updatePassword = function(userId, newPassword, authToken, callback) {
+module.exports.updatePassword = function(newPassword, userId, userPassword, callback) {
     this.hashPassword(newPassword, (err, hash) => {
        if(err) callback(err);
-       this.updateUser(userId, authToken, { $set: {'password': hash }}, callback);
+       this.updateUser({ $set: {'password': hash }}, userId, userPassword, callback);
     });
 }
 
-// Update Profile picture
-module.exports.updateProfilePic = function(userId, newPic, authToken, callback) {
-    // TODO: remove old pic from fs
-    console.log(userId);
-    console.log(newPic);
-    this.updateUser(userId, authToken, { $set: {'profile_pic': newPic }}, callback);
-}
-
-// Update Username
-module.exports.updateUsername = function(userId, newUsername, authToken, callback) {
-    this.updateUser(userId, authToken,  {$set: {'username': newUsername }}, callback);
-}
 
 // Update First Name
-module.exports.updateFirstName = function(userId, newFirstName, authToken, callback) {
-    this.updateUser(userId, authToken,  {$set: {'fname': newFirstName }}, callback);
+module.exports.updateFirstName = function(newFname, userId, userPassword, callback) {
+    this.updateUser({$set: {'fname': newFname }}, userId, userPassword, callback);
 }
 
 // Update Last Name
-module.exports.updateLastName = function(userId, newLastName, authToken, callback) {
-    this.updateUser(userId, authToken,  {$set: {'lname': newLastName }}, callback);
+module.exports.updateLastName = function(newLname, userId, userPassword, callback) {
+    this.updateUser({$set: {'lname': newLname }}, userId, userPassword, callback);
 }
 
+
 // Update Email
-module.exports.updateEmail = function(userId, newEmail, authToken, callback) {
-    this.updateUser(userId, authToken,  {$set: {'email': newEmail }}, callback);
+module.exports.updateEmail = function(newEmail, userId, userPassword, callback) {
+    this.updateUser({$set: {'email': newEmail }}, userId, userPassword, callback);
 }
 
 // Update Birthday
-module.exports.updateBirthday = function(userId, newBirthday, authToken, callback) {
-    User.update({ _id: userId }, { $set: {'birthday': newBirthday }}, callback);
-    this.updateUser(userId, authToken,  {$set: {'birthday': newBirthday }}, callback);
+module.exports.updateBirthday = function(newEmail, userId, userPassword, callback) {
+    this.updateUser({$set: {'birthday': newBirthday }}, userId, userPassword, callback);
+}
+
+// Update Profile picture
+module.exports.updateProfilePic = function(newPic, userId, userPassword, callback) {
+    this.updateUser({ $set: {'profile_pic': newPic }}, userId, userPassword, callback);
 }
 
 
-///////////////////////////////////
+
+// Follow user
+module.exports.followUser = function(username, follower, followerPassword, callback){
+    if(username === follower) callback('Cant follow yourself.');
+    else this.updateUser({$addToSet: {'following': username}, $inc: { 'following_count': 1 }},
+        follower,
+        followerPassword,
+        (err, raw) => {
+            if (err) callback(err);
+            else if (!raw.ok || ! raw.n || !raw.nModified) callback('Error updating follower.');
+            else User.update(
+                { 'username': username},
+                { $addToSet: {'followers': follower}, $inc: { 'followers_count': 1 }},
+                callback);
+        });
+}
 
 
-const users = [
-    {  $lookup: 
-     {
-       "from": "followers",
-       "localField": "username",
-       "foreignField": "follower",
-       "as": "followed"
-     }},
-
-     {
-         $unwind: 
-         {
-           "path": "$followed",
-           "preserveNullAndEmptyArrays": true
-         }
-     },
-
-    { $group: {
-        "_id": "$username",
-        "fname": {$first : "$fname"},
-        "lname": {$first : "$lname"},
-        "email": {$first : "$email"},
-        "birthday": {$first : "$birthday"},
-        "profile_pic": {$first : "$profile_pic"},
-        "following": {
-            $push: "$followed.following" 
-        }
-    }},
-
-     {  $lookup: 
-     {
-       "from": "followers",
-       "localField": "_id",
-       "foreignField": "following",
-       "as": "followings"
-     }},
-
-     {
-         $unwind: 
-         {
-           "path": "$followings",
-           "preserveNullAndEmptyArrays": true
-         }
-     },
-
-     { $group: {
-        "_id": { "username": "$_id" , "following" : "$following" }, 
-        "fname": {$first : "$fname"},
-        "lname": {$first : "$lname"},
-        "email": {$first : "$email"},
-        "birthday": {$first : "$birthday"},
-        "profile_pic": {$first : "$profile_pic"},
-        "followers" : {
-            $push: "$followings.follower" 
-        }
-        
-    }},
-    {
-        $project : {
-            "_id": 0,
-            "username": "$_id.username",
-            "following": "$_id.following",
-            "followers" : 1,
-            "numFollowers": { $size: "$followers" },
-            "fname": "$fname",
-            "lname": "$lname",
-            "email": "$email",
-            "birthday": "$birthday",
-            "profile_pic": "$profile_pic"
-        }
-    }
-]
-
+// Unfollow user
+module.exports.unfollowUser = function(username, follower, followerPassword, callback){
+    if(username === followerId) callback('Cant follow yourself.');
+    else this.updateUser({$pull: {'following': username}, $inc: { 'following_count': -1 }},
+        followerId,
+        followerPassword,
+        (err, raw) => {
+            if (err) callback(err);
+            else if (!raw.ok || ! raw.n || !raw.nModified) callback('Error updating follower.');
+            else User.update(
+                { '_id': username},
+                { $pull: {'followers': follower}, $inc: { 'followers_count': -1 }},
+                callback);
+        });
+}
 
 
 module.exports.getUsers = function(page, username, callback) {
-    let match = {  $match : {
-        "username": {'$regex' : username, '$options' : 'i'}
-    }};
-    let query = [match].concat(users);
-    utils.getPage(User.aggregate(query), page, callback);
+    const qury = {"username": {'$regex' : username, '$options' : 'i'}};
+    utils.getPage(page,User.find(qury)).exec(callback);
 }
 
-module.exports.getTopUsers = function(page, username, callback) {
-    let sort = {$sort : {"numFollowers": -1}};
-    let query = users.concat(sort);
-    utils.getPage(User.aggregate(query), page, callback);
+module.exports.getTopUsers = function(page, callback) {
+    utils.getPage(page, User.find().sort({ followers_count: -1 })).exec(callback);  
 }
 
-
-module.exports.getUser = function(username, callback) {
-    let match = {  $match : {
-        "username": username
-    }};
-
-    let query = [match].concat(users);
-
-    User.aggregate(query, callback);
-}

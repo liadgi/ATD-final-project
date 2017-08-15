@@ -6,9 +6,10 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 const config = require('./config/database');
 const users = require('./routes/users');
-const dashboard = require('./routes/dashboard');
+const posts = require('./routes/posts');
 const upload = require('./routes/upload.js'); 
 
+mongoose.Promise = require('bluebird');
 // Connect to DataBase
 mongoose.connect(config.database);
 
@@ -19,7 +20,6 @@ mongoose.connection.on('connected', () =>
 //On connection
 mongoose.connection.on('error', (err) => 
     console.log('DataBase error: '+err));
-
 
 // Express app
 const app = express();
@@ -63,9 +63,8 @@ require('./config/passport')(passport);
 
 app.use(express.static('./uploads/images'));
 
-
 app.use('/users', users);
-app.use('/dashboard', dashboard);
+app.use('/posts', posts);
 app.use('/upload', upload);
 
 // Index route
@@ -75,44 +74,57 @@ app.get('/', (req, res) =>
 app.get('*', (req,res) =>
     res.sendFile(path.join(__dirname, 'public/index.html')));
 
-// Start server
-app.listen(port, (err) => {
-    if(err) throw err;
-    console.log('Server started on port '+port);
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+
+//     // Start server
+// app.listen(port, (err) => {
+//     if(err) throw err;
+//     console.log('Server started on port '+port);
+// });
+
+
+io.on('connection', (socket) => {
+    console.log('user connected');
+
+    socket.on('disconnect', function(){
+        console.log('user disconnected');
+    });
+
+    // socket.on('profile', () => {
+    //     io.emit('profile','');
+    // });
+
+    // socket.on('post', () => {
+    //     io.emit('post','');
+    // });
+
+
+    // socket.on('posts', () => {
+    //     console.log("got message");
+    //     io.emit('posts');
+    // });
+
+    // socket.on('add-message', (message) => {
+    //     console.log('!!!!!!!'+message);
+    //     io.emit('top-posts', {type:'top-posts', text: message});    
+    // });
 });
 
 
 
+// io.on('connection', (socket) => {
 
-/*
-const http = require('http');
-const server = http.createServer(app);
-app.listen(port, (err) => {
-    if(err) throw err;
-    console.log('Server started on port '+port);
+// });
+
+
+exports.socketEmit = function(event , data){
+    io.emit(event, data);    
+    //io.emit(subscription,{'type': type, 'message': message});
+}
+
+
+// Start Server
+http.listen(port, () => {
+    console.log('Server started on port '+ port);
 });
-var io = require('socket.io').listen(server);
-// Socket events
-io.sockets.on('connection', (socket) => {
-  console.log('Socket connected: ', socket);
-
-  // Socket event for user update
-  socket.on('userUpdated', (user) => {
-    console.log('received createPost: ', user);
-    io.emit('postCreated', user);
-  });
-
-
-  // Socket event for post creation
-  socket.on('createPost', (post) => {
-    console.log('received createPost: ', post);
-    io.emit('postCreated', post);
-  });
-
-  // Socket event for gist updated
-  socket.on('updatePost', (post) => {
-    console.log('received updatePost: ', post);
-    io.emit('postUpdated', post);
-  });
-});
-*/

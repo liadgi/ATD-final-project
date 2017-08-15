@@ -1,31 +1,6 @@
-<div *ngIf="user" class="container-fluid">
-  <div class="row content">
-    <div class="col-md-4 clearfix">
-      <img class="img-responsive img-rounded btn-block" src="{{this.user.profile_pic}}" alt="Image Here">
-      <h2>{{user.fname}} {{user.lname}}</h2>
-
-      <ul class="nav nav-pills">
-        <li><a class="lead">Followers <span class="badge">{{user.followers.length}}</span></a></li>
-        <!-- NOTE: show followers list on click-->
-        <li><a class="lead">Following <span class="badge">{{user.following.length}}</span></a></li>
-      </ul>
-
-      <ul class="list-group">
-        <li class="list-group-item">Username: {{user.username}}</li>
-        <li class="list-group-item">Email: {{user.email}}</li>
-        <li class="list-group-item">Birthday: {{user.birthday | date: 'yMMMd'}}</li>
-      </ul>
-      <div *ngIf="authService.getUsername() === user.username">
-        <a class="btn btn-primary btn-block" [routerLink]="['/edit-user']">Edit Profile</a>
-      </div>
-    </div>
-
-    <div class="col-md-8">
-      <app-user-posts [username]="username"></app-user-posts>
-    </div>
-  </div>
-</div>
-
+<app-user-info *ngIf="user" [user]="user"></app-user-info> 
+<hr>
+<app-user-posts *ngIf="user" [username]="userusername"></app-user-posts> 
 
 <!-- 
 <div class="list-group">
