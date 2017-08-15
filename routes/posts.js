@@ -27,6 +27,14 @@ function createMsgCallback(res, msg) {
     }
 }
 
+function createMsgCallbackForDelete(res, msg) {
+    return (err, raw) => {
+        if (err) return res.json({ 'success': false, 'msg': err });
+        
+        return res.json({ 'success': true, 'msg': msg });
+    }
+}
+
 
 // Home - get feed
 router.get('/', passport.authenticate('jwt', { session: false }), (req, res, next) => {
@@ -78,7 +86,7 @@ router.post('/createpost', passport.authenticate('jwt', { session: false }), (re
 
 // edit post
 router.post('/editPost', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    Post.updatePost(req.body.post, req.user.username, createMsgCallback(res, 'Post Updated!'));
+    Post.updatePost(req.body.post, req.user.username, createMsgCallbackForDelete(res, 'Post Updated!'));
 });
 
 
@@ -99,7 +107,7 @@ router.post('/addComment', passport.authenticate('jwt', { session: false }), (re
 
 // delete post
 router.post('/deletePost', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    Post.deletePost(req.body.postId,req.user.username, createMsgCallback(res, 'Post Deleted!'));
+    Post.deletePost(req.body.postId,req.user.username, createMsgCallbackForDelete(res, 'Post Deleted!'));
     // Post.getPostById(req.body.postId, (err, post) => {
     //     if (err) {
     //         res.json({ success: false, msg: 'Could not find post to remove.' });

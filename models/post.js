@@ -137,7 +137,7 @@ module.exports.editPost = function (postId, editedPost, callback) {
 }
 
 module.exports.addComment = function (postId, newComment, callback) {
-    Post.findOneAndUpdate({ _id, postId }, { $push: { comments: newComment } }, callback);
+    Post.findOneAndUpdate({ _id : postId }, { $push: { comments: newComment } }, callback);
 }
 
 

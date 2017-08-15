@@ -24,7 +24,7 @@
        
       <li *ngFor="let ingredient of post.ingredients, let i = index" class="list-group-item">
         <div class="input-group">
-          <input type="text" class="form-control" value="{{ingredient}}" placeholder="some Ingredient">          
+          <input type="text" class="form-control" [(ngModel)]="post.ingredients[i]" value="{{post.ingredients[i]}}" placeholder="some Ingredient">          
           <span class="input-group-btn">
             <button class="btn btn-danger" type="button" (click)="removeIngredient($event, i)">x</button>
           </span>
@@ -57,7 +57,7 @@
           </div>
           <br>
           <div class="col-md-6 form-group">
-            <textarea autosize type="text" class="form-control" value={{instruction.text}} placeholder="add instruction"></textarea>
+            <textarea autosize type="text" class="form-control" [(ngModel)]="instruction.text" name="instruction i" placeholder="add instruction"></textarea>
           </div>        
           <div class="col-md-1 form-group">          
             <button class="btn btn-danger" type="button" (click)="removeInstruction(i)">x</button>          

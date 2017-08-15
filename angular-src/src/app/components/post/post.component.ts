@@ -81,8 +81,7 @@ export class PostComponent implements OnInit {
   }
 
   onDislike() {
-    console.log("!!!!!!!!!!!!!")
-    console.log('ondisLike', { 'postId': this.post._id });
+
     this.authService.post('posts/dislike', { 'postId': this.post._id }).subscribe((data) => {
       if (data.success) {
         console.log(data);
@@ -104,7 +103,7 @@ export class PostComponent implements OnInit {
       { 'postId': this.post._id }).subscribe((data) => {
         if (data.success) {
           this.postDeleted.emit();
-
+          this.router.navigate(['/home']);      
           this.flashMessage.show(data.msg, { cssClass: 'alert-success', timeout: 5000 });
 
         } else {
