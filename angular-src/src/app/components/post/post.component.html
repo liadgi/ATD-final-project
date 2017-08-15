@@ -28,7 +28,7 @@
           <ul *ngIf="author" class="nav nav-pills">
             <li><a><h4>By {{author.username}}</h4></a></li>
             <li><a><h4><span class="badge ">{{post.likes.length}}</span>   Likes</h4></a></li>
-            <li><a *ngIf="!isLiked"(submit)="onLike()"><span class="text-primary glyphicon glyphicon-thumbs-up"></span><h4>Like</h4></a></li>
+            <li><a (submit)="onLike()"><span class="text-primary glyphicon glyphicon-thumbs-up"></span><h4>Like</h4></a></li>
           </ul>
           <a *ngIf=coauthors.length>Coauthors:
           <ul *ngFor="let coauthor of coauthors" class="nav nav-pills">
