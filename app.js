@@ -75,7 +75,8 @@ app.get('*', (req,res) =>
     res.sendFile(path.join(__dirname, 'public/index.html')));
 
 const http = require('http').Server(app);
-const io = require('socket.io')(http);
+
+// const io = require('socket.io')(http);
 
 //     // Start server
 // app.listen(port, (err) => {
@@ -84,44 +85,44 @@ const io = require('socket.io')(http);
 // });
 
 
-io.on('connection', (socket) => {
-    console.log('user connected');
-
-    socket.on('disconnect', function(){
-        console.log('user disconnected');
-    });
-
-    // socket.on('profile', () => {
-    //     io.emit('profile','');
-    // });
-
-    // socket.on('post', () => {
-    //     io.emit('post','');
-    // });
-
-
-    // socket.on('posts', () => {
-    //     console.log("got message");
-    //     io.emit('posts');
-    // });
-
-    // socket.on('add-message', (message) => {
-    //     console.log('!!!!!!!'+message);
-    //     io.emit('top-posts', {type:'top-posts', text: message});    
-    // });
-});
-
-
-
 // io.on('connection', (socket) => {
+//     console.log('user connected');
 
+//     socket.on('disconnect', function(){
+//         console.log('user disconnected');
+//     });
+
+//     // socket.on('profile', () => {
+//     //     io.emit('profile','');
+//     // });
+
+//     // socket.on('post', () => {
+//     //     io.emit('post','');
+//     // });
+
+
+//     // socket.on('posts', () => {
+//     //     console.log("got message");
+//     //     io.emit('posts');
+//     // });
+
+//     // socket.on('add-message', (message) => {
+//     //     console.log('!!!!!!!'+message);
+//     //     io.emit('top-posts', {type:'top-posts', text: message});    
+//     // });
 // });
 
 
-exports.socketEmit = function(event , data){
-    io.emit(event, data);    
-    //io.emit(subscription,{'type': type, 'message': message});
-}
+
+// // io.on('connection', (socket) => {
+
+// // });
+
+
+// exports.socketEmit = function(event , data){
+//     io.emit(event, data);    
+//     //io.emit(subscription,{'type': type, 'message': message});
+// }
 
 
 // Start Server
