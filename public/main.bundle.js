@@ -2665,19 +2665,13 @@ var AuthService = (function () {
         headers.append('Content-type', 'application/json');
         var params = { page: page };
         var options = { headers: headers, params: params };
-        return this.http.get('' + url, options).map(function (res) { return res.json(); });
+        return this.http.get(url, options).map(function (res) { return res.json(); });
     };
     AuthService.prototype.post = function (url, data) {
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]();
         headers.append('Authorization', this.getToken());
         headers.append('Content-type', 'application/json');
-        try {
-            //return this.http.post('/users/register', user, {headers: headers}).map((res) => res.json());      
-            return this.http.post('http://localhost:8080/' + url, data, { headers: headers }).map(function (res) { return res.json(); });
-        }
-        catch (err) {
-            return this.http.post('http://localhost:8080/' + url, data, { headers: headers }).map(function (res) { return res.json(); });
-        }
+        return this.http.post(url, data, { headers: headers }).map(function (res) { return res.json(); });
     };
     AuthService.prototype.registerUser = function (user) {
         return this.post('users/register', user);

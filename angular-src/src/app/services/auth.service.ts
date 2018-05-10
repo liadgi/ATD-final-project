@@ -9,7 +9,7 @@ export class AuthService {
 
   constructor(private http: Http) { }
 
-  get(url: String, page: number = 1) {
+  get(url: string, page: number = 1) {
     let headers = new Headers();
     headers.append('Authorization', this.getToken());
     headers.append('Content-type', 'application/json');
@@ -17,21 +17,16 @@ export class AuthService {
     let params = { page : page};
     let options = { headers: headers, params: params };
       
-      return this.http.get('' + url, options).map((res) => res.json());
+      return this.http.get(url, options).map((res) => res.json());
     
   }
 
-  post(url: String, data) {
+  post(url: string, data) {
     let headers = new Headers();
     headers.append('Authorization', this.getToken());
     headers.append('Content-type', 'application/json');
 
-    try {
-      //return this.http.post('/users/register', user, {headers: headers}).map((res) => res.json());      
-      return this.http.post('http://localhost:8080/' + url, data, { headers: headers }).map((res) => res.json());
-    } catch (err) {
-      return this.http.post('http://localhost:8080/' + url, data, { headers: headers }).map((res) => res.json());
-    }
+    return this.http.post(url, data, { headers: headers }).map((res) => res.json());
   }
 
   registerUser(user) {
