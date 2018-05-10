@@ -1,4 +1,4 @@
 module.exports = {
-    database: 'mongodb://app:app123@ds123933.mlab.com:23933/foody',
+    database: 'mongodb://liadgi:foodyapppass@ds119110.mlab.com:19110/foodydb',
     secret: 'shhhItsAsecret...dontTellAnyone!'
 }
